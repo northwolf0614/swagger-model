@@ -5,11 +5,10 @@ var path = require('path');
 
 var helper = require('./lib/helper');
 
-var ModelBase = require('./out/ModelBase');
-
 var classTpl = {};
 var typeTpls = {};
 var classCache = {};
+var ModelBase;
 
 var index = {
     loadClasses: function (folderPath) {
@@ -20,6 +19,9 @@ var index = {
             // Include files
             classCache[className] = require(filePath);
         });
+
+        // Base
+        ModelBase = classCache['ModelBase'];
     },
 
     getValue: function (type, from) {
