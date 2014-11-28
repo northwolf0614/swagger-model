@@ -1,0 +1,1596 @@
+{
+  "basePath": "/pc/service",
+  "definitions": {
+    "portal.pc.dto.AccountDTO": {
+      "properties": {
+        "accountHolder": {
+          "$ref": "portal.pc.dto.PersonDTO"
+        },
+        "accountNumber": {
+          "type": "string"
+        },
+        "accountPublicID": {
+          "type": "string"
+        }
+      }
+    },
+    "portal.pc.dto.AddressDTO": {
+      "properties": {
+        "addressLine1": {
+          "type": "string"
+        },
+        "addressLine2": {
+          "type": "string"
+        },
+        "addressLine3": {
+          "type": "string"
+        },
+        "addressType": {
+          "enum": [
+            "business",
+            "postal",
+            "residential"
+          ],
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "publicID": {
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "Hokkaido",
+            "Aomori",
+            "Iwate",
+            "Miyagi",
+            "Akita",
+            "Yamagata",
+            "Fukushima",
+            "Ibaraki",
+            "Tochigi",
+            "Gumma",
+            "Saitama",
+            "Chiba",
+            "Tokyo",
+            "Kanagawa",
+            "Niigata",
+            "Toyama",
+            "Ishikawa",
+            "Fukui",
+            "Yamanashi",
+            "Nagano",
+            "Gifu",
+            "Shizuoka",
+            "Aichi",
+            "Mie",
+            "Shiga",
+            "Kyoto",
+            "Osaka",
+            "Hyogo",
+            "Nara",
+            "Wakayama",
+            "Tottori",
+            "Shimane",
+            "Okayama",
+            "Hiroshima",
+            "Yamaguchi",
+            "Tokushima",
+            "Kagawa",
+            "Ehime",
+            "Kochi",
+            "Fukuoka",
+            "Saga",
+            "Nagasaki",
+            "Kumamoto",
+            "Oita",
+            "Miyazaki",
+            "Kagoshima",
+            "Okinawa",
+            "AU_ACT",
+            "AL",
+            "AK",
+            "AB",
+            "AZ",
+            "AR",
+            "DE_BW",
+            "DE_BY",
+            "DE_BE",
+            "DE_BB",
+            "DE_HB",
+            "BC",
+            "CA",
+            "CO",
+            "CT",
+            "DE",
+            "DC",
+            "FM",
+            "FL",
+            "GA",
+            "GU",
+            "DE_HH",
+            "HI",
+            "DE_HE",
+            "ID",
+            "IL",
+            "IN",
+            "IA",
+            "KS",
+            "KY",
+            "LA",
+            "DE_NI",
+            "ME",
+            "MB",
+            "MH",
+            "MD",
+            "MA",
+            "DE_MV",
+            "MI",
+            "MN",
+            "MS",
+            "MO",
+            "MT",
+            "NE",
+            "NV",
+            "NB",
+            "NH",
+            "NJ",
+            "NM",
+            "AU_NSW",
+            "NY",
+            "NL",
+            "NC",
+            "ND",
+            "DE_NW",
+            "MP",
+            "AU_NT",
+            "NT",
+            "NS",
+            "NU",
+            "OH",
+            "OK",
+            "ON",
+            "OR",
+            "PA",
+            "PE",
+            "PR",
+            "QC",
+            "AU_QLD",
+            "DE_RP",
+            "RI",
+            "DE_SL",
+            "SK",
+            "DE_SN",
+            "DE_ST",
+            "DE_SH",
+            "AU_SA",
+            "SC",
+            "SD",
+            "AU_TAS",
+            "TN",
+            "TX",
+            "DE_TH",
+            "UT",
+            "VT",
+            "AU_VIC",
+            "VI",
+            "VA",
+            "WA",
+            "WV",
+            "AU_WA",
+            "WI",
+            "WY",
+            "YT"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "addressLine1",
+        "city",
+        "state",
+        "postalCode"
+      ]
+    },
+    "portal.pc.dto.PersonDTO": {
+      "properties": {
+        "dateOfBirth": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "emailAddress1": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "gender": {
+          "enum": [
+            "F",
+            "I",
+            "M"
+          ],
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "primaryAddress": {
+          "$ref": "portal.pc.dto.AddressDTO"
+        },
+        "publicID": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "primaryAddress"
+      ]
+    },
+    "portal.pc.dto.quote.PaymentPlanDTO": {
+      "properties": {
+        "billingID": {
+          "type": "string"
+        },
+        "downPayment": {
+          "format": "double",
+          "type": "number"
+        },
+        "installment": {
+          "format": "double",
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "numberOfPayments": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "selected": {
+          "type": "boolean"
+        },
+        "total": {
+          "format": "double",
+          "type": "number"
+        }
+      }
+    },
+    "portal.pc.dto.quote.qpm.QPMDriverHistoryDTO": {
+      "properties": {
+        "markedForDelete": {
+          "type": "boolean"
+        },
+        "pattern": {
+          "$ref": "portal.suite.dto.ReferenceDataDTO",
+          "referenceData": [
+            {
+              "publicID": "qbe:1",
+              "code": "CSV",
+              "description": "Collision - only vehicle involved (fixed property/parked car/animal/pedestrian)",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:10",
+              "code": "FIR",
+              "description": "Fire - not Total Loss",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:11",
+              "code": "MDV",
+              "description": "Malicious Damage",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:12",
+              "code": "WIN",
+              "description": "Windscreen",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:13",
+              "code": "FLO",
+              "description": "Flood",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:14",
+              "code": "HAI",
+              "description": "Hail",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:15",
+              "code": "STO",
+              "description": "Storm",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:16",
+              "code": "AFF",
+              "description": "Affray; Inciting violence; Participating in riotous behaviour",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:17",
+              "code": "ARR",
+              "description": "Armed robbery",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:18",
+              "code": "ABH",
+              "description": "Assault - actual bodily harm",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:19",
+              "code": "GBH",
+              "description": "Assault - grievous bodily harm",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:2",
+              "code": "CNF",
+              "description": "Collision - multi vehicle - NAF",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:20",
+              "code": "AAO",
+              "description": "Assault - all other",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:21",
+              "code": "BCO",
+              "description": "Breach of Court order",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:22",
+              "code": "CDP",
+              "description": "Causing damage to property",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:23",
+              "code": "AGB",
+              "description": "Aggravated burglary",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:24",
+              "code": "BAE",
+              "description": "Break and enter",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:25",
+              "code": "SCO",
+              "description": "Serious criminal offence (not otherwise defined)",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:26",
+              "code": "HOS",
+              "description": "Holding someone hostage",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:27",
+              "code": "MSL",
+              "description": "Manslaughter",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:28",
+              "code": "MUR",
+              "description": "Murder",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:29",
+              "code": "INC",
+              "description": "Incarceration for any criminal offence (not otherwise described)",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:3",
+              "code": "CAF",
+              "description": "Collision - multi vehicle - AF",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:30",
+              "code": "COR",
+              "description": "Refused to give evidence to Coroner",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:31",
+              "code": "CON",
+              "description": "Contempt of court",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:32",
+              "code": "ARS",
+              "description": "Arson",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:33",
+              "code": "DIS",
+              "description": "Disorderly conduct",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:34",
+              "code": "BRE",
+              "description": "Breach of bail",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:35",
+              "code": "INS",
+              "description": "Insurance fraud",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:36",
+              "code": "IDT",
+              "description": "Identity theft",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:37",
+              "code": "FDC",
+              "description": "Obtain benefit by deception (credit card/cheque/social security/tax fraud)",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:38",
+              "code": "FOR",
+              "description": "Forgery and counterfeiting (currency/documents/false instrument)",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:39",
+              "code": "EMB",
+              "description": "Deceptive business or government practices (eg as a director of a company/embezzlement)",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:4",
+              "code": "HWP",
+              "description": "Hit While Parked",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:40",
+              "code": "WMP",
+              "description": "Wilful misleading of Police",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:41",
+              "code": "TMV",
+              "description": "Theft of motor vehicle",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:42",
+              "code": "TMB",
+              "description": "Theft of motor bike",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:43",
+              "code": "TSL",
+              "description": "Theft - shoplifting / stealing as a servant",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:44",
+              "code": "TRC",
+              "description": "Theft - receiving",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:45",
+              "code": "TBE",
+              "description": "Theft - breaking and entering",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:46",
+              "code": "PDS",
+              "description": "Possession of prohibited drug - intent to sell/supply",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:47",
+              "code": "PPD",
+              "description": "Possession of prohibited drug and/or drug paraphernalia",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:48",
+              "code": "PUF",
+              "description": "Possession of unlicenced firearm",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:49",
+              "code": "POW",
+              "description": "Possession of an offensive weapon (inc imitation)",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:5",
+              "code": "LCV",
+              "description": "Lost Control",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:50",
+              "code": "FFS",
+              "description": "Firearm - fail to keep safe",
+              "filter1": "conviction"
+            },
+            {
+              "publicID": "qbe:51",
+              "code": "S09",
+              "description": "0-9 kmh over the limit",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:52",
+              "code": "S14",
+              "description": "10-14 kmh over the limit",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:53",
+              "code": "S19",
+              "description": "15-19 kmh over the limit",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:54",
+              "code": "S29",
+              "description": "20-29 kmh over the limit",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:55",
+              "code": "S39",
+              "description": "30-39 kmh over the limit",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:56",
+              "code": "S40",
+              "description": "40+ kmh over the limit",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:57",
+              "code": "BTR",
+              "description": "Refusing a breathalyser or blood test",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:58",
+              "code": "DBS",
+              "description": "Driving under influence of a banned substance",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:59",
+              "code": "AL0",
+              "description": "Alcohol level above .00 (learner's and provisional licences)",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:6",
+              "code": "TVR",
+              "description": "Theft - Recovered",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:60",
+              "code": "AL5",
+              "description": "Alcohol level of .05 to less than .08",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:61",
+              "code": "AL8",
+              "description": "Alcohol level of .08 to less than .15",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:62",
+              "code": "A15",
+              "description": "Alcohol level of .15 or more",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:63",
+              "code": "UNL",
+              "description": "Driving without a licence (never held)",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:64",
+              "code": "DLS",
+              "description": "Driving with suspended/cancelled licence",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:65",
+              "code": "DFD",
+              "description": "Driving while licence expired or licence suspended for fine default",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:66",
+              "code": "DUV",
+              "description": "Driving an unregistered/unroadworthy vehicle",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:67",
+              "code": "UUV",
+              "description": "Driving a stolen vehicle",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:68",
+              "code": "CLD",
+              "description": "Careless Driving",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:69",
+              "code": "CUL",
+              "description": "Culpable driving (causing death)",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:7",
+              "code": "VNR",
+              "description": "Theft - Unrecovered",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:70",
+              "code": "DDR",
+              "description": "Dangerous driving",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:71",
+              "code": "DUC",
+              "description": "Driving with undue care",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:72",
+              "code": "FSA",
+              "description": "Failing to stop at an accident (hit&run)",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:73",
+              "code": "NGD",
+              "description": "Negligent driving",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:74",
+              "code": "RAC",
+              "description": "Racing another driver",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:75",
+              "code": "RKD",
+              "description": "Reckless driving",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:76",
+              "code": "SDO",
+              "description": "Other Serious Driving Offence",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:77",
+              "code": "CDL",
+              "description": "Crossing double lines",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:78",
+              "code": "FPC",
+              "description": "Failing to give way at a pedestrian crossing",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:79",
+              "code": "FSI",
+              "description": "Failing to stop at stop sign/red light/controlled intersection",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:8",
+              "code": "TPP",
+              "description": "Theft - Personal Property/Accs/Modifications",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:80",
+              "code": "FPL",
+              "description": "Failing to display P or L plates",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:81",
+              "code": "NVO",
+              "description": "Not allowing another vehicle to overtake",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:82",
+              "code": "NSB",
+              "description": "Not wearing a seatbelt",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:83",
+              "code": "OVI",
+              "description": "Overtaking another vehicle incorrectly",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:84",
+              "code": "PKS",
+              "description": "Passing on the kerbside of another vehicle",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:85",
+              "code": "MPH",
+              "description": "Use of mobile phone while driving",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:86",
+              "code": "MTO",
+              "description": "Other minor offence or infringement (not otherwise defined)",
+              "filter1": "infringement_demerit"
+            },
+            {
+              "publicID": "qbe:87",
+              "code": "LL3",
+              "description": "Loss of licence - up to 3 months",
+              "filter1": "infringement_licence"
+            },
+            {
+              "publicID": "qbe:88",
+              "code": "LL6",
+              "description": "Loss of licence - 3 - 6 months",
+              "filter1": "infringement_licence"
+            },
+            {
+              "publicID": "qbe:89",
+              "code": "L12",
+              "description": "Loss of licence - 6+ months",
+              "filter1": "infringement_licence"
+            },
+            {
+              "publicID": "qbe:9",
+              "code": "FTL",
+              "description": "Fire - Total Loss",
+              "filter1": "claim"
+            },
+            {
+              "publicID": "qbe:90",
+              "code": "LLF",
+              "description": "Loss of licence cancelled for fine default",
+              "filter1": "infringement_licence"
+            }
+          ]
+        },
+        "publicID": {
+          "type": "string"
+        },
+        "year": {
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "pattern",
+        "year"
+      ]
+    },
+    "portal.pc.dto.quote.qpm.QPMPolicyDriverDTO": {
+      "properties": {
+        "driverHistory": {
+          "items": {
+            "$ref": "portal.pc.dto.quote.qpm.QPMDriverHistoryDTO"
+          },
+          "type": "array"
+        },
+        "licenceType": {
+          "enum": [
+            "full",
+            "provisional",
+            "foreign",
+            "learner"
+          ],
+          "type": "string"
+        },
+        "noClaimBonus": {
+          "enum": [
+            "rating_1",
+            "rating_2",
+            "rating_3",
+            "rating_4",
+            "rating_5",
+            "nil",
+            "no_previous_insurer"
+          ],
+          "type": "string"
+        },
+        "person": {
+          "$ref": "portal.pc.dto.PersonDTO"
+        },
+        "previousInsurer": {
+          "enum": [
+            "aami",
+            "gio",
+            "none",
+            "nrma"
+          ],
+          "type": "string"
+        },
+        "publicID": {
+          "type": "string"
+        },
+        "yearsLicenced": {
+          "enum": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "publicID",
+        "licenceType",
+        "yearsLicenced",
+        "noClaimBonus",
+        "previousInsurer"
+      ]
+    },
+    "portal.pc.dto.quote.qpm.QPMQuoteDataDTO": {
+      "description": "Quote DTO for QBE Personal Motor Vehicle Insurance",
+      "properties": {
+        "account": {
+          "$ref": "portal.pc.dto.AccountDTO"
+        },
+        "anyClaimsQuestion": {
+          "enum": [
+            "yes",
+            "unknown",
+            "no",
+            "yes_unknown"
+          ],
+          "type": "string"
+        },
+        "anyConvictionsQuestion": {
+          "enum": [
+            "yes",
+            "unknown",
+            "no",
+            "yes_unknown"
+          ],
+          "type": "string"
+        },
+        "anyInfringementsQuestion": {
+          "enum": [
+            "yes",
+            "unknown",
+            "no",
+            "yes_unknown"
+          ],
+          "type": "string"
+        },
+        "anyLostLicencesQuestion": {
+          "enum": [
+            "yes",
+            "unknown",
+            "no",
+            "yes_unknown"
+          ],
+          "type": "string"
+        },
+        "paymentPlans": {
+          "items": {
+            "$ref": "portal.pc.dto.quote.PaymentPlanDTO"
+          },
+          "type": "array"
+        },
+        "periodStartDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "quoteID": {
+          "description": "ID of the Quote",
+          "type": "string"
+        },
+        "quoteResult": {
+          "$ref": "portal.pc.dto.quote.qpm.QPMQuoteResultDTO"
+        },
+        "vehicles": {
+          "items": {
+            "$ref": "portal.pc.dto.quote.qpm.QPMVehicleDTO"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "periodStartDate",
+        "anyClaimsQuestion",
+        "anyConvictionsQuestion",
+        "anyInfringementsQuestion",
+        "anyLostLicencesQuestion"
+      ]
+    },
+    "portal.pc.dto.quote.qpm.QPMQuoteListDTO": {
+      "description": "Quote List",
+      "properties": {
+        "results": {
+          "items": {
+            "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "portal.pc.dto.quote.qpm.QPMQuoteResultDTO": {
+      "properties": {
+        "decline": {
+          "type": "boolean"
+        },
+        "premiumAfterDiscount": {
+          "format": "double",
+          "type": "number"
+        },
+        "referral": {
+          "type": "boolean"
+        },
+        "totalFSL": {
+          "format": "double",
+          "type": "number"
+        },
+        "totalGST": {
+          "format": "double",
+          "type": "number"
+        },
+        "totalPremium": {
+          "format": "double",
+          "type": "number"
+        },
+        "totalStampDuty": {
+          "format": "double",
+          "type": "number"
+        }
+      }
+    },
+    "portal.pc.dto.quote.qpm.QPMVehicleCoverageOptionDTO": {
+      "properties": {
+        "excessFreeWindscreen": {
+          "type": "boolean"
+        },
+        "hireCarAfterAccident": {
+          "type": "boolean"
+        },
+        "lifetimeNCBProtection": {
+          "type": "boolean"
+        },
+        "nCBProtection": {
+          "type": "boolean"
+        }
+      }
+    },
+    "portal.pc.dto.quote.qpm.QPMVehicleDTO": {
+      "properties": {
+        "afterMarketModifications": {
+          "type": "boolean"
+        },
+        "businessUsage": {
+          "enum": [
+            "consulate_vehicle",
+            "courier",
+            "courtesy_car",
+            "delivery",
+            "driver_education",
+            "general",
+            "funeral_car",
+            "hirecar_limousine_taxi",
+            "pilot_vehicle",
+            "sporting_events",
+            "refrigerated_delivery_vehicle",
+            "security_patrol",
+            "trade",
+            "dangerous_goods",
+            "visiting_clients"
+          ],
+          "type": "string"
+        },
+        "colour": {
+          "enum": [
+            "black",
+            "blue",
+            "bronze",
+            "brown",
+            "green",
+            "grey",
+            "maroon",
+            "orange",
+            "pink",
+            "purple",
+            "red",
+            "silver",
+            "white",
+            "yellow"
+          ],
+          "type": "string"
+        },
+        "coverType": {
+          "enum": [
+            "comprehensive",
+            "comprehensive_nominated",
+            "comprehensive_preferred",
+            "third_party_fire_theft",
+            "third_party"
+          ],
+          "type": "string"
+        },
+        "coverageOption": {
+          "$ref": "portal.pc.dto.quote.qpm.QPMVehicleCoverageOptionDTO"
+        },
+        "drivers": {
+          "items": {
+            "$ref": "portal.pc.dto.quote.qpm.QPMVehicleDriverDTO"
+          },
+          "type": "array"
+        },
+        "excess": {
+          "$ref": "portal.pc.dto.quote.qpm.QPMVehicleExcessDTO"
+        },
+        "financeCompany": {
+          "$ref": "portal.suite.dto.ReferenceDataDTO",
+          "referenceData": [
+            {
+              "publicID": "qbe:finance-1",
+              "code": "ANZ",
+              "name": "ANZ Banking Group"
+            },
+            {
+              "publicID": "qbe:finance-2",
+              "code": "CBA",
+              "name": "Commonwealth Bank of Australia"
+            },
+            {
+              "publicID": "qbe:finance-3",
+              "code": "NAB",
+              "name": "National Australia Bank"
+            },
+            {
+              "publicID": "qbe:finance-4",
+              "code": "WBC",
+              "name": "Westpac Banking Corporation"
+            }
+          ]
+        },
+        "financeType": {
+          "enum": [
+            "none",
+            "loan",
+            "lease",
+            "hire_purchase"
+          ],
+          "type": "string"
+        },
+        "garageAddress": {
+          "$ref": "portal.pc.dto.AddressDTO"
+        },
+        "garageType": {
+          "enum": [
+            "garage",
+            "car_port",
+            "driveway",
+            "on_street",
+            "other"
+          ],
+          "type": "string"
+        },
+        "licenceState": {
+          "enum": [
+            "Hokkaido",
+            "Aomori",
+            "Iwate",
+            "Miyagi",
+            "Akita",
+            "Yamagata",
+            "Fukushima",
+            "Ibaraki",
+            "Tochigi",
+            "Gumma",
+            "Saitama",
+            "Chiba",
+            "Tokyo",
+            "Kanagawa",
+            "Niigata",
+            "Toyama",
+            "Ishikawa",
+            "Fukui",
+            "Yamanashi",
+            "Nagano",
+            "Gifu",
+            "Shizuoka",
+            "Aichi",
+            "Mie",
+            "Shiga",
+            "Kyoto",
+            "Osaka",
+            "Hyogo",
+            "Nara",
+            "Wakayama",
+            "Tottori",
+            "Shimane",
+            "Okayama",
+            "Hiroshima",
+            "Yamaguchi",
+            "Tokushima",
+            "Kagawa",
+            "Ehime",
+            "Kochi",
+            "Fukuoka",
+            "Saga",
+            "Nagasaki",
+            "Kumamoto",
+            "Oita",
+            "Miyazaki",
+            "Kagoshima",
+            "Okinawa",
+            "AU_ACT",
+            "AL",
+            "AK",
+            "AB",
+            "AZ",
+            "AR",
+            "DE_BW",
+            "DE_BY",
+            "DE_BE",
+            "DE_BB",
+            "DE_HB",
+            "BC",
+            "CA",
+            "CO",
+            "CT",
+            "DE",
+            "DC",
+            "FM",
+            "FL",
+            "GA",
+            "GU",
+            "DE_HH",
+            "HI",
+            "DE_HE",
+            "ID",
+            "IL",
+            "IN",
+            "IA",
+            "KS",
+            "KY",
+            "LA",
+            "DE_NI",
+            "ME",
+            "MB",
+            "MH",
+            "MD",
+            "MA",
+            "DE_MV",
+            "MI",
+            "MN",
+            "MS",
+            "MO",
+            "MT",
+            "NE",
+            "NV",
+            "NB",
+            "NH",
+            "NJ",
+            "NM",
+            "AU_NSW",
+            "NY",
+            "NL",
+            "NC",
+            "ND",
+            "DE_NW",
+            "MP",
+            "AU_NT",
+            "NT",
+            "NS",
+            "NU",
+            "OH",
+            "OK",
+            "ON",
+            "OR",
+            "PA",
+            "PE",
+            "PR",
+            "QC",
+            "AU_QLD",
+            "DE_RP",
+            "RI",
+            "DE_SL",
+            "SK",
+            "DE_SN",
+            "DE_ST",
+            "DE_SH",
+            "AU_SA",
+            "SC",
+            "SD",
+            "AU_TAS",
+            "TN",
+            "TX",
+            "DE_TH",
+            "UT",
+            "VT",
+            "AU_VIC",
+            "VI",
+            "VA",
+            "WA",
+            "WV",
+            "AU_WA",
+            "WI",
+            "WY",
+            "YT"
+          ],
+          "type": "string"
+        },
+        "licenseNumber": {
+          "type": "string"
+        },
+        "make": {
+          "type": "string"
+        },
+        "markedForDelete": {
+          "type": "boolean"
+        },
+        "model": {
+          "type": "string"
+        },
+        "modelYear": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "originalOwner": {
+          "type": "boolean"
+        },
+        "primaryUsage": {
+          "enum": [
+            "private",
+            "business",
+            "commercial"
+          ],
+          "type": "string"
+        },
+        "publicID": {
+          "type": "string"
+        },
+        "purchaseDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "purchasePrice": {
+          "format": "double",
+          "type": "number"
+        },
+        "recentPurchase": {
+          "type": "boolean"
+        },
+        "redbookID": {
+          "type": "string"
+        },
+        "sumInsuredAmount": {
+          "format": "double",
+          "type": "number"
+        },
+        "sumInsuredType": {
+          "enum": [
+            "replacement",
+            "market",
+            "agreed"
+          ],
+          "type": "string"
+        },
+        "unrepairedDamage": {
+          "enum": [
+            "none",
+            "hail",
+            "minordamage",
+            "significant_minordamage",
+            "collision_damage"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "publicID",
+        "make",
+        "model",
+        "modelYear",
+        "colour",
+        "garageAddress",
+        "garageType",
+        "unrepairedDamage",
+        "primaryUsage",
+        "financeType",
+        "afterMarketModifications"
+      ]
+    },
+    "portal.pc.dto.quote.qpm.QPMVehicleDriverDTO": {
+      "properties": {
+        "driver": {
+          "$ref": "portal.pc.dto.quote.qpm.QPMPolicyDriverDTO"
+        },
+        "driverUsage": {
+          "enum": [
+            "main",
+            "other",
+            "excluded"
+          ],
+          "type": "string"
+        },
+        "markedForDelete": {
+          "type": "boolean"
+        },
+        "publicID": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "publicID",
+        "driver",
+        "driverUsage"
+      ]
+    },
+    "portal.pc.dto.quote.qpm.QPMVehicleExcessDTO": {
+      "properties": {
+        "standardVehicleExcess": {
+          "format": "double",
+          "type": "number"
+        },
+        "voluntaryVehicleExcess": {
+          "format": "double",
+          "type": "number"
+        },
+        "voluntaryVehicleExcessOptions": {
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "portal.suite.dto.ReferenceDataDTO": {
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "filter1": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "publicID": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "publicID"
+      ]
+    }
+  },
+  "host": "qbe.ey-tec.com",
+  "info": {
+    "description": "API for Guidewire PolicyCenter Portal",
+    "title": "Guidewire PolicyCenter Portal",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api-doc": {
+      "get": {
+        "description": "test method",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "internal",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "/quickquote/qpm": {
+      "post": {
+        "description": "test method",
+        "parameters": [
+          {
+            "description": "Quote data DTO",
+            "in": "body",
+            "name": "dto",
+            "required": true,
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Quick Quote Result",
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteListDTO"
+            }
+          }
+        }
+      }
+    },
+    "/quote/qpm": {
+      "get": {
+        "description": "test method",
+        "responses": {
+          "200": {
+            "description": "Quote list",
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteListDTO"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "test method",
+        "parameters": [
+          {
+            "description": "Quote data DTO",
+            "in": "body",
+            "name": "dto",
+            "required": true,
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            }
+          },
+          {
+            "description": "Set to true to create and quote",
+            "in": "query",
+            "name": "quote",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTO of the created Quote",
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            }
+          }
+        }
+      }
+    },
+    "/quote/qpm/{quoteID}": {
+      "get": {
+        "description": "test method",
+        "parameters": [
+          {
+            "description": "Id of the quote",
+            "in": "path",
+            "name": "quoteID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Post code of the account holder",
+            "in": "query",
+            "name": "postalCode",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Quote DTO",
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "test method",
+        "parameters": [
+          {
+            "description": "Id of the quote",
+            "in": "path",
+            "name": "quoteID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Quote data DTO",
+            "in": "body",
+            "name": "dto",
+            "required": true,
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            }
+          },
+          {
+            "description": "Set to true to save and quote",
+            "in": "query",
+            "name": "quote",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTO of the saved Quote",
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            }
+          }
+        }
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "swagger": "2.0"
+}
