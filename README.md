@@ -17,3 +17,9 @@ Build model instance from JSON object
 ## model2Json(object)
 Build JSON object from model instance
 - object Model object
+
+
+# Test
+```
+npm test
+```
