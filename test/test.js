@@ -115,25 +115,41 @@ var test = {
         }
     ]
 };
-
 var path = require('path');
 var expect = require('chai').expect;
+var _ = require('lodash');
+var fs = require('fs-extra');
+
 
 var swagger = require('./swagger.json');
-var swaggerModel = require('./index');
+var swaggerModel = require('./../generator');
+var swaggerModelRuntime = require('./../runtime');
 
 
 describe('Swagger to model', function () {
    it('should convert json to model then convert back', function () {
        var root = path.resolve(__dirname);
-       var templatePath = path.join(root, 'template');
+       var templatePath = path.join(root, '../template');
        var outPath = path.join(root, 'out');
 
        swaggerModel.generate(swagger, templatePath, outPath);
-       swaggerModel.loadClasses(outPath);
 
-       var model = swaggerModel.json2Model(test, 'QPMQuoteData');
-       var json = swaggerModel.model2Json(model);
+       // Add Classes
+       _.each(fs.readdirSync(outPath), function (fileName) {
+           if (fileName.endsWith('.js')) {
+               var filePath = path.join(outPath, fileName);
+               var className = fileName.replace('.js', '');
+
+               // Include files
+               swaggerModelRuntime.addClass(className, require(filePath));
+           }
+       });
+
+       // Add Base class
+       swaggerModelRuntime.addClass('ModelBase', require(path.join(outPath, 'base', 'ModelBase.js')));
+
+       var model = swaggerModelRuntime.json2Model(test, 'QPMQuoteData');
+       var json = swaggerModelRuntime.model2Json(model);
 
        expect(json).to.deep.equal(test);
    });

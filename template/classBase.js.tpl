@@ -1,3 +1,7 @@
+/*
+ DO NOT MODIFY this file as it will be overridden
+ ADD PROPERTIES in inherited class only
+*/
 var ModelBase = require('./ModelBase');
 {{requires}}
 

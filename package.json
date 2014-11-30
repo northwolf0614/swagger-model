@@ -2,9 +2,9 @@
   "name": "swagger-model",
   "version": "2.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "generator.js",
   "scripts": {
-    "test": "mocha test.js"
+    "test": "mocha test/test.js"
   },
   "author": "Ran Ding",
   "license": "MIT",

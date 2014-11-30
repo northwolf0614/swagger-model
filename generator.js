@@ -1,102 +1,15 @@
 var handlebars = require('handlebars');
+var helper = require('./lib/helper');
+var path = require('path');
 var fs = require('fs-extra');
 var _ = require('lodash');
-var path = require('path');
 
-var helper = require('./lib/helper');
 
 var classBaseTpl = {};
 var classTpl = {};
 var typeTpls = {};
-var classCache = {};
-var ModelBase;
 
-var index = {
-    loadClasses: function (folderPath) {
-        _.each(fs.readdirSync(folderPath), function (fileName) {
-            if (fileName.endsWith('.js')) {
-                var filePath = path.join(folderPath, fileName);
-                var className = fileName.replace('.js', '');
-
-                // Include files
-                classCache[className] = require(filePath);
-            }
-        });
-
-        // Base
-        ModelBase = classCache['ModelBase'] = require(path.join(folderPath, 'base', 'ModelBase.js'));
-    },
-
-    getValue: function (type, from) {
-        var self = this;
-
-        switch (type) {
-            case 'number':
-            case 'number:double':
-            case 'integer:int32':
-            case 'string':
-            case 'boolean':
-                return from;
-            case 'string:date-time':
-                return new Date(from);
-            default:
-                return self.json2Model(from, type);
-        }
-    },
-
-    model2Json: function (object) {
-        var self = this;
-        var result, property;
-
-        // Copy values
-        if (Object.prototype.toString.call(object) === '[object Array]') {
-            _.each(object, function (item) {
-                result = result || [];
-                result.push(self.model2Json(item))
-            });
-        } else {
-            if (object instanceof ModelBase) {
-                result = _.clone(object._data);
-            } else {
-                if (Object.prototype.toString.call(object) === '[object Date]') {
-                    result = JSON.stringify(object).replace(/^"|"$/g, '');
-
-                } else {
-                    result = object;
-                }
-            }
-
-           for (property in result) {
-               if (result.hasOwnProperty(property) && (object instanceof ModelBase)) {
-                   result[property] = self.model2Json(result[property]);
-               }
-           }
-        }
-
-        return result;
-    },
-
-    json2Model: function (object, className) {
-        var self = this;
-        var instance = new (classCache[className]);
-        for (var key in object) {
-            if (object.hasOwnProperty(key)) {
-                var type = instance._types[key];
-
-                if (type.endsWith('[]')) {
-                    // Process array
-                    _.each(object[key], function (value) {
-                        instance[key].push(self.getValue(type.replace('[]', ''), value));
-                    });
-                } else {
-                    instance[key] = self.getValue(type, object[key]);
-                }
-            }
-        }
-
-        return instance;
-    },
-
+module.exports = {
     generate: function (swagger, templatePath, outPath) {
         var basePath = outPath;
         outPath = path.join(outPath, 'base');
@@ -180,5 +93,3 @@ var index = {
         });
     }
 };
-
-module.exports = index;
