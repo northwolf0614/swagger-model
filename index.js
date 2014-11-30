@@ -5,6 +5,7 @@ var path = require('path');
 
 var helper = require('./lib/helper');
 
+var classBaseTpl = {};
 var classTpl = {};
 var typeTpls = {};
 var classCache = {};
@@ -13,15 +14,17 @@ var ModelBase;
 var index = {
     loadClasses: function (folderPath) {
         _.each(fs.readdirSync(folderPath), function (fileName) {
-            var filePath = path.join(folderPath, fileName);
-            var className = fileName.replace('.js', '');
+            if (fileName.endsWith('.js')) {
+                var filePath = path.join(folderPath, fileName);
+                var className = fileName.replace('.js', '');
 
-            // Include files
-            classCache[className] = require(filePath);
+                // Include files
+                classCache[className] = require(filePath);
+            }
         });
 
         // Base
-        ModelBase = classCache['ModelBase'];
+        ModelBase = classCache['ModelBase'] = require(path.join(folderPath, 'base', 'ModelBase.js'));
     },
 
     getValue: function (type, from) {
@@ -95,6 +98,9 @@ var index = {
     },
 
     generate: function (swagger, templatePath, outPath) {
+        var basePath = outPath;
+        outPath = path.join(outPath, 'base');
+
         // Remove and make out folder
         fs.removeSync(outPath);
         fs.mkdirpSync(outPath);
@@ -103,6 +109,7 @@ var index = {
         fs.copySync(path.join(templatePath, 'ModelBase.js'), path.join(outPath, 'ModelBase.js'));
 
         // Compile template
+        classBaseTpl = handlebars.compile(fs.readFileSync(path.join(templatePath, 'classBase.js.tpl')).toString(), {noEscape: true});
         classTpl = handlebars.compile(fs.readFileSync(path.join(templatePath, 'class.js.tpl')).toString(), {noEscape: true});
         typeTpls = _.transform(fs.readdirSync(path.join(templatePath, 'types')), function (result, fileName) {
             var filePath = path.join(templatePath, 'types', fileName);
@@ -160,10 +167,16 @@ var index = {
             data.typeList = "{{0}}".f(typeStatement.join(','));
 
             data.requires = _.map(_.unique(dependencies), function (dependency) {
-                return "var {0} = require('./{0}');".f(dependency);
+                return "var {0} = require('../{0}');".f(dependency);
             }).join('\n');
 
-            fs.writeFileSync(path.join(outPath, data.className + '.js'), classTpl(data));
+            fs.writeFileSync(path.join(outPath, data.className + 'Base.js'), classBaseTpl(data));
+
+            // Create Class file if not exist
+            var classFilePath = path.join(basePath, data.className + '.js');
+            if (!fs.existsSync(classFilePath)) {
+                fs.writeFileSync(classFilePath, classTpl(data));
+            }
         });
     }
 };

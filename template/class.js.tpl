@@ -1,18 +1,9 @@
-var ModelBase = require('./ModelBase');
-{{requires}}
+var {{className}}Base = require('./base/{{className}}Base');
 
-function {{className}}() { self = this }
-var self;
-
-{{className}}.prototype = Object.create(ModelBase.prototype);
-{{className}}.prototype._types = {{typeList}};
-{{className}}.prototype._data = {};
-
-{{#properties}}
-Object.defineProperty({{../className}}.prototype, '{{name}}', {
-configurable:true, enumerable:true,
-{{definition}}
-});
-{{/properties}}
+function {{className}}() {
+    {{className}}Base.call(this);
+}
+{{className}}.prototype = Object.create({{className}}Base.prototype);
+{{className}}.prototype.constructor = {{className}};
 
 module.exports = {{className}};
