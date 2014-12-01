@@ -7,7 +7,7 @@ module.exports = {
     register: function (className, definition) {
         if (!definition) {
             definition = className;
-            className = definition.constructor.name;
+            className = definition.name;
         }
 
         classCache[className] = definition;
