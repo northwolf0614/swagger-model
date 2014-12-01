@@ -3,8 +3,13 @@ var _ = require('lodash');
 var classCache = {};
 var ModelBase;
 
-var index = {
-    addClass: function (className, definition) {
+module.exports = {
+    register: function (className, definition) {
+        if (!definition) {
+            definition = className;
+            className = definition.constructor.name;
+        }
+
         classCache[className] = definition;
 
         if (className === 'ModelBase') {
@@ -53,11 +58,11 @@ var index = {
                 }
             }
 
-           for (property in result) {
-               if (result.hasOwnProperty(property) && (object instanceof ModelBase)) {
-                   result[property] = self.model2Json(result[property]);
-               }
-           }
+            for (property in result) {
+                if (result.hasOwnProperty(property) && (object instanceof ModelBase)) {
+                    result[property] = self.model2Json(result[property]);
+                }
+            }
         }
 
         return result;
@@ -84,5 +89,3 @@ var index = {
         return instance;
     }
 };
-
-module.exports = index;

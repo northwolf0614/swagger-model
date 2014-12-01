@@ -140,12 +140,12 @@ describe('Swagger to model', function () {
                var className = fileName.replace('.js', '');
 
                // Include files
-               swaggerModelRuntime.addClass(className, require(filePath));
+               swaggerModelRuntime.register(className, require(filePath));
            }
        });
 
        // Add Base class
-       swaggerModelRuntime.addClass('ModelBase', require(path.join(outPath, 'base', 'ModelBase.js')));
+       swaggerModelRuntime.register('ModelBase', require(path.join(outPath, 'base', 'ModelBase.js')));
 
        var model = swaggerModelRuntime.json2Model(test, 'QPMQuoteData');
        var json = swaggerModelRuntime.model2Json(model);
