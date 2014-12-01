@@ -12,7 +12,7 @@ var self;
 {{className}}Base.prototype.constructor = {{className}}Base;
 {{className}}Base.prototype._types = {{typeList}};
 {{#enums}}
-{{../className}}Base.prototype.{{name}} = {{enumList}};
+{{../className}}Base.{{name}} = {{enumList}};
 {{/enums}}
 {{className}}Base.prototype._data = {};
 
