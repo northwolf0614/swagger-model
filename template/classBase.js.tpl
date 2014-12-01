@@ -5,8 +5,7 @@
 var ModelBase = require('./ModelBase');
 {{requires}}
 
-function {{className}}Base() { self = this; }
-var self;
+function {{className}}Base() {}
 
 {{className}}Base.prototype = Object.create(ModelBase.prototype);
 {{className}}Base.prototype.constructor = {{className}}Base;
