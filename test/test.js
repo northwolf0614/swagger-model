@@ -129,10 +129,9 @@ var swaggerModelRuntime = require('./../runtime');
 describe('Swagger to model', function () {
    it('should convert json to model then convert back', function () {
        var root = path.resolve(__dirname);
-       var templatePath = path.join(root, '../template');
        var outPath = path.join(root, 'out');
 
-       swaggerModel.generate(swagger, templatePath, outPath);
+       swaggerModel.generate(swagger, outPath);
 
        // Add Classes
        _.each(fs.readdirSync(outPath), function (fileName) {

@@ -10,8 +10,10 @@ var classTpl = {};
 var typeTpls = {};
 
 module.exports = {
-    generate: function (swagger, templatePath, outPath) {
+    generate: function (swagger, outPath) {
         var basePath = outPath;
+        var templatePath = path.resolve(__dirname, 'template');
+
         outPath = path.join(outPath, 'base');
 
         // Remove and make out folder
