@@ -41,11 +41,16 @@ module.exports = {
 
             data.properties = [];
 
-            var types = {};
+            var types = {}, enums = {};
             _.each(classDef.properties, function (propertyDef, name) {
                 var property = {};
 
                 property.name = helper.getPropertyName(name);
+
+                if (propertyDef.enum) {
+                    // Save enum if it has
+                    enums[name] = propertyDef.enum;
+                }
 
                 if (!propertyDef.type) {
                     // Reference type
@@ -75,15 +80,27 @@ module.exports = {
                 data.properties.push(property);
             });
 
+            // Build type list
             var typeStatement = [];
             _.each(types, function (type, name) {
                 typeStatement.push("'{0}':'{1}'".f(name, type));
             });
             data.typeList = "{{0}}".f(typeStatement.join(','));
 
+            // Build dependency
             data.requires = _.map(_.unique(dependencies), function (dependency) {
                 return "var {0} = require('../{0}');".f(dependency);
             }).join('\n');
+
+            // Build enums
+            data.enums = [];
+            _.each(enums, function (enumList, name) {
+                enumList = '[{0}]'.f(_.map(enumList, function (enumEntry) {
+                    return "'{0}'".f(enumEntry);
+                }).join(','));
+
+                data.enums.push({ name: helper.getEnumName(name), enumList: enumList });
+            });
 
             fs.writeFileSync(path.join(outPath, data.className + 'Base.js'), classBaseTpl(data));
 
