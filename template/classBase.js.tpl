@@ -5,23 +5,15 @@
 var ModelBase = require('./ModelBase');
 {{requires}}
 
-function {{className}}Base() {
-    self = this;
-    if (self._enums) {
-        Object.keys(self._enums).forEach(function(enumName) {
-            self._enums[enumName].forEach(function(enumValue) {
-                self[enumName] = self[enumName] || {};
-                self[enumName][enumValue] = enumValue;
-            });
-        });
-    }
-}
+function {{className}}Base() { self = this; }
 var self;
 
 {{className}}Base.prototype = Object.create(ModelBase.prototype);
 {{className}}Base.prototype.constructor = {{className}}Base;
 {{className}}Base.prototype._types = {{typeList}};
-{{className}}Base.prototype._enums = {{enumList}};
+{{#enums}}
+{{../className}}Base.prototype.{{name}} = {{enumList}};
+{{/enums}}
 {{className}}Base.prototype._data = {};
 
 {{#properties}}

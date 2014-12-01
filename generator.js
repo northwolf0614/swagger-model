@@ -93,15 +93,14 @@ module.exports = {
             }).join('\n');
 
             // Build enums
-            var enumList = [];
-            _.each(enums, function (enumEntries, name) {
-                var list = _.map(enumEntries, function (enumEntry) {
-                    return "'{0}'".f(enumEntry);
-                }).join(',');
+            data.enums = [];
+            _.each(enums, function (enumList, name) {
+                enumList = '{{0}}'.f(_.map(enumList, function (enumEntry) {
+                    return "'{0}':'{0}'".f(enumEntry);
+                }).join(','));
 
-                enumList.push("'{0}':[{1}]".f(helper.getEnumName(name), list));
+                data.enums.push({ name: helper.getEnumName(name), enumList: enumList });
             });
-            data.enumList = '{{0}}'.f(enumList.join(','));
 
 
             fs.writeFileSync(path.join(outPath, data.className + 'Base.js'), classBaseTpl(data));
