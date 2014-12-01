@@ -11,17 +11,21 @@ var typeTpls = {};
 
 module.exports = {
     generate: function (swagger, outPath) {
-        var basePath = outPath;
         var templatePath = path.resolve(__dirname, 'template');
-
-        outPath = path.join(outPath, 'base');
+        var basePath = path.join(outPath, 'base');
+        var helperPath = path.join(outPath, 'helper');
 
         // Remove and make out folder
-        fs.removeSync(outPath);
-        fs.mkdirpSync(outPath);
+        fs.removeSync(basePath);
+        fs.removeSync(helperPath);
+
+        // Make folders
+        fs.mkdirpSync(basePath);
+        fs.mkdirpSync(helperPath);
 
         // Copy model base
-        fs.copySync(path.join(templatePath, 'ModelBase.js'), path.join(outPath, 'ModelBase.js'));
+        fs.copySync(path.join(templatePath, 'ModelBase.js'), path.join(basePath, 'ModelBase.js'));
+        fs.copySync(path.join(templatePath, 'extend.js'), path.join(helperPath, 'extend.js'));
 
         // Compile template
         classBaseTpl = handlebars.compile(fs.readFileSync(path.join(templatePath, 'classBase.js.tpl')).toString(), {noEscape: true});
@@ -103,10 +107,10 @@ module.exports = {
             });
 
 
-            fs.writeFileSync(path.join(outPath, data.className + 'Base.js'), classBaseTpl(data));
+            fs.writeFileSync(path.join(basePath, data.className + 'Base.js'), classBaseTpl(data));
 
             // Create Class file if not exist
-            var classFilePath = path.join(basePath, data.className + '.js');
+            var classFilePath = path.join(outPath, data.className + '.js');
             if (!fs.existsSync(classFilePath)) {
                 fs.writeFileSync(classFilePath, classTpl(data));
             }

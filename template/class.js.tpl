@@ -1,9 +1,11 @@
+var extend = require('./helper/extend');
 var {{className}}Base = require('./base/{{className}}Base');
 
-function {{className}}() {
-    {{className}}Base.call(this);
-}
-{{className}}.prototype = Object.create({{className}}Base.prototype);
-{{className}}.prototype.constructor = {{className}};
+function {{className}}() { {{className}}Base.call(this); }
+extend({{className}}, {{className}}Base);
+
+
+
+
 
 module.exports = {{className}};
