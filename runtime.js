@@ -83,6 +83,10 @@ module.exports = {
     json2Model: function (object, className) {
         var self = this;
         var typeClass = classCache[className];
+        if (!typeClass) {
+            throw new Error('Can not find type "{0}". Please ensure it has been registered.'.f(className));
+        }
+
         var instance = new (typeClass);
         for (var key in object) {
             if (object.hasOwnProperty(key)) {
