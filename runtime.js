@@ -44,7 +44,7 @@ module.exports = {
         if (object instanceof ModelBase) {
             var missingProperties = self.findMissingProperties(object, classCache[object.constructor.name]);
             if (missingProperties !== false) {
-                throw new Error('Properties "{0}" missing in {1}'.f(missingProperties.join(','), JSON.stringify(object)));
+                throw new Error('Properties "{0}" missing in {1}@{2}'.f(missingProperties.join(','), object.constructor.name, JSON.stringify(object)));
             }
         }
 
@@ -102,7 +102,7 @@ module.exports = {
         // Check required fields
         var missingProperties = self.findMissingProperties(instance, typeClass);
         if (missingProperties !== false) {
-            throw new Error('Properties "{0}" missing in {1}'.f(missingProperties.join(','), JSON.stringify(instance)));
+            throw new Error('Properties "{0}" missing in {1}@{2}'.f(missingProperties.join(','), className, JSON.stringify(instance)));
         }
 
         return instance;
