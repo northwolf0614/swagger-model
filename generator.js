@@ -17,7 +17,6 @@ module.exports = {
 
         // Remove and make out folder
         fs.removeSync(basePath);
-        fs.removeSync(helperPath);
 
         // Make folders
         fs.mkdirpSync(basePath);
