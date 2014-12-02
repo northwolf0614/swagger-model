@@ -9,7 +9,8 @@ var ModelBase = require('./ModelBase');
 function {{className}}Base() { this._data = {}; }
 extend({{className}}Base, ModelBase);
 
-{{className}}Base.prototype._types = {{typeList}};
+{{className}}Base._types = {{typeList}};
+{{className}}Base._required = {{requiredList}};
 {{#enums}}
 {{../className}}Base.{{name}} = {{enumList}};
 {{/enums}}

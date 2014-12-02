@@ -40,6 +40,14 @@ module.exports = {
         var self = this;
         var result, property;
 
+        // Check required fields
+        if (object instanceof ModelBase) {
+            var missingProperties = self.findMissingProperties(object, classCache[object.constructor.name]);
+            if (missingProperties !== false) {
+                throw new Error('Properties "{0}" missing in {1}'.f(missingProperties.join(','), JSON.stringify(object)));
+            }
+        }
+
         // Copy values
         if (Object.prototype.toString.call(object) === '[object Array]') {
             _.each(object, function (item) {
@@ -48,6 +56,7 @@ module.exports = {
             });
         } else {
             if (object instanceof ModelBase) {
+                // Copy objects & model objects
                 result = _.clone(object._data);
             } else {
                 if (Object.prototype.toString.call(object) === '[object Date]') {
@@ -58,6 +67,7 @@ module.exports = {
                 }
             }
 
+            // Copy all model properties
             for (property in result) {
                 if (result.hasOwnProperty(property) && (object instanceof ModelBase)) {
                     result[property] = self.model2Json(result[property]);
@@ -65,15 +75,18 @@ module.exports = {
             }
         }
 
+
+
         return result;
     },
 
     json2Model: function (object, className) {
         var self = this;
-        var instance = new (classCache[className]);
+        var typeClass = classCache[className];
+        var instance = new (typeClass);
         for (var key in object) {
             if (object.hasOwnProperty(key)) {
-                var type = instance._types[key];
+                var type = typeClass._types[key];
 
                 if (type.endsWith('[]')) {
                     // Process array
@@ -86,6 +99,26 @@ module.exports = {
             }
         }
 
+        // Check required fields
+        var missingProperties = self.findMissingProperties(instance, typeClass);
+        if (missingProperties !== false) {
+            throw new Error('Properties "{0}" missing in {1}'.f(missingProperties.join(','), JSON.stringify(instance)));
+        }
+
         return instance;
+    },
+
+    findMissingProperties: function (instance, classDefinition) {
+        var missingProperties = [];
+
+        if (classDefinition._required) {
+            _.each(classDefinition._required, function (requiredProperty) {
+                if (instance[requiredProperty] === undefined) {
+                    missingProperties.push(requiredProperty);
+                }
+            });
+        }
+
+        return missingProperties.length > 0 ? missingProperties : false;
     }
 };

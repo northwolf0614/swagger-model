@@ -125,31 +125,68 @@ var swagger = require('./swagger.json');
 var swaggerModel = require('./../generator');
 var swaggerModelRuntime = require('./../runtime');
 
+var root = path.resolve(__dirname);
+var outPath = path.join(root, 'out');
+var basePath = path.join(outPath, 'base');
 
 describe('Swagger to model', function () {
-   it('should convert json to model then convert back', function () {
-       var root = path.resolve(__dirname);
-       var outPath = path.join(root, 'out');
+    beforeEach(function () {
+        swaggerModel.generate(swagger, outPath);
+    });
 
-       swaggerModel.generate(swagger, outPath);
 
-       // Add Classes
-       _.each(fs.readdirSync(outPath), function (fileName) {
-           if (fileName.endsWith('.js')) {
-               var filePath = path.join(outPath, fileName);
-               var className = fileName.replace('.js', '');
+    it('should convert json to model then convert back', function () {
+        // Add Classes
+        _.each(fs.readdirSync(outPath), function (fileName) {
+            if (fileName.endsWith('.js')) {
+                var filePath = path.join(outPath, fileName);
 
-               // Include files
-               swaggerModelRuntime.register(className, require(filePath));
-           }
-       });
+                // Include files
+                swaggerModelRuntime.register(require(filePath));
+            }
+        });
 
-       // Add Base class
-       swaggerModelRuntime.register('ModelBase', require(path.join(outPath, 'base', 'ModelBase.js')));
+        // Add Base class
+        swaggerModelRuntime.register(require(path.join(basePath, 'ModelBase.js')));
 
-       var model = swaggerModelRuntime.json2Model(test, 'QPMQuoteData');
-       var json = swaggerModelRuntime.model2Json(model);
+        var model = swaggerModelRuntime.json2Model(test, 'QPMQuoteData');
+        var json = swaggerModelRuntime.model2Json(model);
 
-       expect(json).to.deep.equal(test);
-   });
+        expect(json).to.deep.equal(test);
+    });
+
+    it('should valid mandatory fields when convert json to model', function() {
+        swaggerModelRuntime.register(require(path.join(outPath, 'Address.js')));
+        swaggerModelRuntime.register(require(path.join(basePath, 'ModelBase.js')));
+
+        try {
+            swaggerModelRuntime.json2Model({}, 'Address');
+        } catch (e) {
+            expect(e.message).to.match(/addressLine1,city,state,postalCode/);
+        }
+
+        var model = swaggerModelRuntime.json2Model({ addressLine1: '', city: '', state: '', postalCode: '' }, 'Address');
+        expect(model).to.be.ok;
+    });
+
+    it('should valid mandatory fields when convert model to json', function() {
+        var Address = require(path.join(outPath, 'Address.js'));
+        swaggerModelRuntime.register(Address);
+        swaggerModelRuntime.register(require(path.join(basePath, 'ModelBase.js')));
+
+        var model = new Address();
+
+        try {
+            swaggerModelRuntime.model2Json(model);
+        } catch (e) {
+            expect(e.message).to.match(/addressLine1,city,state,postalCode/);
+        }
+
+        model.addressLine1 = '';
+        model.city = '';
+        model.state = '';
+        model.postalCode = '';
+        var json = swaggerModelRuntime.model2Json(model);
+        expect(json).to.be.ok;
+    });
 });

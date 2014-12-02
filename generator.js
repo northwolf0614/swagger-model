@@ -85,11 +85,11 @@ module.exports = {
             });
 
             // Build type list
-            var typeStatement = [];
+            var typeStatements = [];
             _.each(types, function (type, name) {
-                typeStatement.push("'{0}':'{1}'".f(name, type));
+                typeStatements.push("'{0}':'{1}'".f(name, type));
             });
-            data.typeList = "{{0}}".f(typeStatement.join(','));
+            data.typeList = "{{0}}".f(typeStatements.join(','));
 
             // Build dependency
             data.requires = _.map(_.unique(dependencies), function (dependency) {
@@ -105,6 +105,15 @@ module.exports = {
 
                 data.enums.push({ name: helper.getEnumName(name), enumList: enumList });
             });
+
+            // Build required list
+            if (classDef.required) {
+                data.requiredList = "[{0}]".f(_.map(classDef.required, function (requiredPropertyName) {
+                    return "'{0}'".f(requiredPropertyName);
+                }).join(','));
+            } else {
+                data.requiredList = '[]';
+            }
 
 
             fs.writeFileSync(path.join(basePath, data.className + 'Base.js'), classBaseTpl(data));
