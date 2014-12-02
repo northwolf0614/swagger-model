@@ -19,6 +19,14 @@ module.exports = {
         return definition;
     },
 
+    getClass: function (className) {
+        if (className === undefined) {
+            return classCache;
+        }
+
+        return classCache[className];
+    },
+
     getValue: function (type, from) {
         var self = this;
 
