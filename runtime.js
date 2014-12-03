@@ -19,7 +19,7 @@ module.exports = {
         return definition;
     },
 
-    getClass: function (className) {
+    get: function (className) {
         if (className === undefined) {
             return classCache;
         }
