@@ -11,6 +11,7 @@ extend({{className}}Base, ModelBase);
 
 {{className}}Base._types = {{typeList}};
 {{className}}Base._required = {{requiredList}};
+{{className}}Base._meta = {{meta}};
 {{#enums}}
 {{../className}}Base.{{name}} = {{enumList}};
 {{/enums}}

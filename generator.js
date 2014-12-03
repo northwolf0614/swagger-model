@@ -44,20 +44,34 @@ module.exports = {
 
             data.properties = [];
 
-            var types = {}, enums = {};
+            var types = {}, enums = {}, meta = {};
             _.each(classDef.properties, function (propertyDef, name) {
                 var property = {};
 
                 property.name = helper.getPropertyName(name);
 
+                // Add enum
                 if (propertyDef.enum) {
-                    // Save enum if it has
                     enums[name] = propertyDef.enum;
+                }
+
+                // Add METAs
+                if (propertyDef.pattern) {
+                    meta[name] = meta[name] || {};
+                    meta[name].pattern = propertyDef.pattern;
+                }
+
+                if (propertyDef.minimum) {
+                    meta[name] = meta[name] || {};
+                    meta[name].minimum = propertyDef.minimum;
+                }
+                if (propertyDef.maximum) {
+                    meta[name] = meta[name] || {};
+                    meta[name].maximum = propertyDef.maximum;
                 }
 
                 if (!propertyDef.type) {
                     // Reference type
-                    propertyDef.type = 'object';
                     property.type = helper.getClassName(propertyDef.$ref);
                     dependencies.push(property.type);
                     types[name] = property.type;
@@ -78,17 +92,13 @@ module.exports = {
                 }
 
                 // Build property
-                property.definition = typeTpls[propertyDef.type](property);
+                property.definition = typeTpls[propertyDef.type || 'object'](property);
 
                 data.properties.push(property);
             });
 
             // Build type list
-            var typeStatements = [];
-            _.each(types, function (type, name) {
-                typeStatements.push("'{0}':'{1}'".f(name, type));
-            });
-            data.typeList = "{{0}}".f(typeStatements.join(','));
+            data.typeList = JSON.stringify(types) || '{}';
 
             // Build dependency
             data.requires = _.map(_.unique(dependencies), function (dependency) {
@@ -98,22 +108,19 @@ module.exports = {
             // Build enums
             data.enums = [];
             _.each(enums, function (enumList, name) {
-                enumList = '{{0}}'.f(_.map(enumList, function (enumEntry) {
-                    return "'{0}':'{0}'".f(enumEntry);
-                }).join(','));
+                var enumDict = {};
+                _.each(enumList, function (enumListItem) {
+                    enumDict[enumListItem] = enumListItem;
+                });
 
-                data.enums.push({ name: helper.getEnumName(name), enumList: enumList });
+                data.enums.push({ name: helper.getEnumName(name), enumList: JSON.stringify(enumDict) || '{}' });
             });
 
-            // Build required list
-            if (classDef.required) {
-                data.requiredList = "[{0}]".f(_.map(classDef.required, function (requiredPropertyName) {
-                    return "'{0}'".f(requiredPropertyName);
-                }).join(','));
-            } else {
-                data.requiredList = '[]';
-            }
+            // Build metas
+            data.meta = JSON.stringify(meta);
 
+            // Build required list
+            data.requiredList = JSON.stringify(classDef.required) || '[]';
 
             fs.writeFileSync(path.join(basePath, data.className + 'Base.js'), classBaseTpl(data));
 
