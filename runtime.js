@@ -92,13 +92,17 @@ module.exports = {
         var self = this;
         var typeClass = classCache[className];
         if (!typeClass) {
-            throw new Error('Can not find type "{0}". Please ensure it has been registered.'.f(className));
+            throw new Error('Can not find class "{0}". Please ensure it has been registered.'.f(className));
         }
 
         var instance = new (typeClass);
         for (var key in object) {
             if (object.hasOwnProperty(key)) {
                 var type = typeClass._types[key];
+
+                if (!type) {
+                    throw new Error('Can not find type for property "{0}" from class "{1}"'.f(key, className));
+                }
 
                 if (type.endsWith('[]')) {
                     // Process array
