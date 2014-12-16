@@ -1,6 +1,8 @@
 {
   "basePath": "/pc/service",
   "definitions": {
+    "ArrayList<ArrayList<String>>": {},
+
     "portal.pc.dto.AccountDTO": {
       "properties": {
         "accountHolder": {

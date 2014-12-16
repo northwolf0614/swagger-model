@@ -9,6 +9,7 @@
   "author": "Ran Ding",
   "license": "MIT",
   "dependencies": {
+    "fs-extra": "^0.13.0",
     "handlebars": "^2.0.0",
     "lodash": "^2.4.1"
   },

@@ -130,10 +130,13 @@ var outPath = path.join(root, 'out');
 var basePath = path.join(outPath, 'base');
 
 describe('Swagger to model', function () {
+    before(function () {
+        fs.remove(outPath);
+    });
+
     beforeEach(function () {
         swaggerModel.generate(swagger, outPath);
     });
-
 
     it('should convert json to model then convert back', function () {
         // Add Classes
