@@ -1,7 +1,7 @@
 {
   "basePath": "/pc/service",
   "definitions": {
-    "ArrayList<ArrayList<String>>": {},
+    "java.utils.ArrayList<java.utils.ArrayList<java.lang.String>>": {},
 
     "portal.pc.dto.AccountDTO": {
       "properties": {

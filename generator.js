@@ -65,9 +65,17 @@ module.exports = {
                     meta[name] = meta[name] || {};
                     meta[name].minimum = propertyDef.minimum;
                 }
+
                 if (propertyDef.maximum) {
                     meta[name] = meta[name] || {};
                     meta[name].maximum = propertyDef.maximum;
+                }
+
+                // If the property definition has referenceData
+                // We generate an empty property then in runtime
+                // retrieve the references and put into it
+                if (propertyDef.referenceData) {
+                    enums[name] = [];
                 }
 
                 if (!propertyDef.type) {
