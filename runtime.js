@@ -95,9 +95,10 @@ module.exports = {
             throw new Error('Can not find class "{0}". Please ensure it has been registered.'.f(className));
         }
 
-        var instance = new (typeClass);
+        var instance = Object.create(typeClass);
         for (var key in object) {
-            if (object.hasOwnProperty(key)) {
+            // Angular will add $$hashKey to object we skip them.
+            if (key !== '$$hashKey' && object.hasOwnProperty(key)) {
                 var type = typeClass._types[key];
 
                 if (!type) {
