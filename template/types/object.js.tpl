@@ -1,2 +1,2 @@
-get: function () { return ('{{name}}' in this._data) ? this._data['{{name}}'] : this._data['{{name}}'] = new {{type}}() ; },
+get: function () { return (this._data['{{name}}'] === undefined) ? this._data['{{name}}'] = new {{type}}() : this._data['{{name}}']; },
 set: function (value) { this._data['{{name}}'] = value; }
