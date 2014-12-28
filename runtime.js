@@ -130,7 +130,7 @@ module.exports = {
 
         if (classDefinition._required) {
             _.each(classDefinition._required, function (requiredProperty) {
-                if (instance[requiredProperty] === undefined) {
+                if (!(requiredProperty in instance)) {
                     missingProperties.push(requiredProperty);
                 }
             });
