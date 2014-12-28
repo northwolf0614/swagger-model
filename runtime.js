@@ -1,5 +1,8 @@
 var _ = require('lodash');
 
+var helper = require('./lib/helper');
+var s = require('./lib/string');
+
 var classCache = {};
 var ModelBase;
 
@@ -24,6 +27,10 @@ module.exports = {
             return classCache;
         }
 
+        if (!(className in classCache)) {
+            throw new Error('Can not find class "{0}". Please ensure it has been registered.'.f(className));
+        }
+
         return classCache[className];
     },
 
@@ -36,52 +43,63 @@ module.exports = {
             case 'integer:int32':
             case 'string':
             case 'boolean':
+                return from;
+                
             case 'string:date':
             case 'string:time':
             case 'string:date-time':
+                if (typeof from === 'string') {
+                    return helper.ymd2Date(from);
+                }
+
                 return from;
             default:
                 return self.json2Model(from, type);
         }
     },
 
+
+
     model2Json: function (object) {
         var self = this;
-        var result, property;
+        var result, property, types;
 
-        // Check required fields
         if (object instanceof ModelBase) {
+            // Check required fields
             var missingProperties = self.findMissingProperties(object, classCache[object.constructor.name]);
             if (missingProperties !== false) {
                 throw new Error('Properties "{0}" missing in {1}@{2}'.f(missingProperties.join(','), object.constructor.name, JSON.stringify(object)));
             }
+
+
+            // Read type list
+            types = self.get(object.constructor.name)._types;
+            result = _.clone(object._data);
+        } else {
+            result = object;
         }
 
-        // Copy values
-        if (Object.prototype.toString.call(object) === '[object Array]') {
-            _.each(object, function (item) {
-                result = result || [];
-                result.push(self.model2Json(item))
-            });
-        } else {
-            if (object instanceof ModelBase) {
-                // Copy objects & model objects
-                result = _.clone(object._data);
-            } else {
-                //if (Object.prototype.toString.call(object) === '[object Date]') {
-                //    result = JSON.stringify(object).replace(/^"|"$/g, '');
-                //
-                //} else {
-                //    result = object;
-                //}
-
-                result = object;
-            }
-
-            // Copy all model properties
-            for (property in result) {
-                if (result.hasOwnProperty(property) && (object instanceof ModelBase)) {
+        // Process all properties
+        for (property in result) {
+            if (result.hasOwnProperty(property)) {
+                if (types && types[property].endsWith('[]')) {
+                    // Process arrays
+                    result[property] = _.transform(result[property], function (r, item) {
+                        r.push(self.model2Json(item))
+                    });
+                } else if (result[property] instanceof ModelBase) {
+                    // Process model
                     result[property] = self.model2Json(result[property]);
+                } else if (types) {
+                    // Process simple objects
+                    switch (types[property]) {
+                        case 'string:date':
+                        case 'string:time':
+                        case 'string:date-time':
+                            if (typeof result[property] !== 'string') {
+                                result[property] = helper.date2Ymd(result[property]);
+                            }
+                    }
                 }
             }
         }
@@ -91,10 +109,7 @@ module.exports = {
 
     json2Model: function (object, className) {
         var self = this;
-        var typeClass = classCache[className];
-        if (!typeClass) {
-            throw new Error('Can not find class "{0}". Please ensure it has been registered.'.f(className));
-        }
+        var typeClass = self.get(className);
 
         var instance = new (typeClass)();
         for (var key in object) {

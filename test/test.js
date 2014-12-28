@@ -105,7 +105,7 @@ var test = {
             "originalOwner": true,
             "primaryUsage": "string",
             "publicID": "string",
-            "purchaseDate": "2014-11-27T23:15:41.394Z",
+            "purchaseDate": "2014-11-27",
             "purchasePrice": 0,
             "recentPurchase": true,
             "redbookID": "string",
@@ -154,7 +154,6 @@ describe('Swagger to model', function () {
 
         var model = swaggerModelRuntime.json2Model(test, 'QPMQuoteData');
         var json = swaggerModelRuntime.model2Json(model);
-
         expect(json).to.deep.equal(test);
     });
 
