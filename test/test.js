@@ -1,7 +1,7 @@
 var test = {
     "account": {
         "accountHolder": {
-            "dateOfBirth": "2014-11-27T23:15:41.394Z",
+            "dateOfBirth": "2014-11-27",
             "emailAddress1": "string",
             "firstName": "string",
             "gender": "string",
@@ -36,7 +36,7 @@ var test = {
             "total": 0
         }
     ],
-    "periodStartDate": "2014-11-27T23:15:41.394Z",
+    "periodStartDate": "2014-11-27",
     "quoteID": "string",
     "quoteResult": {
         "decline": true,

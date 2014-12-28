@@ -201,7 +201,7 @@
     "portal.pc.dto.PersonDTO": {
       "properties": {
         "dateOfBirth": {
-          "format": "date-time",
+          "format": "date",
           "type": "string"
         },
         "emailAddress1": {
@@ -939,7 +939,7 @@
           "type": "array"
         },
         "periodStartDate": {
-          "format": "date-time",
+          "format": "date",
           "type": "string"
         },
         "quoteID": {

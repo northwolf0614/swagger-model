@@ -36,9 +36,10 @@ module.exports = {
             case 'integer:int32':
             case 'string':
             case 'boolean':
-                return from;
+            case 'string:date':
+            case 'string:time':
             case 'string:date-time':
-                return new Date(from);
+                return from;
             default:
                 return self.json2Model(from, type);
         }
@@ -67,12 +68,14 @@ module.exports = {
                 // Copy objects & model objects
                 result = _.clone(object._data);
             } else {
-                if (Object.prototype.toString.call(object) === '[object Date]') {
-                    result = JSON.stringify(object).replace(/^"|"$/g, '');
+                //if (Object.prototype.toString.call(object) === '[object Date]') {
+                //    result = JSON.stringify(object).replace(/^"|"$/g, '');
+                //
+                //} else {
+                //    result = object;
+                //}
 
-                } else {
-                    result = object;
-                }
+                result = object;
             }
 
             // Copy all model properties
@@ -82,8 +85,6 @@ module.exports = {
                 }
             }
         }
-
-
 
         return result;
     },

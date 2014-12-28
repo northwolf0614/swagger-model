@@ -25,6 +25,7 @@ module.exports = {
         // Copy model base
         fs.copySync(path.join(templatePath, 'ModelBase.js'), path.join(basePath, 'ModelBase.js'));
         fs.copySync(path.join(templatePath, 'extend.js'), path.join(helperPath, 'extend.js'));
+        fs.copySync(path.join(templatePath, 'helper.js'), path.join(helperPath, 'helper.js'));
 
         // Compile template
         classBaseTpl = handlebars.compile(fs.readFileSync(path.join(templatePath, 'classBase.js.tpl')).toString(), {noEscape: true});

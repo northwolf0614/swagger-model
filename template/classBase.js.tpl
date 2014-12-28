@@ -3,6 +3,7 @@
  ADD PROPERTIES in inherited class only
 */
 var extend = require('../helper/extend');
+var helper = require('../helper/helper');
 var ModelBase = require('./ModelBase');
 {{requires}}
 
