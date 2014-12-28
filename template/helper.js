@@ -1,5 +1,9 @@
 module.exports = {
     date2Ymd: function (date) {
+        if (typeof date === 'string') {
+            return date;
+        }
+
         var yyyy = date.getFullYear();
         var mm = date.getMonth() + 1;
         var dd = date.getDate();

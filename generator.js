@@ -101,7 +101,15 @@ module.exports = {
                 }
 
                 // Build property
-                property.definition = typeTpls[propertyDef.type || 'object'](property);
+                if (propertyDef.format && propertyDef.format in typeTpls) {
+                    property.definition = typeTpls[propertyDef.format](property);
+
+                } else if (propertyDef.type && propertyDef.type in typeTpls) {
+                    property.definition = typeTpls[propertyDef.type](property);
+
+                } else {
+                    property.definition = typeTpls['object'](property);
+                }
 
                 data.properties.push(property);
             });

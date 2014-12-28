@@ -1311,7 +1311,7 @@
           "type": "string"
         },
         "purchaseDate": {
-          "format": "date-time",
+          "format": "date",
           "type": "string"
         },
         "purchasePrice": {
