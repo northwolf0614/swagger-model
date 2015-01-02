@@ -170,5 +170,11 @@ module.exports = {
         }
 
         return missingProperties.length > 0 ? missingProperties : false;
+    },
+
+    clone: function (model) {
+        var type = model.constructor.name;
+
+        return this.json2Model(_.cloneDeep(this.model2Json(model)), type);
     }
 };
