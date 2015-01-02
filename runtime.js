@@ -54,11 +54,62 @@ module.exports = {
 
                 return from;
             default:
-                return self.json2Model(from, type);
+                return self.json2ModelRecursive(from, type);
         }
     },
 
+    json2ModelRecursive: function (object, className) {
+        var self = this;
+        var typeClass = self.get(className);
 
+        // Aware of publicID
+        var instance;
+
+        if (object.hasOwnProperty('publicID')) {
+            if (!(object.publicID in self.instanceCache)) {
+                self.instanceCache[object.publicID] = new (typeClass)();
+            }
+
+            instance = self.instanceCache[object.publicID];
+        } else {
+            instance = new (typeClass)();
+        }
+
+        for (var key in object) {
+            // Angular will add $$hashKey to object we skip them.
+            if (key !== '$$hashKey' && object.hasOwnProperty(key)) {
+                var type = typeClass._types[key];
+
+                if (!type) {
+                    throw new Error('Can not find type for property "{0}" from class "{1}"'.f(key, className));
+                }
+
+                if (type.endsWith('[]')) {
+                    // Process array
+                    _.each(object[key], function (value) {
+                        instance[key].push(self.getValue(type.replace('[]', ''), value));
+                    });
+                } else {
+                    instance[key] = self.getValue(type, object[key]);
+                }
+            }
+        }
+
+        // Check required fields
+        var missingProperties = self.findMissingProperties(instance, typeClass);
+        if (missingProperties !== false) {
+            throw new Error('Properties "{0}" missing in {1}@{2}'.f(missingProperties.join(','), className, JSON.stringify(instance)));
+        }
+
+        return instance;
+    },
+
+    json2Model: function (object, className) {
+        var self = this;
+
+        self.instanceCache = {};
+        return self.json2ModelRecursive(object, className);
+    },
 
     model2Json: function (object) {
         var self = this;
@@ -105,40 +156,6 @@ module.exports = {
         }
 
         return result;
-    },
-
-    json2Model: function (object, className) {
-        var self = this;
-        var typeClass = self.get(className);
-
-        var instance = new (typeClass)();
-        for (var key in object) {
-            // Angular will add $$hashKey to object we skip them.
-            if (key !== '$$hashKey' && object.hasOwnProperty(key)) {
-                var type = typeClass._types[key];
-
-                if (!type) {
-                    throw new Error('Can not find type for property "{0}" from class "{1}"'.f(key, className));
-                }
-
-                if (type.endsWith('[]')) {
-                    // Process array
-                    _.each(object[key], function (value) {
-                        instance[key].push(self.getValue(type.replace('[]', ''), value));
-                    });
-                } else {
-                    instance[key] = self.getValue(type, object[key]);
-                }
-            }
-        }
-
-        // Check required fields
-        var missingProperties = self.findMissingProperties(instance, typeClass);
-        if (missingProperties !== false) {
-            throw new Error('Properties "{0}" missing in {1}@{2}'.f(missingProperties.join(','), className, JSON.stringify(instance)));
-        }
-
-        return instance;
     },
 
     findMissingProperties: function (instance, classDefinition) {

@@ -1,275 +1,307 @@
 {
-  "basePath": "/pc/service",
+  "basePath": "/pc/service/portal",
+  "paths": {
+    "/quickquote/qpm": {
+      "post": {
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "Quote data DTO",
+            "name": "dto",
+            "required": true,
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.QuoteListDTO<portal.pc.dto.quote.qpm.QPMQuoteDataDTO>"
+            },
+            "description": "Quick Quote Result"
+          }
+        }
+      }
+    },
+    "/quote/qpm": {
+      "post": {
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "Quote data DTO",
+            "name": "dto",
+            "required": false,
+            "in": "body"
+          },
+          {
+            "description": "Set to true to create and quote",
+            "name": "quote",
+            "required": false,
+            "type": "boolean",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "DTO of the created Quote"
+          }
+        }
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.QuoteListDTO<portal.pc.dto.quote.qpm.QPMQuoteDataDTO>"
+            },
+            "description": "Quote list"
+          }
+        }
+      }
+    },
+    "/quote/qpm/{quoteID}/email": {
+      "post": {
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "name": "dto",
+            "required": true,
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "Quote DTO"
+          }
+        }
+      }
+    },
+    "/campaign": {
+      "head": {
+        "parameters": [
+          {
+            "description": "Campaign code",
+            "name": "code",
+            "required": true,
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "description": "Timestamp",
+            "name": "timestamp",
+            "format": "int64",
+            "required": true,
+            "type": "integer",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/quote/qpm/{quoteID}/sms": {
+      "post": {
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "name": "dto",
+            "required": true,
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "Quote DTO"
+          }
+        }
+      }
+    },
+    "/quote/qpm/{quoteID}": {
+      "put": {
+        "parameters": [
+          {
+            "description": "Id of the quote",
+            "name": "quoteID",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "Quote data DTO",
+            "name": "dto",
+            "required": true,
+            "in": "body"
+          },
+          {
+            "description": "Set to true to save and quote",
+            "name": "quote",
+            "required": false,
+            "type": "boolean",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "DTO of the saved Quote"
+          }
+        }
+      },
+      "get": {
+        "parameters": [
+          {
+            "description": "Id of the quote",
+            "name": "quoteID",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          },
+          {
+            "name": "email",
+            "required": false,
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "name": "mobile",
+            "required": false,
+            "type": "string",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "Quote DTO"
+          }
+        }
+      }
+    },
+    "/api-doc": {
+      "get": {
+        "parameters": [
+          {
+            "name": "internal",
+            "required": false,
+            "type": "boolean",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "host": "qbe.ey-tec.com",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "swagger": "2.0",
   "definitions": {
-    "java.utils.ArrayList<java.utils.ArrayList<java.lang.String>>": {},
-
+    "portal.pc.dto.quote.qpm.QPMVehicleCoverageOptionDTO": {
+      "properties": {
+        "selected": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "selected"
+      ]
+    },
+    "portal.pc.dto.quote.qpm.QPMQuoteResultDTO": {
+      "properties": {
+        "totalStampDuty": {
+          "format": "double",
+          "type": "number"
+        },
+        "decline": {
+          "type": "boolean"
+        },
+        "referral": {
+          "type": "boolean"
+        },
+        "totalGST": {
+          "format": "double",
+          "type": "number"
+        },
+        "totalPremium": {
+          "format": "double",
+          "type": "number"
+        },
+        "totalFSL": {
+          "format": "double",
+          "type": "number"
+        },
+        "premiumAfterDiscount": {
+          "format": "double",
+          "type": "number"
+        }
+      }
+    },
     "portal.pc.dto.AccountDTO": {
       "properties": {
-        "accountHolder": {
-          "$ref": "portal.pc.dto.PersonDTO"
-        },
         "accountNumber": {
           "type": "string"
         },
-        "accountPublicID": {
+        "accountHolder": {
+          "$ref": "portal.pc.dto.PersonDTO"
+        },
+        "publicID": {
           "type": "string"
         }
       }
     },
-    "portal.pc.dto.AddressDTO": {
+    "portal.pc.dto.quote.QuoteListDTO<portal.pc.dto.quote.qpm.QPMQuoteDataDTO>": {
       "properties": {
-        "addressLine1": {
-          "type": "string"
-        },
-        "addressLine2": {
-          "type": "string"
-        },
-        "addressLine3": {
-          "type": "string"
-        },
-        "addressType": {
-          "enum": [
-            "business",
-            "postal",
-            "residential"
-          ],
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
-        },
-        "postalCode": {
-          "type": "string"
-        },
-        "publicID": {
-          "type": "string"
-        },
-        "state": {
-          "enum": [
-            "Hokkaido",
-            "Aomori",
-            "Iwate",
-            "Miyagi",
-            "Akita",
-            "Yamagata",
-            "Fukushima",
-            "Ibaraki",
-            "Tochigi",
-            "Gumma",
-            "Saitama",
-            "Chiba",
-            "Tokyo",
-            "Kanagawa",
-            "Niigata",
-            "Toyama",
-            "Ishikawa",
-            "Fukui",
-            "Yamanashi",
-            "Nagano",
-            "Gifu",
-            "Shizuoka",
-            "Aichi",
-            "Mie",
-            "Shiga",
-            "Kyoto",
-            "Osaka",
-            "Hyogo",
-            "Nara",
-            "Wakayama",
-            "Tottori",
-            "Shimane",
-            "Okayama",
-            "Hiroshima",
-            "Yamaguchi",
-            "Tokushima",
-            "Kagawa",
-            "Ehime",
-            "Kochi",
-            "Fukuoka",
-            "Saga",
-            "Nagasaki",
-            "Kumamoto",
-            "Oita",
-            "Miyazaki",
-            "Kagoshima",
-            "Okinawa",
-            "AU_ACT",
-            "AL",
-            "AK",
-            "AB",
-            "AZ",
-            "AR",
-            "DE_BW",
-            "DE_BY",
-            "DE_BE",
-            "DE_BB",
-            "DE_HB",
-            "BC",
-            "CA",
-            "CO",
-            "CT",
-            "DE",
-            "DC",
-            "FM",
-            "FL",
-            "GA",
-            "GU",
-            "DE_HH",
-            "HI",
-            "DE_HE",
-            "ID",
-            "IL",
-            "IN",
-            "IA",
-            "KS",
-            "KY",
-            "LA",
-            "DE_NI",
-            "ME",
-            "MB",
-            "MH",
-            "MD",
-            "MA",
-            "DE_MV",
-            "MI",
-            "MN",
-            "MS",
-            "MO",
-            "MT",
-            "NE",
-            "NV",
-            "NB",
-            "NH",
-            "NJ",
-            "NM",
-            "AU_NSW",
-            "NY",
-            "NL",
-            "NC",
-            "ND",
-            "DE_NW",
-            "MP",
-            "AU_NT",
-            "NT",
-            "NS",
-            "NU",
-            "OH",
-            "OK",
-            "ON",
-            "OR",
-            "PA",
-            "PE",
-            "PR",
-            "QC",
-            "AU_QLD",
-            "DE_RP",
-            "RI",
-            "DE_SL",
-            "SK",
-            "DE_SN",
-            "DE_ST",
-            "DE_SH",
-            "AU_SA",
-            "SC",
-            "SD",
-            "AU_TAS",
-            "TN",
-            "TX",
-            "DE_TH",
-            "UT",
-            "VT",
-            "AU_VIC",
-            "VI",
-            "VA",
-            "WA",
-            "WV",
-            "AU_WA",
-            "WI",
-            "WY",
-            "YT"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "addressLine1",
-        "city",
-        "state",
-        "postalCode"
-      ]
-    },
-    "portal.pc.dto.PersonDTO": {
-      "properties": {
-        "dateOfBirth": {
-          "format": "date",
-          "type": "string"
-        },
-        "emailAddress1": {
-          "type": "string"
-        },
-        "firstName": {
-          "type": "string"
-        },
-        "gender": {
-          "enum": [
-            "F",
-            "I",
-            "M"
-          ],
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "primaryAddress": {
-          "$ref": "portal.pc.dto.AddressDTO"
-        },
-        "publicID": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "firstName",
-        "lastName",
-        "primaryAddress"
-      ]
-    },
-    "portal.pc.dto.quote.PaymentPlanDTO": {
-      "properties": {
-        "billingID": {
-          "type": "string"
-        },
-        "downPayment": {
-          "format": "double",
-          "type": "number"
-        },
-        "installment": {
-          "format": "double",
-          "type": "number"
-        },
-        "name": {
-          "type": "string"
-        },
-        "numberOfPayments": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "selected": {
-          "type": "boolean"
-        },
-        "total": {
-          "format": "double",
-          "type": "number"
+        "results": {
+          "items": {
+            "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+          },
+          "type": "array"
         }
       }
     },
     "portal.pc.dto.quote.qpm.QPMDriverHistoryDTO": {
       "properties": {
-        "markedForDelete": {
-          "type": "boolean"
-        },
         "pattern": {
-          "$ref": "portal.suite.dto.ReferenceDataDTO",
+          "$ref": "portal.suite.dto.ReferenceDataDTO<entity.DrivingHistoryEventPattern_Ext>",
           "referenceData": [
             {
               "publicID": "qbe:1",
@@ -813,218 +845,134 @@
             }
           ]
         },
-        "publicID": {
-          "type": "string"
-        },
         "year": {
           "format": "int32",
           "type": "integer"
-        }
-      },
-      "required": [
-        "pattern",
-        "year"
-      ]
-    },
-    "portal.pc.dto.quote.qpm.QPMPolicyDriverDTO": {
-      "properties": {
-        "driverHistory": {
-          "items": {
-            "$ref": "portal.pc.dto.quote.qpm.QPMDriverHistoryDTO"
-          },
-          "type": "array"
-        },
-        "licenceType": {
-          "enum": [
-            "full",
-            "provisional",
-            "foreign",
-            "learner"
-          ],
-          "type": "string"
-        },
-        "noClaimBonus": {
-          "enum": [
-            "rating_1",
-            "rating_2",
-            "rating_3",
-            "rating_4",
-            "rating_5",
-            "nil",
-            "no_previous_insurer"
-          ],
-          "type": "string"
-        },
-        "person": {
-          "$ref": "portal.pc.dto.PersonDTO"
-        },
-        "previousInsurer": {
-          "enum": [
-            "aami",
-            "gio",
-            "none",
-            "nrma"
-          ],
-          "type": "string"
         },
         "publicID": {
           "type": "string"
         },
-        "yearsLicenced": {
-          "enum": [
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6"
-          ],
-          "type": "string"
+        "markedForDelete": {
+          "type": "boolean"
         }
       },
       "required": [
         "publicID",
-        "licenceType",
-        "yearsLicenced",
-        "noClaimBonus",
-        "previousInsurer"
+        "pattern",
+        "year"
       ]
     },
-    "portal.pc.dto.quote.qpm.QPMQuoteDataDTO": {
-      "description": "Quote DTO for QBE Personal Motor Vehicle Insurance",
+    "portal.pc.dto.PersonDTO": {
       "properties": {
-        "account": {
-          "$ref": "portal.pc.dto.AccountDTO"
-        },
-        "anyClaimsQuestion": {
-          "enum": [
-            "yes",
-            "unknown",
-            "no",
-            "yes_unknown"
-          ],
-          "type": "string"
-        },
-        "anyConvictionsQuestion": {
-          "enum": [
-            "yes",
-            "unknown",
-            "no",
-            "yes_unknown"
-          ],
-          "type": "string"
-        },
-        "anyInfringementsQuestion": {
-          "enum": [
-            "yes",
-            "unknown",
-            "no",
-            "yes_unknown"
-          ],
-          "type": "string"
-        },
-        "anyLostLicencesQuestion": {
-          "enum": [
-            "yes",
-            "unknown",
-            "no",
-            "yes_unknown"
-          ],
-          "type": "string"
-        },
-        "paymentPlans": {
-          "items": {
-            "$ref": "portal.pc.dto.quote.PaymentPlanDTO"
+        "dateOfBirth": {
+          "dateRange": {
+            "start": "",
+            "includeStart": true,
+            "includeEnd": true,
+            "end": "now-18y"
           },
-          "type": "array"
-        },
-        "periodStartDate": {
           "format": "date",
           "type": "string"
         },
-        "quoteID": {
-          "description": "ID of the Quote",
+        "lastName": {
           "type": "string"
         },
-        "quoteResult": {
-          "$ref": "portal.pc.dto.quote.qpm.QPMQuoteResultDTO"
+        "cellPhone": {
+          "type": "string"
         },
-        "vehicles": {
-          "items": {
-            "$ref": "portal.pc.dto.quote.qpm.QPMVehicleDTO"
-          },
-          "type": "array"
+        "emailAddress1": {
+          "maxLength": 60,
+          "minLength": 0,
+          "type": "string"
+        },
+        "gender": {
+          "enum": [
+            "F",
+            "I",
+            "M"
+          ],
+          "type": "string"
+        },
+        "publicID": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "primaryAddress": {
+          "$ref": "portal.pc.dto.AddressDTO"
         }
       },
       "required": [
-        "periodStartDate",
-        "anyClaimsQuestion",
-        "anyConvictionsQuestion",
-        "anyInfringementsQuestion",
-        "anyLostLicencesQuestion"
+        "publicID",
+        "firstName",
+        "lastName"
       ]
     },
-    "portal.pc.dto.quote.qpm.QPMQuoteListDTO": {
-      "description": "Quote List",
+    "portal.suite.dto.ReferenceDataDTO<entity.DrivingHistoryEventPattern_Ext>": {
       "properties": {
-        "results": {
-          "items": {
-            "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
-          },
-          "type": "array"
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "filter1": {
+          "type": "string"
+        },
+        "publicID": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
         }
-      }
-    },
-    "portal.pc.dto.quote.qpm.QPMQuoteResultDTO": {
-      "properties": {
-        "decline": {
-          "type": "boolean"
-        },
-        "premiumAfterDiscount": {
-          "format": "double",
-          "type": "number"
-        },
-        "referral": {
-          "type": "boolean"
-        },
-        "totalFSL": {
-          "format": "double",
-          "type": "number"
-        },
-        "totalGST": {
-          "format": "double",
-          "type": "number"
-        },
-        "totalPremium": {
-          "format": "double",
-          "type": "number"
-        },
-        "totalStampDuty": {
-          "format": "double",
-          "type": "number"
-        }
-      }
-    },
-    "portal.pc.dto.quote.qpm.QPMVehicleCoverageOptionDTO": {
-      "properties": {
-        "excessFreeWindscreen": {
-          "type": "boolean"
-        },
-        "hireCarAfterAccident": {
-          "type": "boolean"
-        },
-        "lifetimeNCBProtection": {
-          "type": "boolean"
-        },
-        "nCBProtection": {
-          "type": "boolean"
-        }
-      }
+      },
+      "required": [
+        "publicID"
+      ]
     },
     "portal.pc.dto.quote.qpm.QPMVehicleDTO": {
       "properties": {
-        "afterMarketModifications": {
+        "drivers": {
+          "items": {
+            "$ref": "portal.pc.dto.quote.qpm.QPMVehicleDriverDTO"
+          },
+          "type": "array"
+        },
+        "excess": {
+          "$ref": "portal.pc.dto.quote.qpm.QPMVehicleExcessDTO"
+        },
+        "primaryUsage": {
+          "enum": [
+            "private",
+            "business",
+            "commercial"
+          ],
+          "type": "string"
+        },
+        "garageType": {
+          "enum": [
+            "garage",
+            "car_port",
+            "driveway",
+            "on_street",
+            "other"
+          ],
+          "type": "string"
+        },
+        "originalOwner": {
           "type": "boolean"
+        },
+        "availableSumInsuredTypes": {
+          "items": {
+            "enum": [
+              "replacement",
+              "market",
+              "agreed"
+            ],
+            "type": "string"
+          },
+          "type": "array"
         },
         "businessUsage": {
           "enum": [
@@ -1065,124 +1013,22 @@
           ],
           "type": "string"
         },
-        "coverType": {
+        "sumInsuredType": {
           "enum": [
-            "comprehensive",
-            "comprehensive_nominated",
-            "comprehensive_preferred",
-            "third_party_fire_theft",
-            "third_party"
+            "replacement",
+            "market",
+            "agreed"
           ],
           "type": "string"
         },
-        "coverageOption": {
-          "$ref": "portal.pc.dto.quote.qpm.QPMVehicleCoverageOptionDTO"
-        },
-        "drivers": {
-          "items": {
-            "$ref": "portal.pc.dto.quote.qpm.QPMVehicleDriverDTO"
-          },
-          "type": "array"
-        },
-        "excess": {
-          "$ref": "portal.pc.dto.quote.qpm.QPMVehicleExcessDTO"
-        },
-        "financeCompany": {
-          "$ref": "portal.suite.dto.ReferenceDataDTO",
-          "referenceData": [
-            {
-              "publicID": "qbe:finance-1",
-              "code": "ANZ",
-              "name": "ANZ Banking Group"
-            },
-            {
-              "publicID": "qbe:finance-2",
-              "code": "CBA",
-              "name": "Commonwealth Bank of Australia"
-            },
-            {
-              "publicID": "qbe:finance-3",
-              "code": "NAB",
-              "name": "National Australia Bank"
-            },
-            {
-              "publicID": "qbe:finance-4",
-              "code": "WBC",
-              "name": "Westpac Banking Corporation"
-            }
-          ]
-        },
-        "financeType": {
-          "enum": [
-            "none",
-            "loan",
-            "lease",
-            "hire_purchase"
-          ],
+        "publicID": {
           "type": "string"
         },
-        "garageAddress": {
-          "$ref": "portal.pc.dto.AddressDTO"
+        "markedForDelete": {
+          "type": "boolean"
         },
-        "garageType": {
+        "registrationState": {
           "enum": [
-            "garage",
-            "car_port",
-            "driveway",
-            "on_street",
-            "other"
-          ],
-          "type": "string"
-        },
-        "licenceState": {
-          "enum": [
-            "Hokkaido",
-            "Aomori",
-            "Iwate",
-            "Miyagi",
-            "Akita",
-            "Yamagata",
-            "Fukushima",
-            "Ibaraki",
-            "Tochigi",
-            "Gumma",
-            "Saitama",
-            "Chiba",
-            "Tokyo",
-            "Kanagawa",
-            "Niigata",
-            "Toyama",
-            "Ishikawa",
-            "Fukui",
-            "Yamanashi",
-            "Nagano",
-            "Gifu",
-            "Shizuoka",
-            "Aichi",
-            "Mie",
-            "Shiga",
-            "Kyoto",
-            "Osaka",
-            "Hyogo",
-            "Nara",
-            "Wakayama",
-            "Tottori",
-            "Shimane",
-            "Okayama",
-            "Hiroshima",
-            "Yamaguchi",
-            "Tokushima",
-            "Kagawa",
-            "Ehime",
-            "Kochi",
-            "Fukuoka",
-            "Saga",
-            "Nagasaki",
-            "Kumamoto",
-            "Oita",
-            "Miyazaki",
-            "Kagoshima",
-            "Okinawa",
             "AU_ACT",
             "AL",
             "AK",
@@ -1276,64 +1122,114 @@
             "AU_WA",
             "WI",
             "WY",
-            "YT"
+            "YT",
+            "Hokkaido",
+            "Aomori",
+            "Iwate",
+            "Miyagi",
+            "Akita",
+            "Yamagata",
+            "Fukushima",
+            "Ibaraki",
+            "Tochigi",
+            "Gumma",
+            "Saitama",
+            "Chiba",
+            "Tokyo",
+            "Kanagawa",
+            "Niigata",
+            "Toyama",
+            "Ishikawa",
+            "Fukui",
+            "Yamanashi",
+            "Nagano",
+            "Gifu",
+            "Shizuoka",
+            "Aichi",
+            "Mie",
+            "Shiga",
+            "Kyoto",
+            "Osaka",
+            "Hyogo",
+            "Nara",
+            "Wakayama",
+            "Tottori",
+            "Shimane",
+            "Okayama",
+            "Hiroshima",
+            "Yamaguchi",
+            "Tokushima",
+            "Kagawa",
+            "Ehime",
+            "Kochi",
+            "Fukuoka",
+            "Saga",
+            "Nagasaki",
+            "Kumamoto",
+            "Oita",
+            "Miyazaki",
+            "Kagoshima",
+            "Okinawa"
           ],
           "type": "string"
         },
-        "licenseNumber": {
-          "type": "string"
-        },
-        "make": {
-          "type": "string"
-        },
-        "markedForDelete": {
-          "type": "boolean"
-        },
-        "model": {
-          "type": "string"
-        },
-        "modelYear": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "originalOwner": {
-          "type": "boolean"
-        },
-        "primaryUsage": {
+        "financeType": {
           "enum": [
-            "private",
-            "business",
-            "commercial"
+            "none",
+            "loan",
+            "lease",
+            "hire_purchase"
           ],
           "type": "string"
         },
-        "publicID": {
-          "type": "string"
+        "vehicleInfo": {
+          "$ref": "portal.pc.dto.quote.qpm.QPMVehicleInfoDTO"
         },
-        "purchaseDate": {
-          "format": "date",
-          "type": "string"
-        },
-        "purchasePrice": {
+        "agreedValueUpper": {
           "format": "double",
           "type": "number"
         },
-        "recentPurchase": {
+        "afterMarketModifications": {
           "type": "boolean"
         },
-        "redbookID": {
+        "financeCompany": {
+          "$ref": "portal.suite.dto.ReferenceDataDTO<entity.FinanceCompany_Ext>",
+          "referenceData": [
+            {
+              "publicID": "qbe:finance-1",
+              "code": "ANZ",
+              "name": "ANZ Banking Group"
+            },
+            {
+              "publicID": "qbe:finance-2",
+              "code": "CBA",
+              "name": "Commonwealth Bank of Australia"
+            },
+            {
+              "publicID": "qbe:finance-3",
+              "code": "NAB",
+              "name": "National Australia Bank"
+            },
+            {
+              "publicID": "qbe:finance-4",
+              "code": "WBC",
+              "name": "Westpac Banking Corporation"
+            }
+          ]
+        },
+        "registrationNumber": {
           "type": "string"
+        },
+        "agreedValueLower": {
+          "format": "double",
+          "type": "number"
         },
         "sumInsuredAmount": {
           "format": "double",
           "type": "number"
         },
-        "sumInsuredType": {
-          "enum": [
-            "replacement",
-            "market",
-            "agreed"
-          ],
+        "purchaseDate": {
+          "format": "date",
           "type": "string"
         },
         "unrepairedDamage": {
@@ -1345,55 +1241,72 @@
             "collision_damage"
           ],
           "type": "string"
+        },
+        "garageAddress": {
+          "$ref": "portal.pc.dto.AddressDTO"
+        },
+        "coverType": {
+          "enum": [
+            "comprehensive",
+            "comprehensive_nominated",
+            "comprehensive_preferred",
+            "third_party_fire_theft",
+            "third_party"
+          ],
+          "type": "string"
+        },
+        "coverageOptions": {
+          "items": {
+            "$ref": "portal.pc.dto.quote.qpm.QPMVehicleCoverageOptionDTO"
+          },
+          "type": "array"
+        },
+        "purchasePrice": {
+          "format": "double",
+          "type": "number"
         }
       },
       "required": [
         "publicID",
-        "make",
-        "model",
-        "modelYear",
+        "vehicleInfo",
         "colour",
         "garageAddress",
         "garageType",
         "unrepairedDamage",
         "primaryUsage",
         "financeType",
+        "purchaseDate",
+        "purchasePrice",
         "afterMarketModifications"
-      ]
-    },
-    "portal.pc.dto.quote.qpm.QPMVehicleDriverDTO": {
-      "properties": {
-        "driver": {
-          "$ref": "portal.pc.dto.quote.qpm.QPMPolicyDriverDTO"
-        },
-        "driverUsage": {
-          "enum": [
-            "main",
-            "other",
-            "excluded"
-          ],
-          "type": "string"
-        },
-        "markedForDelete": {
-          "type": "boolean"
-        },
-        "publicID": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "publicID",
-        "driver",
-        "driverUsage"
       ]
     },
     "portal.pc.dto.quote.qpm.QPMVehicleExcessDTO": {
       "properties": {
-        "standardVehicleExcess": {
+        "inexperiencedDriver": {
           "format": "double",
           "type": "number"
         },
         "voluntaryVehicleExcess": {
+          "format": "double",
+          "type": "number"
+        },
+        "undeclaredDriverTier1": {
+          "format": "double",
+          "type": "number"
+        },
+        "standardVehicleExcess": {
+          "format": "double",
+          "type": "number"
+        },
+        "undeclaredDriverTier2": {
+          "format": "double",
+          "type": "number"
+        },
+        "ageExcessTier1": {
+          "format": "double",
+          "type": "number"
+        },
+        "ageExcessTier2": {
           "format": "double",
           "type": "number"
         },
@@ -1406,193 +1319,486 @@
         }
       }
     },
-    "portal.suite.dto.ReferenceDataDTO": {
+    "portal.pc.dto.quote.qpm.QPMVehicleInfoDTO": {
       "properties": {
-        "code": {
+        "bodyStyle": {
           "type": "string"
         },
+        "model": {
+          "type": "string"
+        },
+        "engineSize": {
+          "type": "string"
+        },
+        "modelYear": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "make": {
+          "type": "string"
+        },
+        "redbookID": {
+          "type": "string"
+        }
+      }
+    },
+    "portal.suite.dto.ReferenceDataDTO<entity.FinanceCompany_Ext>": {
+      "properties": {
         "description": {
-          "type": "string"
-        },
-        "filter1": {
           "type": "string"
         },
         "name": {
           "type": "string"
         },
+        "filter1": {
+          "type": "string"
+        },
         "publicID": {
+          "type": "string"
+        },
+        "code": {
           "type": "string"
         }
       },
       "required": [
         "publicID"
       ]
+    },
+    "portal.pc.dto.quote.qpm.QPMQuoteDataDTO": {
+      "properties": {
+        "quoteResult": {
+          "$ref": "portal.pc.dto.quote.qpm.QPMQuoteResultDTO"
+        },
+        "periodStartDate": {
+          "dateRange": {
+            "start": "now",
+            "includeStart": true,
+            "includeEnd": true,
+            "end": "now+1M"
+          },
+          "format": "date",
+          "type": "string"
+        },
+        "paymentPlans": {
+          "items": {
+            "$ref": "portal.pc.dto.quote.PaymentPlanDTO"
+          },
+          "type": "array"
+        },
+        "anyConvictionsQuestion": {
+          "enum": [
+            "yes",
+            "unknown",
+            "no",
+            "yes_unknown"
+          ],
+          "type": "string"
+        },
+        "quoteID": {
+          "type": "string"
+        },
+        "anyClaimsQuestion": {
+          "enum": [
+            "yes",
+            "unknown",
+            "no",
+            "yes_unknown"
+          ],
+          "type": "string"
+        },
+        "anyLostLicencesQuestion": {
+          "enum": [
+            "yes",
+            "unknown",
+            "no",
+            "yes_unknown"
+          ],
+          "type": "string"
+        },
+        "anyInfringementsQuestion": {
+          "enum": [
+            "yes",
+            "unknown",
+            "no",
+            "yes_unknown"
+          ],
+          "type": "string"
+        },
+        "secret": {
+          "type": "string"
+        },
+        "account": {
+          "$ref": "portal.pc.dto.AccountDTO"
+        },
+        "vehicles": {
+          "items": {
+            "$ref": "portal.pc.dto.quote.qpm.QPMVehicleDTO"
+          },
+          "type": "array"
+        },
+        "campaignCode": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "periodStartDate",
+        "anyClaimsQuestion",
+        "anyConvictionsQuestion",
+        "anyInfringementsQuestion",
+        "anyLostLicencesQuestion"
+      ]
+    },
+    "portal.pc.dto.quote.qpm.QPMVehicleDriverDTO": {
+      "properties": {
+        "driver": {
+          "$ref": "portal.pc.dto.quote.qpm.QPMPolicyDriverDTO"
+        },
+        "publicID": {
+          "type": "string"
+        },
+        "markedForDelete": {
+          "type": "boolean"
+        },
+        "driverUsage": {
+          "enum": [
+            "main",
+            "other",
+            "excluded"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "publicID",
+        "driver",
+        "driverUsage"
+      ]
+    },
+    "portal.pc.dto.quote.PaymentPlanDTO": {
+      "properties": {
+        "installment": {
+          "format": "double",
+          "type": "number"
+        },
+        "total": {
+          "format": "double",
+          "type": "number"
+        },
+        "selected": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "billingID": {
+          "type": "string"
+        },
+        "downPayment": {
+          "format": "double",
+          "type": "number"
+        },
+        "numberOfPayments": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "portal.pc.dto.AddressDTO": {
+      "properties": {
+        "postalCode": {
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "AU_ACT",
+            "AL",
+            "AK",
+            "AB",
+            "AZ",
+            "AR",
+            "DE_BW",
+            "DE_BY",
+            "DE_BE",
+            "DE_BB",
+            "DE_HB",
+            "BC",
+            "CA",
+            "CO",
+            "CT",
+            "DE",
+            "DC",
+            "FM",
+            "FL",
+            "GA",
+            "GU",
+            "DE_HH",
+            "HI",
+            "DE_HE",
+            "ID",
+            "IL",
+            "IN",
+            "IA",
+            "KS",
+            "KY",
+            "LA",
+            "DE_NI",
+            "ME",
+            "MB",
+            "MH",
+            "MD",
+            "MA",
+            "DE_MV",
+            "MI",
+            "MN",
+            "MS",
+            "MO",
+            "MT",
+            "NE",
+            "NV",
+            "NB",
+            "NH",
+            "NJ",
+            "NM",
+            "AU_NSW",
+            "NY",
+            "NL",
+            "NC",
+            "ND",
+            "DE_NW",
+            "MP",
+            "AU_NT",
+            "NT",
+            "NS",
+            "NU",
+            "OH",
+            "OK",
+            "ON",
+            "OR",
+            "PA",
+            "PE",
+            "PR",
+            "QC",
+            "AU_QLD",
+            "DE_RP",
+            "RI",
+            "DE_SL",
+            "SK",
+            "DE_SN",
+            "DE_ST",
+            "DE_SH",
+            "AU_SA",
+            "SC",
+            "SD",
+            "AU_TAS",
+            "TN",
+            "TX",
+            "DE_TH",
+            "UT",
+            "VT",
+            "AU_VIC",
+            "VI",
+            "VA",
+            "WA",
+            "WV",
+            "AU_WA",
+            "WI",
+            "WY",
+            "YT",
+            "Hokkaido",
+            "Aomori",
+            "Iwate",
+            "Miyagi",
+            "Akita",
+            "Yamagata",
+            "Fukushima",
+            "Ibaraki",
+            "Tochigi",
+            "Gumma",
+            "Saitama",
+            "Chiba",
+            "Tokyo",
+            "Kanagawa",
+            "Niigata",
+            "Toyama",
+            "Ishikawa",
+            "Fukui",
+            "Yamanashi",
+            "Nagano",
+            "Gifu",
+            "Shizuoka",
+            "Aichi",
+            "Mie",
+            "Shiga",
+            "Kyoto",
+            "Osaka",
+            "Hyogo",
+            "Nara",
+            "Wakayama",
+            "Tottori",
+            "Shimane",
+            "Okayama",
+            "Hiroshima",
+            "Yamaguchi",
+            "Tokushima",
+            "Kagawa",
+            "Ehime",
+            "Kochi",
+            "Fukuoka",
+            "Saga",
+            "Nagasaki",
+            "Kumamoto",
+            "Oita",
+            "Miyazaki",
+            "Kagoshima",
+            "Okinawa"
+          ],
+          "type": "string"
+        },
+        "publicID": {
+          "type": "string"
+        },
+        "addressType": {
+          "enum": [
+            "business",
+            "postal",
+            "residential"
+          ],
+          "type": "string"
+        },
+        "addressLine3": {
+          "maxLength": 60,
+          "minLength": 0,
+          "type": "string"
+        },
+        "addressLine2": {
+          "maxLength": 60,
+          "minLength": 0,
+          "type": "string"
+        },
+        "addressLine1": {
+          "maxLength": 60,
+          "minLength": 0,
+          "type": "string"
+        },
+        "city": {
+          "maxLength": 60,
+          "minLength": 0,
+          "type": "string"
+        }
+      },
+      "required": [
+        "publicID",
+        "addressLine1",
+        "city",
+        "state",
+        "postalCode"
+      ]
+    },
+    "portal.pc.dto.quote.qpm.QPMPolicyDriverDTO": {
+      "properties": {
+        "licenceType": {
+          "enum": [
+            "full",
+            "provisional",
+            "foreign",
+            "learner"
+          ],
+          "type": "string"
+        },
+        "person": {
+          "$ref": "portal.pc.dto.PersonDTO"
+        },
+        "previousInsurer": {
+          "enum": [
+            "aami",
+            "gio",
+            "none",
+            "nrma"
+          ],
+          "type": "string"
+        },
+        "driverHistory": {
+          "items": {
+            "$ref": "portal.pc.dto.quote.qpm.QPMDriverHistoryDTO"
+          },
+          "type": "array"
+        },
+        "hasConvictions": {
+          "enum": [
+            "yes",
+            "unknown",
+            "no",
+            "yes_unknown"
+          ],
+          "type": "string"
+        },
+        "yearsLicenced": {
+          "enum": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ],
+          "type": "string"
+        },
+        "hasClaim": {
+          "enum": [
+            "yes",
+            "unknown",
+            "no",
+            "yes_unknown"
+          ],
+          "type": "string"
+        },
+        "publicID": {
+          "type": "string"
+        },
+        "hasLostLicence": {
+          "enum": [
+            "yes",
+            "unknown",
+            "no",
+            "yes_unknown"
+          ],
+          "type": "string"
+        },
+        "noClaimBonus": {
+          "enum": [
+            "rating_1",
+            "rating_2",
+            "rating_3",
+            "rating_4",
+            "rating_5",
+            "nil",
+            "no_previous_insurer"
+          ],
+          "type": "string"
+        },
+        "hasInfringement": {
+          "enum": [
+            "yes",
+            "unknown",
+            "no",
+            "yes_unknown"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "publicID",
+        "licenceType",
+        "yearsLicenced",
+        "noClaimBonus",
+        "previousInsurer",
+        "person"
+      ]
     }
   },
-  "host": "qbe.ey-tec.com",
   "info": {
-    "description": "API for Guidewire PolicyCenter Portal",
     "title": "Guidewire PolicyCenter Portal",
+    "description": "API for Guidewire PolicyCenter Portal",
     "version": "1.0.0"
-  },
-  "paths": {
-    "/api-doc": {
-      "get": {
-        "description": "test method",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "internal",
-            "required": false,
-            "type": "boolean"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "type": "string"
-          }
-        }
-      }
-    },
-    "/quickquote/qpm": {
-      "post": {
-        "description": "test method",
-        "parameters": [
-          {
-            "description": "Quote data DTO",
-            "in": "body",
-            "name": "dto",
-            "required": true,
-            "schema": {
-              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Quick Quote Result",
-            "schema": {
-              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteListDTO"
-            }
-          }
-        }
-      }
-    },
-    "/quote/qpm": {
-      "get": {
-        "description": "test method",
-        "responses": {
-          "200": {
-            "description": "Quote list",
-            "schema": {
-              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteListDTO"
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "test method",
-        "parameters": [
-          {
-            "description": "Quote data DTO",
-            "in": "body",
-            "name": "dto",
-            "required": true,
-            "schema": {
-              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
-            }
-          },
-          {
-            "description": "Set to true to create and quote",
-            "in": "query",
-            "name": "quote",
-            "required": false,
-            "type": "boolean"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "DTO of the created Quote",
-            "schema": {
-              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
-            }
-          }
-        }
-      }
-    },
-    "/quote/qpm/{quoteID}": {
-      "get": {
-        "description": "test method",
-        "parameters": [
-          {
-            "description": "Id of the quote",
-            "in": "path",
-            "name": "quoteID",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "description": "Post code of the account holder",
-            "in": "query",
-            "name": "postalCode",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Quote DTO",
-            "schema": {
-              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
-            }
-          }
-        }
-      },
-      "put": {
-        "description": "test method",
-        "parameters": [
-          {
-            "description": "Id of the quote",
-            "in": "path",
-            "name": "quoteID",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "description": "Quote data DTO",
-            "in": "body",
-            "name": "dto",
-            "required": true,
-            "schema": {
-              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
-            }
-          },
-          {
-            "description": "Set to true to save and quote",
-            "in": "query",
-            "name": "quote",
-            "required": false,
-            "type": "boolean"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "DTO of the saved Quote",
-            "schema": {
-              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
-            }
-          }
-        }
-      }
-    }
-  },
-  "produces": [
-    "application/json"
-  ],
-  "schemes": [
-    "https",
-    "http"
-  ],
-  "swagger": "2.0"
+  }
 }
