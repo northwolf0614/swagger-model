@@ -66,11 +66,13 @@ module.exports = {
         var instance;
 
         if (object.hasOwnProperty('publicID')) {
-            if (!(object.publicID in self.instanceCache)) {
-                self.instanceCache[object.publicID] = new (typeClass)();
+            var instanceObjectID = object.publicID + '@' + className;
+
+            if (!(instanceObjectID in self.instanceCache)) {
+                self.instanceCache[instanceObjectID] = new (typeClass)();
             }
 
-            instance = self.instanceCache[object.publicID];
+            instance = self.instanceCache[instanceObjectID];
         } else {
             instance = new (typeClass)();
         }
