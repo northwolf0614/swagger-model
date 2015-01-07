@@ -124,7 +124,6 @@ module.exports = {
                 throw new Error('Properties "{0}" missing in {1}@{2}'.f(missingProperties.join(','), object.constructor.name, JSON.stringify(object)));
             }
 
-
             // Read type list
             types = self.get(object.constructor.name)._types;
             result = _.clone(object._data);
@@ -138,11 +137,23 @@ module.exports = {
                 if (types && types[property].endsWith('[]')) {
                     // Process arrays
                     result[property] = _.transform(result[property], function (r, item) {
-                        r.push(self.model2Json(item))
+                        var json = self.model2Json(item);
+
+                        if (!_.isEmpty(json)) {
+                            r.push(json);
+                        }
                     });
+
                 } else if (result[property] instanceof ModelBase) {
                     // Process model
-                    result[property] = self.model2Json(result[property]);
+                    var json = self.model2Json(result[property]);
+
+                    if (_.isEmpty(json)) {
+                        delete result[property];
+                    } else {
+                        result[property] = json;
+                    }
+
                 } else if (types) {
                     // Process simple objects
                     switch (types[property]) {
