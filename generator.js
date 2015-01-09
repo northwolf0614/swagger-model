@@ -104,10 +104,10 @@ module.exports = {
                     property.definition = typeTpls[propertyDef.format](property);
 
                 } else if (propertyDef.type && propertyDef.type in typeTpls) {
-                    property.definition = typeTpls[propertyDef.type](property);
+                    property.definition = typeTpls[property.type ? propertyDef.type : 'unknownType'](property);
 
                 } else {
-                    property.definition = typeTpls[property.type ? 'object' : 'unknownType'](property);
+                    property.definition = typeTpls['object'](property);
                 }
 
                 data.properties.push(property);
