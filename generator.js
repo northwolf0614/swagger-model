@@ -31,7 +31,7 @@ module.exports = {
         classTpl = handlebars.compile(fs.readFileSync(path.join(templatePath, 'class.js.tpl')).toString(), {noEscape: true});
         typeTpls = _.transform(fs.readdirSync(path.join(templatePath, 'types')), function (result, fileName) {
             var filePath = path.join(templatePath, 'types', fileName);
-            var type = fileName.replace('.js.tpl', '');
+            var type = fileName.replace('.tpl', '');
 
             result[type] = handlebars.compile(fs.readFileSync(filePath).toString(), {noEscape: true});
         });
