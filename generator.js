@@ -104,10 +104,10 @@ module.exports = {
                     property.definition = typeTpls[propertyDef.format](property);
 
                 } else if (propertyDef.type && propertyDef.type in typeTpls) {
-                    property.definition = typeTpls[property.type ? propertyDef.type : 'unknownType'](property);
+                    property.definition = typeTpls[propertyDef.type](property);
 
                 } else {
-                    property.definition = typeTpls['object'](property);
+                    property.definition = typeTpls['reference'](property);
                 }
 
                 data.properties.push(property);
