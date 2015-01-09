@@ -107,7 +107,7 @@ module.exports = {
                     property.definition = typeTpls[propertyDef.type](property);
 
                 } else {
-                    property.definition = typeTpls['object'](property);
+                    property.definition = typeTpls[property.type ? 'object' : 'unknownType'](property);
                 }
 
                 data.properties.push(property);
