@@ -44,7 +44,7 @@ module.exports = {
             case 'string':
             case 'boolean':
                 return from;
-                
+
             case 'string:date':
             case 'string:time':
             case 'string:date-time':
@@ -136,14 +136,17 @@ module.exports = {
             if (result.hasOwnProperty(property)) {
                 if (types && types[property].endsWith('[]')) {
                     // Process arrays
-                    result[property] = _.transform(result[property], function (r, item) {
-                        var json = self.model2Json(item);
+                    if (result[property] && result[property].length) {
+                        result[property] = _.transform(result[property], function (r, item) {
+                            var json = self.model2Json(item);
 
-                        if (!_.isEmpty(json)) {
-                            r.push(json);
-                        }
-                    });
-
+                            if (!_.isEmpty(json)) {
+                                r.push(json);
+                            }
+                        });
+                    } else {
+                        delete result[property];
+                    }
                 } else if (result[property] instanceof ModelBase) {
                     // Process model
                     var json = self.model2Json(result[property]);
