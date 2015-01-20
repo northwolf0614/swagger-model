@@ -192,5 +192,9 @@ module.exports = {
         var type = model.constructor.name;
 
         return this.json2Model(_.cloneDeep(this.model2Json(model)), type);
+    },
+
+    isModel: function (object) {
+        return (object && object instanceof ModelBase);
     }
 };
