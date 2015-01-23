@@ -1,10 +1,8 @@
 var _ = require('lodash');
 
 var helper = require('./lib/helper');
-var s = require('./lib/string');
 
 var classCache = {};
-var ModelBase;
 
 module.exports = {
     register: function (className, definition) {
@@ -14,10 +12,6 @@ module.exports = {
         }
 
         classCache[className] = definition;
-
-        if (className === 'ModelBase') {
-            ModelBase = definition;
-        }
 
         return definition;
     },
@@ -117,7 +111,7 @@ module.exports = {
         var self = this;
         var result, property, types;
 
-        if (object instanceof ModelBase) {
+        if (self.isModel(object)) {
             // Check required fields
             var missingProperties = self.findMissingProperties(object, classCache[object.constructor.name]);
             if (missingProperties !== false) {
@@ -147,7 +141,7 @@ module.exports = {
                     } else {
                         delete result[property];
                     }
-                } else if (result[property] instanceof ModelBase) {
+                } else if (self.isModel(result[property])) {
                     // Process model
                     var json = self.model2Json(result[property]);
 
@@ -195,6 +189,6 @@ module.exports = {
     },
 
     isModel: function (object) {
-        return (object && object instanceof ModelBase);
+        return (object && object.isSwaggerModel);
     }
 };
