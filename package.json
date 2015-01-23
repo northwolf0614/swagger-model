@@ -4,7 +4,7 @@
   "description": "",
   "main": "generator.js",
   "scripts": {
-    "test": "mocha test/test.js"
+    "test": "./node_modules/mocha/bin/mocha test/test.js"
   },
   "author": "Ran Ding",
   "license": "MIT",
@@ -14,6 +14,7 @@
     "lodash": "^2.4.1"
   },
   "devDependencies": {
-    "chai": "^1.10.0"
+    "chai": "^1.10.0",
+    "mocha": "^2.1.0"
   }
 }
