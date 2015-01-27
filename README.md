@@ -1,5 +1,7 @@
 # Swagger Model
 
+[![Build Status](https://travis-ci.org/randing89/swagger-model.svg?branch=master)](https://travis-ci.org/randing89/swagger-model)
+
 ## generate(swaggerDefinition, templatePath, outPath)
 Generate Javascript class files from swagger definition
 - swaggerDefinition: JSON of Swagger definition
