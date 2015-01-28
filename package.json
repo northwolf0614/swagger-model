@@ -5,7 +5,7 @@
   "main": "generator.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/randing89/swagger-model"
+    "url": "git://github.com/randing89/swagger-model.git"
   },
   "scripts": {
     "postinstall": "npm install -g istanbul",
