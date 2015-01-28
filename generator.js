@@ -44,7 +44,7 @@ module.exports = {
 
             data.properties = [];
 
-            var types = {}, enums = {}, meta = {};
+            var types = {}, enums = {};
             _.each(classDef.properties, function (propertyDef, name) {
                 var property = {};
 
@@ -53,22 +53,6 @@ module.exports = {
                 // Add enum
                 if (propertyDef.enum) {
                     enums[name] = propertyDef.enum;
-                }
-
-                // Add METAs
-                if (propertyDef.pattern) {
-                    meta[name] = meta[name] || {};
-                    meta[name].pattern = propertyDef.pattern;
-                }
-
-                if (propertyDef.minimum) {
-                    meta[name] = meta[name] || {};
-                    meta[name].minimum = propertyDef.minimum;
-                }
-
-                if (propertyDef.maximum) {
-                    meta[name] = meta[name] || {};
-                    meta[name].maximum = propertyDef.maximum;
                 }
 
                 // If the property definition has referenceData
@@ -131,9 +115,6 @@ module.exports = {
 
                 data.enums.push({ name: helper.getEnumName(name), enumList: JSON.stringify(enumDict) || '{}' });
             });
-
-            // Build metas
-            data.meta = JSON.stringify(meta);
 
             // Build required list
             data.requiredList = JSON.stringify(classDef.required) || '[]';
