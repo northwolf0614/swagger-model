@@ -1,6 +1,7 @@
 # Swagger Model
 
 [![Build Status](https://travis-ci.org/randing89/swagger-model.svg?branch=master)](https://travis-ci.org/randing89/swagger-model)
+[![Coverage Status](https://coveralls.io/repos/randing89/swagger-model/badge.svg?branch=master)](https://coveralls.io/r/randing89/swagger-model?branch=master)
 
 ## generate(swaggerDefinition, templatePath, outPath)
 Generate Javascript class files from swagger definition
