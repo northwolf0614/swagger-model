@@ -4,7 +4,8 @@
   "description": "",
   "main": "generator.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/test.js"
+    "postinstall": "npm install -g istanbul",
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha test/test.js"
   },
   "author": "Ran Ding",
   "license": "MIT",
