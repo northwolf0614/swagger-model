@@ -32,6 +32,12 @@ Build model instance from JSON object
 Build JSON object from model instance
 - object: Model object
 
+### isModel(object)
+Determine if object is a model instance
+
+### clone(object)
+Make deep clone of a model instance
+
 
 # Test
 ```
