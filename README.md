@@ -11,27 +11,26 @@
 
 # Usage
 ## Compile time (generator.js)
-### generate(swaggerDefinition, templatePath, outPath)
+### generate(swaggerDefinition, outPath)
 Generate Javascript class files from swagger definition
 - swaggerDefinition: JSON of Swagger definition
-- templatePath: Path of language template
 - outPath: Output path
 
 
 ## Runtime (runtime.js)
 ### register(className, definition) or register(definition)
 Register a swagger model class
-- className String of class name
-- definition Constractor function of a model class
+- className: String of class name
+- definition: Constractor function of a model class
 
 ### json2Model(object, className)
 Build model instance from JSON object
-- object A JSON object
-- className The model class name you are mapping to
+- object: A JSON object
+- className: The model class name you are mapping to
 
 ### model2Json(object)
 Build JSON object from model instance
-- object Model object
+- object: Model object
 
 
 # Test
