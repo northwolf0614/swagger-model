@@ -23,10 +23,18 @@ Register a swagger model class
 - className: String of class name
 - definition: Constractor function of a model class
 
-### json2Model(object, className)
+### json2Model(object, className, [options])
 Build model instance from JSON object
 - object: A JSON object
 - className: The model class name you are mapping to
+- options:
+```javascript
+{
+    // Specify property name of the objectID
+    // Json with same objectID will share same object in model instance
+    objectID: 'ID'
+}
+```
 
 ### model2Json(object)
 Build JSON object from model instance

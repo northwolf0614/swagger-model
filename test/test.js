@@ -5,13 +5,13 @@ var test = {
     "anyLostLicencesQuestion": "no",
     "periodStartDate": "2015-02-02",
     "account": {
-        "publicID": "portal:Account-pgvxjduise",
+        "ID": "portal:Account-pgvxjduise",
         "accountHolder": {
-            "publicID": "portal:Person-dwkryfk63p",
+            "ID": "portal:Person-dwkryfk63p",
             "firstName": "Rapid",
             "lastName": "Estimate",
             "primaryAddress": {
-                "publicID": "portal:Address-1",
+                "ID": "portal:Address-1",
                 "city": "SYDNEY",
                 "state": "AU_NSW",
                 "postalCode": "2000",
@@ -24,7 +24,7 @@ var test = {
     },
     "vehicles": [
         {
-            "publicID": "portal:QPMVehicle-eocbpgyl3r",
+            "ID": "portal:QPMVehicle-eocbpgyl3r",
             "vehicleInfo": {
                 "bodyStyle": "Hatchback",
                 "engineSize": "1800",
@@ -39,7 +39,7 @@ var test = {
             "colour": "black",
             "garageType": "car_port",
             "garageAddress": {
-                "publicID": "portal:Address-7ult757hqv",
+                "ID": "portal:Address-7ult757hqv",
                 "city": "SYDNEY",
                 "state": "AU_NSW",
                 "postalCode": "2000",
@@ -49,15 +49,15 @@ var test = {
             "purchaseDate": "2015-02-02",
             "drivers": [
                 {
-                    "publicID": "portal:QPMVehicleDriver-fshp4hww1p",
+                    "ID": "portal:QPMVehicleDriver-fshp4hww1p",
                     "driver": {
-                        "publicID": "portal:QPMPolicyDriver-oyh6ch20x3",
+                        "ID": "portal:QPMPolicyDriver-oyh6ch20x3",
                         "person": {
-                            "publicID": "portal:Person-5qd87o8vbj",
+                            "ID": "portal:Person-5qd87o8vbj",
                             "firstName": "Ran",
                             "lastName": "Ding",
                             "primaryAddress": {
-                                "publicID": "portal:Address-1",
+                                "ID": "portal:Address-1",
                                 "city": "SYDNEY",
                                 "state": "AU_NSW",
                                 "postalCode": "2000",
@@ -137,6 +137,7 @@ describe('Swagger to model', function () {
         }
 
         var model = swaggerModelRuntime.json2Model({ addressLine1: '', city: '', state: '', postalCode: '' }, 'Address');
+
         expect(model).to.be.ok;
     });
 
@@ -155,11 +156,14 @@ describe('Swagger to model', function () {
         model.state = '';
         model.postalCode = '';
         var json = swaggerModelRuntime.model2Json(model);
+
         expect(json).to.be.ok;
     });
 
-    it('should reuse instance if publicIDs are same', function () {
-        var model = swaggerModelRuntime.json2Model(test, 'QPMQuoteData');
+    it('should reuse instance if IDs are same', function () {
+        var options = { objectID: 'ID' };
+        var model = swaggerModelRuntime.json2Model(test, 'QPMQuoteData', options);
+
         expect(model.account.accountHolder.primaryAddress).to.equal(model.vehicles[0].drivers[0].driver.person.primaryAddress);
         expect(model.account.accountHolder.primaryAddress).to.not.equal(model.vehicles[0].garageAddress);
 

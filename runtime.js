@@ -28,7 +28,7 @@ module.exports = {
         return classCache[className];
     },
 
-    getValue: function (type, from) {
+    getValue: function (type, from, options) {
         var self = this;
 
         switch (type) {
@@ -59,8 +59,8 @@ module.exports = {
         // Aware of publicID
         var instance;
 
-        if (object.hasOwnProperty('publicID')) {
-            var instanceObjectID = object.publicID + '@' + className;
+        if (object.hasOwnProperty(self.publicID)) {
+            var instanceObjectID = object[self.publicID] + '@' + className;
 
             if (!(instanceObjectID in self.instanceCache)) {
                 self.instanceCache[instanceObjectID] = new (typeClass)();
@@ -100,10 +100,15 @@ module.exports = {
         return instance;
     },
 
-    json2Model: function (object, className) {
+    json2Model: function (object, className, options) {
         var self = this;
 
         self.instanceCache = {};
+
+        // Options
+        self.options = options || {};
+        self.publicID = self.options.objectID || 'publicID';
+
         return self.json2ModelRecursive(object, className);
     },
 
