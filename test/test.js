@@ -172,4 +172,11 @@ describe('Swagger to model', function () {
         expect(model.vehicles[0].drivers[0].driver.person.primaryAddress.addressLine1).to.equal('test');
         expect(model.vehicles[0].garageAddress.addressLine1).to.not.equal('test');
     });
+
+    it('should clone', function () {
+        var modelA = swaggerModelRuntime.json2Model(test, 'QPMQuoteData');
+        var modelB = swaggerModelRuntime.clone(modelA);
+
+        expect(modelB).to.be.deep.equal(modelA);
+    });
 });
