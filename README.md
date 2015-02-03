@@ -1,7 +1,11 @@
 # Swagger Model
 
+Generate Javascript model class code from swagger definition and convert between JSON and model instance
+
 [![Build Status](https://travis-ci.org/randing89/swagger-model.svg?branch=master)](https://travis-ci.org/randing89/swagger-model)
+
 [![Coverage Status](https://coveralls.io/repos/randing89/swagger-model/badge.svg?branch=master)](https://coveralls.io/r/randing89/swagger-model?branch=master)
+
 [![Dependency Status](https://gemnasium.com/randing89/swagger-model.svg)](https://gemnasium.com/randing89/swagger-model)
 
 # Installation
