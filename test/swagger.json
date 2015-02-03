@@ -221,7 +221,7 @@
       }
     }
   },
-  "host": "qbe.ey-tec.com",
+  "host": "example.com",
   "schemes": [
     "https",
     "http"
@@ -275,6 +275,26 @@
         }
       }
     },
+    "portal.pc.dto.DateTimeDTO": {
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "dateInString": {
+          "type": "string",
+          "format": "date"
+        },
+        "dateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "time": {
+          "type": "string",
+          "format": "datetime"
+        }
+      }
+    },
     "portal.pc.dto.AccountDTO": {
       "properties": {
         "accountNumber": {
@@ -304,541 +324,541 @@
           "$ref": "portal.suite.dto.ReferenceDataDTO<entity.DrivingHistoryEventPattern_Ext>",
           "referenceData": [
             {
-              "ID": "qbe:1",
+              "ID": "test:1",
               "code": "CSV",
               "description": "Collision - only vehicle involved (fixed property/parked car/animal/pedestrian)",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:10",
+              "ID": "test:10",
               "code": "FIR",
               "description": "Fire - not Total Loss",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:11",
+              "ID": "test:11",
               "code": "MDV",
               "description": "Malicious Damage",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:12",
+              "ID": "test:12",
               "code": "WIN",
               "description": "Windscreen",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:13",
+              "ID": "test:13",
               "code": "FLO",
               "description": "Flood",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:14",
+              "ID": "test:14",
               "code": "HAI",
               "description": "Hail",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:15",
+              "ID": "test:15",
               "code": "STO",
               "description": "Storm",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:16",
+              "ID": "test:16",
               "code": "AFF",
               "description": "Affray; Inciting violence; Participating in riotous behaviour",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:17",
+              "ID": "test:17",
               "code": "ARR",
               "description": "Armed robbery",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:18",
+              "ID": "test:18",
               "code": "ABH",
               "description": "Assault - actual bodily harm",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:19",
+              "ID": "test:19",
               "code": "GBH",
               "description": "Assault - grievous bodily harm",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:2",
+              "ID": "test:2",
               "code": "CNF",
               "description": "Collision - multi vehicle - NAF",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:20",
+              "ID": "test:20",
               "code": "AAO",
               "description": "Assault - all other",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:21",
+              "ID": "test:21",
               "code": "BCO",
               "description": "Breach of Court order",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:22",
+              "ID": "test:22",
               "code": "CDP",
               "description": "Causing damage to property",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:23",
+              "ID": "test:23",
               "code": "AGB",
               "description": "Aggravated burglary",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:24",
+              "ID": "test:24",
               "code": "BAE",
               "description": "Break and enter",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:25",
+              "ID": "test:25",
               "code": "SCO",
               "description": "Serious criminal offence (not otherwise defined)",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:26",
+              "ID": "test:26",
               "code": "HOS",
               "description": "Holding someone hostage",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:27",
+              "ID": "test:27",
               "code": "MSL",
               "description": "Manslaughter",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:28",
+              "ID": "test:28",
               "code": "MUR",
               "description": "Murder",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:29",
+              "ID": "test:29",
               "code": "INC",
               "description": "Incarceration for any criminal offence (not otherwise described)",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:3",
+              "ID": "test:3",
               "code": "CAF",
               "description": "Collision - multi vehicle - AF",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:30",
+              "ID": "test:30",
               "code": "COR",
               "description": "Refused to give evidence to Coroner",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:31",
+              "ID": "test:31",
               "code": "CON",
               "description": "Contempt of court",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:32",
+              "ID": "test:32",
               "code": "ARS",
               "description": "Arson",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:33",
+              "ID": "test:33",
               "code": "DIS",
               "description": "Disorderly conduct",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:34",
+              "ID": "test:34",
               "code": "BRE",
               "description": "Breach of bail",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:35",
+              "ID": "test:35",
               "code": "INS",
               "description": "Insurance fraud",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:36",
+              "ID": "test:36",
               "code": "IDT",
               "description": "Identity theft",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:37",
+              "ID": "test:37",
               "code": "FDC",
               "description": "Obtain benefit by deception (credit card/cheque/social security/tax fraud)",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:38",
+              "ID": "test:38",
               "code": "FOR",
               "description": "Forgery and counterfeiting (currency/documents/false instrument)",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:39",
+              "ID": "test:39",
               "code": "EMB",
               "description": "Deceptive business or government practices (eg as a director of a company/embezzlement)",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:4",
+              "ID": "test:4",
               "code": "HWP",
               "description": "Hit While Parked",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:40",
+              "ID": "test:40",
               "code": "WMP",
               "description": "Wilful misleading of Police",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:41",
+              "ID": "test:41",
               "code": "TMV",
               "description": "Theft of motor vehicle",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:42",
+              "ID": "test:42",
               "code": "TMB",
               "description": "Theft of motor bike",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:43",
+              "ID": "test:43",
               "code": "TSL",
               "description": "Theft - shoplifting / stealing as a servant",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:44",
+              "ID": "test:44",
               "code": "TRC",
               "description": "Theft - receiving",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:45",
+              "ID": "test:45",
               "code": "TBE",
               "description": "Theft - breaking and entering",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:46",
+              "ID": "test:46",
               "code": "PDS",
               "description": "Possession of prohibited drug - intent to sell/supply",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:47",
+              "ID": "test:47",
               "code": "PPD",
               "description": "Possession of prohibited drug and/or drug paraphernalia",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:48",
+              "ID": "test:48",
               "code": "PUF",
               "description": "Possession of unlicenced firearm",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:49",
+              "ID": "test:49",
               "code": "POW",
               "description": "Possession of an offensive weapon (inc imitation)",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:5",
+              "ID": "test:5",
               "code": "LCV",
               "description": "Lost Control",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:50",
+              "ID": "test:50",
               "code": "FFS",
               "description": "Firearm - fail to keep safe",
               "filter1": "conviction"
             },
             {
-              "ID": "qbe:51",
+              "ID": "test:51",
               "code": "S09",
               "description": "0-9 kmh over the limit",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:52",
+              "ID": "test:52",
               "code": "S14",
               "description": "10-14 kmh over the limit",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:53",
+              "ID": "test:53",
               "code": "S19",
               "description": "15-19 kmh over the limit",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:54",
+              "ID": "test:54",
               "code": "S29",
               "description": "20-29 kmh over the limit",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:55",
+              "ID": "test:55",
               "code": "S39",
               "description": "30-39 kmh over the limit",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:56",
+              "ID": "test:56",
               "code": "S40",
               "description": "40+ kmh over the limit",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:57",
+              "ID": "test:57",
               "code": "BTR",
               "description": "Refusing a breathalyser or blood test",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:58",
+              "ID": "test:58",
               "code": "DBS",
               "description": "Driving under influence of a banned substance",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:59",
+              "ID": "test:59",
               "code": "AL0",
               "description": "Alcohol level above .00 (learner's and provisional licences)",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:6",
+              "ID": "test:6",
               "code": "TVR",
               "description": "Theft - Recovered",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:60",
+              "ID": "test:60",
               "code": "AL5",
               "description": "Alcohol level of .05 to less than .08",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:61",
+              "ID": "test:61",
               "code": "AL8",
               "description": "Alcohol level of .08 to less than .15",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:62",
+              "ID": "test:62",
               "code": "A15",
               "description": "Alcohol level of .15 or more",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:63",
+              "ID": "test:63",
               "code": "UNL",
               "description": "Driving without a licence (never held)",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:64",
+              "ID": "test:64",
               "code": "DLS",
               "description": "Driving with suspended/cancelled licence",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:65",
+              "ID": "test:65",
               "code": "DFD",
               "description": "Driving while licence expired or licence suspended for fine default",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:66",
+              "ID": "test:66",
               "code": "DUV",
               "description": "Driving an unregistered/unroadworthy vehicle",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:67",
+              "ID": "test:67",
               "code": "UUV",
               "description": "Driving a stolen vehicle",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:68",
+              "ID": "test:68",
               "code": "CLD",
               "description": "Careless Driving",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:69",
+              "ID": "test:69",
               "code": "CUL",
               "description": "Culpable driving (causing death)",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:7",
+              "ID": "test:7",
               "code": "VNR",
               "description": "Theft - Unrecovered",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:70",
+              "ID": "test:70",
               "code": "DDR",
               "description": "Dangerous driving",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:71",
+              "ID": "test:71",
               "code": "DUC",
               "description": "Driving with undue care",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:72",
+              "ID": "test:72",
               "code": "FSA",
               "description": "Failing to stop at an accident (hit&run)",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:73",
+              "ID": "test:73",
               "code": "NGD",
               "description": "Negligent driving",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:74",
+              "ID": "test:74",
               "code": "RAC",
               "description": "Racing another driver",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:75",
+              "ID": "test:75",
               "code": "RKD",
               "description": "Reckless driving",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:76",
+              "ID": "test:76",
               "code": "SDO",
               "description": "Other Serious Driving Offence",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:77",
+              "ID": "test:77",
               "code": "CDL",
               "description": "Crossing double lines",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:78",
+              "ID": "test:78",
               "code": "FPC",
               "description": "Failing to give way at a pedestrian crossing",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:79",
+              "ID": "test:79",
               "code": "FSI",
               "description": "Failing to stop at stop sign/red light/controlled intersection",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:8",
+              "ID": "test:8",
               "code": "TPP",
               "description": "Theft - Personal Property/Accs/Modifications",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:80",
+              "ID": "test:80",
               "code": "FPL",
               "description": "Failing to display P or L plates",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:81",
+              "ID": "test:81",
               "code": "NVO",
               "description": "Not allowing another vehicle to overtake",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:82",
+              "ID": "test:82",
               "code": "NSB",
               "description": "Not wearing a seatbelt",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:83",
+              "ID": "test:83",
               "code": "OVI",
               "description": "Overtaking another vehicle incorrectly",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:84",
+              "ID": "test:84",
               "code": "PKS",
               "description": "Passing on the kerbside of another vehicle",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:85",
+              "ID": "test:85",
               "code": "MPH",
               "description": "Use of mobile phone while driving",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:86",
+              "ID": "test:86",
               "code": "MTO",
               "description": "Other minor offence or infringement (not otherwise defined)",
               "filter1": "infringement_demerit"
             },
             {
-              "ID": "qbe:87",
+              "ID": "test:87",
               "code": "LL3",
               "description": "Loss of licence - up to 3 months",
               "filter1": "infringement_licence"
             },
             {
-              "ID": "qbe:88",
+              "ID": "test:88",
               "code": "LL6",
               "description": "Loss of licence - 3 - 6 months",
               "filter1": "infringement_licence"
             },
             {
-              "ID": "qbe:89",
+              "ID": "test:89",
               "code": "L12",
               "description": "Loss of licence - 6+ months",
               "filter1": "infringement_licence"
             },
             {
-              "ID": "qbe:9",
+              "ID": "test:9",
               "code": "FTL",
               "description": "Fire - Total Loss",
               "filter1": "claim"
             },
             {
-              "ID": "qbe:90",
+              "ID": "test:90",
               "code": "LLF",
               "description": "Loss of licence cancelled for fine default",
               "filter1": "infringement_licence"
@@ -1196,22 +1216,22 @@
           "$ref": "portal.suite.dto.ReferenceDataDTO<entity.FinanceCompany_Ext>",
           "referenceData": [
             {
-              "ID": "qbe:finance-1",
+              "ID": "test:finance-1",
               "code": "ANZ",
               "name": "ANZ Banking Group"
             },
             {
-              "ID": "qbe:finance-2",
+              "ID": "test:finance-2",
               "code": "CBA",
               "name": "Commonwealth Bank of Australia"
             },
             {
-              "ID": "qbe:finance-3",
+              "ID": "test:finance-3",
               "code": "NAB",
               "name": "National Australia Bank"
             },
             {
-              "ID": "qbe:finance-4",
+              "ID": "test:finance-4",
               "code": "WBC",
               "name": "Westpac Banking Corporation"
             }
@@ -1797,8 +1817,8 @@
     }
   },
   "info": {
-    "title": "Guidewire PolicyCenter Portal",
-    "description": "API for Guidewire PolicyCenter Portal",
+    "title": "Portal",
+    "description": "API for Portal",
     "version": "1.0.0"
   }
 }

@@ -40,13 +40,22 @@ module.exports = {
                 return from;
 
             case 'string:date':
-            case 'string:time':
-            case 'string:date-time':
                 if (typeof from === 'string') {
                     return helper.ymd2Date(from);
                 }
 
                 return from;
+
+            case 'string:time':
+            case 'string:date-time':
+            case 'string:datetime':
+                if (typeof from === 'string') {
+                    return new Date(from);
+                }
+
+                return from;
+
+
             default:
                 return self.json2ModelRecursive(from, type);
         }
@@ -160,11 +169,20 @@ module.exports = {
                     // Process simple objects
                     switch (types[property]) {
                         case 'string:date':
-                        case 'string:time':
-                        case 'string:date-time':
                             if (typeof result[property] !== 'string') {
                                 result[property] = helper.date2Ymd(result[property]);
                             }
+
+                            break;
+
+                        case 'string:time':
+                        case 'string:date-time':
+                        case 'string:datetime':
+                            if (typeof result[property] !== 'string') {
+                                result[property] = JSON.stringify(result[property]).replace(/"/g, '');
+                            }
+
+                            break;
                     }
                 }
             }

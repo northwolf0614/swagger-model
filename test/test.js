@@ -173,10 +173,58 @@ describe('Swagger to model', function () {
         expect(model.vehicles[0].garageAddress.addressLine1).to.not.equal('test');
     });
 
+    it('should process date, date-time and time json to model', function () {
+        var dateTime = new Date();
+        var date = new Date(2014, 11, 5);
+        var dateInString = '2014-12-05';
+
+        var testJson = {
+            date: dateInString,
+            dateInString: dateInString,
+            time: dateTime,
+            dateTime: dateTime
+        };
+
+        var model = swaggerModelRuntime.json2Model(testJson, 'DateTime');
+
+        expect(+model.date).to.be.equal(+date);
+        expect(+model.dateInString).to.be.equal(+date);
+        expect(+model.time).to.be.equal(+dateTime);
+        expect(+model.dateTime).to.be.equal(+dateTime);
+    });
+
+    it('should process date, date-time and time model to json', function () {
+        var dateTimeObj = new Date(2014, 1, 2, 3, 4, 5);
+        var dateObj = new Date(2014, 11, 5);
+
+        var DateTime = swaggerModelRuntime.get('DateTime');
+        var dateTime = new DateTime();
+
+        dateTime.date = dateObj;
+        dateTime.time = dateTimeObj;
+        dateTime.dateTime = dateTimeObj;
+
+        var json = swaggerModelRuntime.model2Json(dateTime);
+
+        expect(json.date).to.be.equal('2014-12-05');
+        expect(json.time).to.be.equal(JSON.stringify(dateTimeObj).replace(/"/g, ''));
+        expect(json.dateTime).to.be.equal(JSON.stringify(dateTimeObj).replace(/"/g, ''));
+    });
+
+
     it('should clone', function () {
         var modelA = swaggerModelRuntime.json2Model(test, 'QPMQuoteData');
         var modelB = swaggerModelRuntime.clone(modelA);
 
         expect(modelB).to.be.deep.equal(modelA);
+    });
+
+    it('should report missing property when converting json to model', function () {
+        var json = {
+            propertyNotInDefinition: 1,
+            anotherProperty: 1
+        };
+
+        expect(function () { swaggerModelRuntime.json2Model(json, 'QPMQuoteData'); }).to.throw(/propertyNotInDefinition|anotherProperty/i);
     });
 });
