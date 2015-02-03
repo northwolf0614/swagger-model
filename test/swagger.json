@@ -289,6 +289,10 @@
           "type": "string",
           "format": "date-time"
         },
+        "dateTimeInString": {
+          "type": "string",
+          "format": "date-time"
+        },
         "time": {
           "type": "string",
           "format": "datetime"

@@ -173,8 +173,14 @@ describe('Swagger to model', function () {
         expect(model.vehicles[0].garageAddress.addressLine1).to.not.equal('test');
     });
 
+    it('should get all classes', function () {
+        expect(Object.keys(swaggerModelRuntime.get())).to.be.length(18);
+    });
+
     it('should process date, date-time and time json to model', function () {
-        var dateTime = new Date();
+        var dateTime = new Date(2014, 11, 5, 6, 10, 20);
+        var dateTimeInString = '2014-12-04T19:10:20.000Z';
+
         var date = new Date(2014, 11, 5);
         var dateInString = '2014-12-05';
 
@@ -182,7 +188,8 @@ describe('Swagger to model', function () {
             date: dateInString,
             dateInString: dateInString,
             time: dateTime,
-            dateTime: dateTime
+            dateTime: dateTime,
+            dateTimeInString: dateTimeInString
         };
 
         var model = swaggerModelRuntime.json2Model(testJson, 'DateTime');
@@ -191,6 +198,7 @@ describe('Swagger to model', function () {
         expect(+model.dateInString).to.be.equal(+date);
         expect(+model.time).to.be.equal(+dateTime);
         expect(+model.dateTime).to.be.equal(+dateTime);
+        expect(+model.dateTimeInString).to.be.equal(+new Date(dateTimeInString));
     });
 
     it('should process date, date-time and time model to json', function () {
