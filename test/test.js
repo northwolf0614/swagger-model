@@ -185,7 +185,7 @@ describe('Swagger to model', function () {
         var dateInString = '2014-12-05';
 
         var testJson = {
-            date: dateInString,
+            date: date,
             dateInString: dateInString,
             time: dateTime,
             dateTime: dateTime,
@@ -234,5 +234,27 @@ describe('Swagger to model', function () {
         };
 
         expect(function () { swaggerModelRuntime.json2Model(json, 'QPMQuoteData'); }).to.throw(/propertyNotInDefinition|anotherProperty/i);
+    });
+
+    it('should return if given object is not swagger model', function () {
+        var model = {};
+
+        expect(swaggerModelRuntime.model2Json(model)).to.be.equal(model);
+    });
+
+    it('should not keep property that is empty', function () {
+        var Address = swaggerModelRuntime.get('Address');
+        var address = new Address();
+
+        var QuoteList = swaggerModelRuntime.get('QuoteListQPMQuoteData');
+        var QPMQuoteData = swaggerModelRuntime.get('QPMQuoteData');
+        var quoteList = new QuoteList();
+        var quoteList2 = new QuoteList();
+        quoteList2.results.push(new QPMQuoteData());
+
+
+        expect(swaggerModelRuntime.model2Json(address)).to.be.deep.equal({});
+        expect(swaggerModelRuntime.model2Json(quoteList)).to.be.deep.equal({});
+        expect(swaggerModelRuntime.model2Json(quoteList2)).to.be.deep.equal({ results: [] });
     });
 });
