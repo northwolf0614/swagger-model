@@ -75,7 +75,7 @@ module.exports = {
                             types[name] = helper.getClassName(itemsDef.$ref);
                         } else if (itemsDef.enum) {
                             // Array can be array of enum
-                            types[name] = 'string[]';
+                            types[name] = 'string';
                             enums[name] = itemsDef.enum;
                         } else {
                             types[name] = ((itemsDef.format) ? '{0}:{1}' : '{0}').f(itemsDef.type, itemsDef.format);
