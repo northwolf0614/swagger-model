@@ -73,10 +73,15 @@ module.exports = {
                         var itemsDef = propertyDef.items;
                         if (itemsDef.$ref) {
                             types[name] = helper.getClassName(itemsDef.$ref);
+                        } else if (itemsDef.enum) {
+                            // Array can be array of enum
+                            types[name] = 'string[]';
+                            enums[name] = itemsDef.enum;
                         } else {
                             types[name] = ((itemsDef.format) ? '{0}:{1}' : '{0}').f(itemsDef.type, itemsDef.format);
                         }
                         types[name] = types[name] + '[]';
+
                     } else {
                         // Simple type
                         types[name] = ((propertyDef.format) ? '{0}:{1}' : '{0}').f(propertyDef.type, propertyDef.format);
