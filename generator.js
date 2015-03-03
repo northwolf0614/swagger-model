@@ -114,8 +114,15 @@ module.exports = {
             data.enums = [];
             _.each(enums, function (enumList, name) {
                 var enumDict = {};
+
+                // enum can be either a string
+                // or object { code: 'string', name: 'string', priority: integer }
                 _.each(enumList, function (enumListItem) {
-                    enumDict[enumListItem] = enumListItem;
+                    if (_.isString(enumListItem)) {
+                        enumDict[enumListItem] = enumListItem;
+                    } else {
+                        enumDict[enumListItem.code] = enumListItem.code;
+                    }
                 });
 
                 data.enums.push({ name: helper.getEnumName(name), enumList: JSON.stringify(enumDict) || '{}' });
