@@ -18,9 +18,7 @@ module.exports = {
             filters = [];
         } else {
             outPath = option.outPath;
-            filters = _.map(option.filters, function (filter) {
-                return _.isString(filter) ? new RegExp(filter) : filter;
-            });
+            filters = option.filters;
         }
 
         var templatePath = path.resolve(__dirname, 'template');
@@ -51,10 +49,18 @@ module.exports = {
 
         _.each(swagger.definitions, function (classDef, fullClassName) {
             if (filters.length) {
+                // Filter include
                 if (!_.any(filters, function (filter) {
-                    return filter.test(fullClassName);
+                    return (filter[0] !== '!') && new RegExp(filter).test(fullClassName);
                 })) {
+                    // Continue if filter is not matched
+                    return;
+                }
 
+                // Filter exclude
+                if (_.any(filters, function (filter) {
+                    return (filter[0] === '!') && new RegExp(filter.substr(1)).test(fullClassName);
+                })) {
                     // Continue if filter is not matched
                     return;
                 }

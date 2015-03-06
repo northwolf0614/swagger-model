@@ -59,4 +59,24 @@ describe('Swagger generator', function () {
             'ReferenceDataFinanceCompany_ExtBase.js'
         ]);
     });
+
+    it('should filter exclude', function () {
+        var option = {
+            outPath: outPath,
+            filters: [
+                '^portal\\.suite\\.dto',
+                'QPMVehicleDTO',
+                '!QPMVehicleDTO',
+                '!FinanceCompany'
+            ]
+        };
+
+        // Generate
+        swaggerModel.generate(swagger, option);
+
+        expect(fs.readdirSync(path.join(outPath, 'base'))).to.be.deep.equal([
+            'ModelBase.js',
+            'ReferenceDataDrivingHistoryEventPattern_ExtBase.js'
+        ]);
+    })
 });

@@ -19,7 +19,8 @@ Generate Javascript class files from swagger definition
 - outPath: Output path
   option: {
     outPath: Output path,
-    filters: Array of regular expression strings or regular expression object
+    filters: Array of regular expression strings, generate if class name matches the regexp.
+             If expression begins with `!`, exclude class name doesn't match.
   }
 
 
