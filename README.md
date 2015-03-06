@@ -13,10 +13,14 @@ Generate Javascript model class code from swagger definition and convert between
 
 # Usage
 ## Compile time (generator.js)
-### generate(swaggerDefinition, outPath)
+### generate(swaggerDefinition, outPath | option)
 Generate Javascript class files from swagger definition
 - swaggerDefinition: JSON of Swagger definition
 - outPath: Output path
+  option: {
+    outPath: Output path,
+    filters: Array of regular expression strings or regular expression object
+  }
 
 
 ## Runtime (runtime.js)

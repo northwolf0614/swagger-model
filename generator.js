@@ -10,7 +10,19 @@ var classTpl = {};
 var typeTpls = {};
 
 module.exports = {
-    generate: function (swagger, outPath) {
+    generate: function (swagger, option) {
+        var outPath, filters;
+
+        if (_.isString(option)) {
+            outPath = option;
+            filters = [];
+        } else {
+            outPath = option.outPath;
+            filters = _.map(option.filters, function (filter) {
+                return _.isString(filter) ? new RegExp(filter) : filter;
+            });
+        }
+
         var templatePath = path.resolve(__dirname, 'template');
         var basePath = path.join(outPath, 'base');
         var helperPath = path.join(outPath, 'helper');
@@ -38,6 +50,16 @@ module.exports = {
 
 
         _.each(swagger.definitions, function (classDef, fullClassName) {
+            if (filters.length) {
+                if (!_.any(filters, function (filter) {
+                    return filter.test(fullClassName);
+                })) {
+
+                    // Continue if filter is not matched
+                    return;
+                }
+            }
+
             var data = {}, dependencies = [];
 
             data.className = helper.getClassName(fullClassName);
