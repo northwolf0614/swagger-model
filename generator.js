@@ -47,23 +47,32 @@ module.exports = {
         });
 
 
-        _.each(swagger.definitions, function (classDef, fullClassName) {
-            if (filters.length) {
-                // Filter include
-                if (!_.any(filters, function (filter) {
-                    return (filter[0] !== '!') && new RegExp(filter).test(fullClassName);
-                })) {
-                    // Continue if filter is not matched
-                    return;
-                }
+        var availableClasses = Object.keys(swagger.definitions);
+        var hasIncludeFilter = filters.length && _.any(filters, function (filter) {
+                return (filter[0] !== '!');
+            });
 
-                // Filter exclude
-                if (_.any(filters, function (filter) {
-                    return (filter[0] === '!') && new RegExp(filter.substr(1)).test(fullClassName);
-                })) {
-                    // Continue if filter is not matched
-                    return;
-                }
+        if (filters.length) {
+            // Exclude all other class if we have include filter defined
+            if (hasIncludeFilter) {
+                availableClasses = _.filter(availableClasses, function (availableClass) {
+                    return _.any(filters, function (filter) {
+                        return (filter[0] !== '!') ? new RegExp(filter).test(availableClass) : false;
+                    });
+                });
+            }
+
+            availableClasses = _.filter(availableClasses, function (availableClass) {
+                return !_.any(filters, function (filter) {
+                    return (filter[0] === '!') ? new RegExp(filter.substr(1)).test(availableClass) : false;
+                });
+            });
+        }
+
+        _.each(swagger.definitions, function (classDef, fullClassName) {
+            if (availableClasses.indexOf(fullClassName) === -1) {
+                // Skip if not in available list
+                return;
             }
 
             var data = {}, dependencies = [];
