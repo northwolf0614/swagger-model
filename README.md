@@ -30,6 +30,9 @@ Register a swagger model class
 - className: String of class name
 - definition: Constractor function of a model class
 
+### isRegistered(className)
+Check if a model class has been registered
+
 ### json2Model(object, className, [options])
 Build model instance from JSON object
 - object: A JSON object
