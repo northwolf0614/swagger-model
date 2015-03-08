@@ -13,6 +13,9 @@ extend({{className}}Base, ModelBase);
 {{className}}Base._required = {{requiredList}};
 {{#enums}}
 {{../className}}Base.{{name}} = {{enumList}};
+{{#hasLabel}}
+{{../../className}}Base.{{name}}_LABELS = {{enumLabelList}};
+{{/hasLabel}}
 {{/enums}}
 
 {{#properties}}
