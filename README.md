@@ -16,7 +16,7 @@ Generate Javascript model class code from swagger definition and convert between
 ### generate(swaggerDefinition, outPath | option)
 Generate Javascript class files from swagger definition
 - swaggerDefinition: JSON of Swagger definition
-- outPath: Output path
+- outPath: Output path string OR option: Detailed options
 ```javascript
   option: {
     outPath: 'Output path',
