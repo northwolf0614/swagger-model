@@ -17,11 +17,13 @@ Generate Javascript model class code from swagger definition and convert between
 Generate Javascript class files from swagger definition
 - swaggerDefinition: JSON of Swagger definition
 - outPath: Output path
+```javascript
   option: {
-    outPath: Output path,
-    filters: Array of regular expression strings, generate if class name matches the regexp.
-             If expression begins with `!`, exclude class name doesn't match.
+    outPath: 'Output path',
+    filters: ['Array of regular expression strings, generate if class name matches the regexp.
+             If expression begins with `!`, exclude class name doesn't match.']
   }
+```
 
 
 ## Runtime (runtime.js)
