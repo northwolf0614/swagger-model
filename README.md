@@ -20,8 +20,9 @@ Generate Javascript class files from swagger definition
 ```javascript
   option: {
     outPath: 'Output path',
-    filters: ['Array of regular expression strings, generate if class name matches the regexp.
-             If expression begins with `!`, exclude class name doesn't match.']
+    filters: [
+      'Array of regular expression strings, generate if class name matches the regexp. eg: "^includeThisClass$"'
+      'Skip class if class name matches expression begins with `!`.  eg: "!^skipThisClass$'"]
   }
 ```
 
