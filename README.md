@@ -29,7 +29,7 @@ Generate Javascript class files from swagger definition
 
 ## Runtime (runtime.js)
 ### register(className, definition) or register(definition)
-Register a swagger model class
+Register a swagger model class so when converting from JSON or to JSON the library knows where to find the class
 - className: String of class name
 - definition: Constractor function of a model class
 
