@@ -15,7 +15,8 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "template",
+    "generator.js"
   ],
   "dependencies": {
     "lodash": "~3.1.0"
