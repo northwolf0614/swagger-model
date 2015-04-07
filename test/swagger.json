@@ -968,9 +968,21 @@
         },
         "primaryUsage": {
           "enum": [
-            "private",
-            "business",
-            "commercial"
+            {
+              "code": "private",
+              "name": "Private",
+              "priority": 1
+            },
+            {
+              "code": "business",
+              "name": "Business",
+              "priority": 2
+            },
+            {
+              "code": "commercial",
+              "name": "Commercial",
+              "priority": 3
+            }
           ],
           "type": "string"
         },

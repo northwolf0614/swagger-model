@@ -10,7 +10,17 @@ var classTpl = {};
 var typeTpls = {};
 
 module.exports = {
-    generate: function (swagger, outPath) {
+    generate: function (swagger, option) {
+        var outPath, filters;
+
+        if (_.isString(option)) {
+            outPath = option;
+            filters = [];
+        } else {
+            outPath = option.outPath;
+            filters = option.filters;
+        }
+
         var templatePath = path.resolve(__dirname, 'template');
         var basePath = path.join(outPath, 'base');
         var helperPath = path.join(outPath, 'helper');
@@ -37,7 +47,34 @@ module.exports = {
         });
 
 
+        var availableClasses = Object.keys(swagger.definitions);
+        var hasIncludeFilter = filters.length && _.any(filters, function (filter) {
+                return (filter[0] !== '!');
+            });
+
+        if (filters.length) {
+            // Exclude all other class if we have include filter defined
+            if (hasIncludeFilter) {
+                availableClasses = _.filter(availableClasses, function (availableClass) {
+                    return _.any(filters, function (filter) {
+                        return (filter[0] !== '!') ? new RegExp(filter).test(availableClass) : false;
+                    });
+                });
+            }
+
+            availableClasses = _.filter(availableClasses, function (availableClass) {
+                return !_.any(filters, function (filter) {
+                    return (filter[0] === '!') ? new RegExp(filter.substr(1)).test(availableClass) : false;
+                });
+            });
+        }
+
         _.each(swagger.definitions, function (classDef, fullClassName) {
+            if (availableClasses.indexOf(fullClassName) === -1) {
+                // Skip if not in available list
+                return;
+            }
+
             var data = {}, dependencies = [];
 
             data.className = helper.getClassName(fullClassName);
@@ -113,12 +150,28 @@ module.exports = {
             // Build enums
             data.enums = [];
             _.each(enums, function (enumList, name) {
-                var enumDict = {};
+                var enumDict = {}, enumLabelDict = {}, hasLabel = false;
+
+                // enum can be either a string
+                // or object { code: 'string', name: 'string', priority: integer }
                 _.each(enumList, function (enumListItem) {
-                    enumDict[enumListItem] = enumListItem;
+                    if (_.isString(enumListItem)) {
+                        enumDict[enumListItem] = enumListItem;
+                    } else {
+                        hasLabel = true;
+                        var code = enumListItem.code || enumListItem.value;
+
+                        enumLabelDict[code] = enumListItem.name || enumListItem.label;
+                        enumDict[code] = code;
+                    }
                 });
 
-                data.enums.push({ name: helper.getEnumName(name), enumList: JSON.stringify(enumDict) || '{}' });
+                data.enums.push({
+                    name: helper.getEnumName(name),
+                    enumList: JSON.stringify(enumDict) || '{}',
+                    enumLabelList: JSON.stringify(enumLabelDict) || '{}',
+                    hasLabel: hasLabel
+                });
             });
 
             // Build required list

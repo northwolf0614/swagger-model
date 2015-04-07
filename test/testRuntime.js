@@ -100,12 +100,11 @@ var root = path.resolve(__dirname);
 var outPath = path.join(root, 'out');
 var basePath = path.join(outPath, 'base');
 
-describe('Swagger to model', function () {
-    before(function () {
-        fs.remove(outPath);
-    });
-
+describe('Swagger runtime', function () {
     beforeEach(function () {
+        fs.remove(outPath);
+        fs.mkdirpSync(outPath);
+
         swaggerModel.generate(swagger, outPath);
 
         // Add Classes

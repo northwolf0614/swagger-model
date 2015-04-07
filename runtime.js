@@ -16,6 +16,10 @@ module.exports = {
         return definition;
     },
 
+    isRegistered: function (className) {
+        return (className in classCache);
+    },
+
     get: function (className) {
         if (className === undefined) {
             return classCache;
