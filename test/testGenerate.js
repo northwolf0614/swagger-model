@@ -3,6 +3,7 @@ var expect = require('chai').expect;
 var fs = require('fs-extra');
 
 var swagger = require('./swagger.json');
+var unsupportedTypeSwagger = require('./swaggerUnsupportedType.json');
 var swaggerModel = require('./../generator');
 
 var root = path.resolve(__dirname);
@@ -78,5 +79,13 @@ describe('Swagger generator', function () {
             'ModelBase.js',
             'ReferenceDataDrivingHistoryEventPattern_ExtBase.js'
         ]);
+    });
+
+    it('should report unsupported type when generate', function () {
+        var func = function () {
+            swaggerModel.generate(unsupportedTypeSwagger, outPath);
+        };
+
+        expect(func).to.throw(/unsupported/i)
     })
 });

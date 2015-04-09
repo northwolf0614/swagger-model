@@ -132,8 +132,12 @@ module.exports = {
                 } else if (propertyDef.type && propertyDef.type in typeTpls) {
                     property.definition = typeTpls[propertyDef.type](property);
 
-                } else {
+                } else if (property.type) {
+                    // Reference type must have a class type
                     property.definition = typeTpls['reference'](property);
+
+                } else {
+                    throw new Error('Unsupported type "{0}" in {1}@{2}'.f(propertyDef.type, name, fullClassName));
                 }
 
                 data.properties.push(property);

@@ -256,4 +256,20 @@ describe('Swagger runtime', function () {
         expect(swaggerModelRuntime.model2Json(quoteList)).to.be.deep.equal({});
         expect(swaggerModelRuntime.model2Json(quoteList2)).to.be.deep.equal({ results: [] });
     });
+
+    it('should erport error if not specify root class name', function () {
+        var func = function () {
+            swaggerModelRuntime.json2Model({});
+        };
+
+        expect(func).to.throw(/root class name/i);
+    });
+
+    it('should ignore undefined object when convert', function () {
+        var func = function () {
+            swaggerModelRuntime.json2Model({ primaryAddress: undefined }, 'Person');
+        };
+
+        expect(func).to.not.throw(Error);
+    });
 });

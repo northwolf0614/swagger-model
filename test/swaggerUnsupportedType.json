@@ -1,0 +1,247 @@
+{
+  "basePath": "/pc/service/portal",
+  "paths": {
+    "/quickquote/qpm": {
+      "post": {
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "Quote data DTO",
+            "name": "dto",
+            "required": true,
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.QuoteListDTO<portal.pc.dto.quote.qpm.QPMQuoteDataDTO>"
+            },
+            "description": "Quick Quote Result"
+          }
+        }
+      }
+    },
+    "/quote/qpm": {
+      "post": {
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "Quote data DTO",
+            "name": "dto",
+            "required": false,
+            "in": "body"
+          },
+          {
+            "description": "Set to true to create and quote",
+            "name": "quote",
+            "required": false,
+            "type": "boolean",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "DTO of the created Quote"
+          }
+        }
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.QuoteListDTO<portal.pc.dto.quote.qpm.QPMQuoteDataDTO>"
+            },
+            "description": "Quote list"
+          }
+        }
+      }
+    },
+    "/quote/qpm/{quoteID}/email": {
+      "post": {
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "name": "dto",
+            "required": true,
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "Quote DTO"
+          }
+        }
+      }
+    },
+    "/campaign": {
+      "head": {
+        "parameters": [
+          {
+            "description": "Campaign code",
+            "name": "code",
+            "required": true,
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "description": "Timestamp",
+            "name": "timestamp",
+            "format": "int64",
+            "required": true,
+            "type": "integer",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/quote/qpm/{quoteID}/sms": {
+      "post": {
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "name": "dto",
+            "required": true,
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "Quote DTO"
+          }
+        }
+      }
+    },
+    "/quote/qpm/{quoteID}": {
+      "put": {
+        "parameters": [
+          {
+            "description": "Id of the quote",
+            "name": "quoteID",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "Quote data DTO",
+            "name": "dto",
+            "required": true,
+            "in": "body"
+          },
+          {
+            "description": "Set to true to save and quote",
+            "name": "quote",
+            "required": false,
+            "type": "boolean",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "DTO of the saved Quote"
+          }
+        }
+      },
+      "get": {
+        "parameters": [
+          {
+            "description": "Id of the quote",
+            "name": "quoteID",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          },
+          {
+            "name": "email",
+            "required": false,
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "name": "mobile",
+            "required": false,
+            "type": "string",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "portal.pc.dto.quote.qpm.QPMQuoteDataDTO"
+            },
+            "description": "Quote DTO"
+          }
+        }
+      }
+    },
+    "/api-doc": {
+      "get": {
+        "parameters": [
+          {
+            "name": "internal",
+            "required": false,
+            "type": "boolean",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "host": "example.com",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "swagger": "2.0",
+  "definitions": {
+    "portal.pc.dto.quote.qpm.UnsupportedTypeTestDTO": {
+      "properties": {
+        "licenceType": {
+          "type": "unsupportedType"
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "Portal",
+    "description": "API for Portal",
+    "version": "1.0.0"
+  }
+}
