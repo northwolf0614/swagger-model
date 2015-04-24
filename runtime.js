@@ -146,7 +146,7 @@ Runtime.prototype.json2Model = function (object, className, options) {
 
     // Options
     self.options = options || {};
-    self.objectIDName = self.options.objectID || 'objectIDName';
+    self.objectIDName = self.options.objectID || 'publicID';
 
     return json2ModelRecursive.call(self, object, className);
 };
