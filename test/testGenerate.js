@@ -87,5 +87,5 @@ describe('Swagger generator', function () {
         };
 
         expect(func).to.throw(/unsupported/i)
-    })
+    });
 });

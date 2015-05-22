@@ -1,6 +1,6 @@
 /*
- DO NOT MODIFY this file as it will be overridden
- ADD PROPERTIES in inherited class only
+DO NOT MODIFY this file as it will be overridden
+ADD PROPERTIES in inherited class only
 */
 var extend = require('../helper/extend');
 var ModelBase = require('./ModelBase');
@@ -16,6 +16,9 @@ extend({{className}}Base, ModelBase);
 {{#hasLabel}}
 {{../../className}}Base.{{name}}_LABELS = {{enumLabelList}};
 {{/hasLabel}}
+{{#hasPriority}}
+{{../../className}}Base.{{name}}_PRIORITY = {{enumPriorityList}};
+{{/hasPriority}}
 {{/enums}}
 
 {{#properties}}

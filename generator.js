@@ -154,7 +154,7 @@ module.exports = {
             // Build enums
             data.enums = [];
             _.each(enums, function (enumList, name) {
-                var enumDict = {}, enumLabelDict = {}, hasLabel = false;
+                var enumDict = {}, enumLabelDict = {}, enumPriorityDict = [], hasLabel = false;
 
                 // enum can be either a string
                 // or object { code: 'string', name: 'string', priority: integer }
@@ -163,17 +163,26 @@ module.exports = {
                         enumDict[enumListItem] = enumListItem;
                     } else {
                         hasLabel = true;
-                        var code = enumListItem.code || enumListItem.value;
 
+                        var code = enumListItem.code || enumListItem.value;
                         enumLabelDict[code] = enumListItem.name || enumListItem.label;
+                        enumPriorityDict[code] = enumListItem.priority;
                         enumDict[code] = code;
                     }
                 });
+
+                if (hasLabel) {
+                    enumPriorityDict = _.map(_.sortBy(enumList, 'priority'), function (enumListItem) {
+                        return enumListItem.code || enumListItem.value;
+                    });
+                }
 
                 data.enums.push({
                     name: helper.getEnumName(name),
                     enumList: JSON.stringify(enumDict) || '{}',
                     enumLabelList: JSON.stringify(enumLabelDict) || '{}',
+                    enumPriorityList: JSON.stringify(enumPriorityDict) || '{}',
+                    hasPriority: enumPriorityDict.length > 0,
                     hasLabel: hasLabel
                 });
             });
