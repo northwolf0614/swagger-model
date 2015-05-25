@@ -3,8 +3,6 @@ var _ = require('lodash');
 var helper = require('./lib/helper');
 
 function getValue(type, from) {
-    var self = this;
-
     switch (type) {
         case 'number':
         case 'number:double':
@@ -144,11 +142,9 @@ Runtime.prototype.json2Model = function (object, className, options) {
 
     var self = this;
 
+    options = options || {};
     self.instanceCache = {};
-
-    // Options
-    self.options = options || {};
-    self.objectIDName = self.options.objectID || 'publicID';
+    self.objectIDName = options.objectID || self.options.objectID || 'publicID';
 
     return json2ModelRecursive.call(self, object, className);
 };
@@ -157,7 +153,7 @@ Runtime.prototype.model2Json = function (object, options) {
     var self = this;
     var result, property, types;
 
-    self.options = options || {};
+    options = options || self.options;
 
     if (self.isModel(object)) {
         // Check required fields
@@ -204,7 +200,7 @@ Runtime.prototype.model2Json = function (object, options) {
                 switch (types[property]) {
                     case 'string:date':
                         if (typeof result[property] !== 'string') {
-                            result[property] = helper.date2Ymd(result[property], self.options.jsonTimezone, self.options.modelTimezone);
+                            result[property] = helper.date2Ymd(result[property], options.jsonTimezone, options.modelTimezone);
                         }
 
                         break;
@@ -235,6 +231,11 @@ Runtime.prototype.clone = function (model) {
 
 Runtime.prototype.isModel = function (object) {
     return (object && object.isSwaggerModel);
+};
+
+Runtime.prototype.setOptions = function (options) {
+    this.options = options;
+    this.objectIDName = options.objectID || 'publicID';
 };
 
 module.exports = new Runtime();
