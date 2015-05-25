@@ -1,3 +1,5 @@
+var moment = require('moment-timezone');
+
 var test = {
     "anyClaimsQuestion": "no",
     "anyConvictionsQuestion": "no",
@@ -271,5 +273,46 @@ describe('Swagger runtime', function () {
         };
 
         expect(func).to.not.throw(Error);
+    });
+
+    it('should handle timezone in model to json', function () {
+        var DateTime = swaggerModelRuntime.get('DateTime');
+
+        var sydneyDate = new Date('2014-12-04T19:10:00.000Z'); // Friday, 5 December 2014 at 6:10:00 AM Sydney
+        var sydneyDateInString = '2014-12-05';
+        var nycDate = new Date('2014-12-05T11:10:00.000Z'); // Friday, 5 December 2014 at 6:10:00 AM NYC
+        var nycDateInString = '2014-12-05';
+        var delhiDate = new Date('2014-12-05T16:40:00.000Z'); // Friday, 5 December 2014 at 22:10:00 AM New Delhi
+        var delhiDateInString = '2014-12-05';
+
+        var dateTime = new DateTime();
+        var dateTime2 = new DateTime();
+        var dateTime3 = new DateTime();
+        dateTime.date = sydneyDate;
+        dateTime.dateInString = sydneyDateInString;
+        dateTime2.date = nycDate;
+        dateTime2.dateInString = nycDateInString;
+        dateTime3.date = delhiDate;
+        dateTime3.dateInString = delhiDateInString;
+
+        var json = swaggerModelRuntime.model2Json(dateTime, {
+            modelTimezone: 'Australia/Sydney',
+            jsonTimezone: 'America/New_York'
+        });
+        var json2 = swaggerModelRuntime.model2Json(dateTime2, {
+            modelTimezone: 'America/New_York',
+            jsonTimezone: 'Asia/Shanghai'
+        });
+        var json3 = swaggerModelRuntime.model2Json(dateTime3, {
+            modelTimezone: 'Asia/Delhi',
+            jsonTimezone: 'Australia/Sydney'
+        });
+
+        expect(json.date).to.be.equal('2014-12-04');
+        expect(json.dateInString).to.be.equal('2014-12-05'); // If there is no time info, keeps original
+        expect(json2.date).to.be.equal('2014-12-05');
+        expect(json2.dateInString).to.be.equal('2014-12-05'); // If there is no time info, keeps original
+        expect(json3.date).to.be.equal('2014-12-06');
+        expect(json3.dateInString).to.be.equal('2014-12-05'); // If there is no time info, keeps original
     });
 });

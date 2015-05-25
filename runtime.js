@@ -3,6 +3,8 @@ var _ = require('lodash');
 var helper = require('./lib/helper');
 
 function getValue(type, from) {
+    var self = this;
+
     switch (type) {
         case 'number':
         case 'number:double':
@@ -100,10 +102,10 @@ function findMissingProperties(instance, classDefinition) {
     return missingProperties.length > 0 ? missingProperties : false;
 }
 
-function Runtime() {
+function Runtime(options) {
     this.classCache = {};
     this.instanceCache = {};
-    this.options = {};
+    this.options = options || {};
 }
 
 Runtime.prototype.register = function (className, definition) {
@@ -151,9 +153,11 @@ Runtime.prototype.json2Model = function (object, className, options) {
     return json2ModelRecursive.call(self, object, className);
 };
 
-Runtime.prototype.model2Json = function (object) {
+Runtime.prototype.model2Json = function (object, options) {
     var self = this;
     var result, property, types;
+
+    self.options = options || {};
 
     if (self.isModel(object)) {
         // Check required fields
@@ -200,7 +204,7 @@ Runtime.prototype.model2Json = function (object) {
                 switch (types[property]) {
                     case 'string:date':
                         if (typeof result[property] !== 'string') {
-                            result[property] = helper.date2Ymd(result[property]);
+                            result[property] = helper.date2Ymd(result[property], self.options.jsonTimezone, self.options.modelTimezone);
                         }
 
                         break;
