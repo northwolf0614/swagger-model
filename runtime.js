@@ -174,16 +174,18 @@ Runtime.prototype.model2Json = function (object, options) {
     for (property in result) {
         if (result.hasOwnProperty(property)) {
             // We don't care Object arrays
-            if (types && types[property].endsWith('[]') && types[property] !== 'Object[]') {
+            if (types && types[property].endsWith('[]')) {
                 // Process arrays
                 if (result[property] && result[property].length) {
-                    result[property] = _.transform(result[property], function (r, item) {
-                        var json = self.model2Json(item);
+                    if (types[property] !== 'Object[]') {
+                        result[property] = _.transform(result[property], function (r, item) {
+                            var json = self.model2Json(item);
 
-                        if (!_.isEmpty(json)) {
-                            r.push(json);
-                        }
-                    });
+                            if (!_.isEmpty(json)) {
+                                r.push(json);
+                            }
+                        });
+                    }
                 } else {
                     // Remove empty array
                     delete result[property];
