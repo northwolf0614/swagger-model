@@ -275,6 +275,29 @@
         }
       }
     },
+    "portal.pc.dto.ObjectNestedTestDTO": {
+      "properties": {
+        "objects": {
+          "items": {
+            "$ref": "portal.pc.dto.ObjectTestDTO"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "portal.pc.dto.ObjectTestDTO": {
+      "properties": {
+        "object": {
+          "type": "Object"
+        },
+        "objectArray": {
+          "items": {
+            "type": "Object"
+          },
+          "type": "array"
+        }
+      }
+    },
     "portal.pc.dto.DateTimeDTO": {
       "properties": {
         "date": {

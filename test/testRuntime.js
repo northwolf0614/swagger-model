@@ -1,5 +1,3 @@
-var moment = require('moment-timezone');
-
 var test = {
     "anyClaimsQuestion": "no",
     "anyConvictionsQuestion": "no",
@@ -175,7 +173,7 @@ describe('Swagger runtime', function () {
     });
 
     it('should get all classes', function () {
-        expect(Object.keys(swaggerModelRuntime.get())).to.be.length(18);
+        expect(Object.keys(swaggerModelRuntime.get())).to.be.length(20);
     });
 
     it('should process date, date-time and time json to model', function () {
@@ -360,5 +358,50 @@ describe('Swagger runtime', function () {
         expect(json2.dateInString).to.be.equal('2014-12-05'); // If there is no time info, keeps original
         expect(json3.date).to.be.equal('2014-12-06');
         expect(json3.dateInString).to.be.equal('2014-12-05'); // If there is no time info, keeps original
+    });
+
+    it('should support Object type to json', function () {
+        var ObjectNestedTest = swaggerModelRuntime.get('ObjectNestedTest');
+        var ObjectTest = swaggerModelRuntime.get('ObjectTest');
+
+
+        var objectNested = new ObjectNestedTest();
+
+        var object1 = new ObjectTest();
+        object1.object = 123;
+        object1.objectArray.push(123);
+        object1.objectArray.push('123');
+        object1.objectArray.push(true);
+        objectNested.objects.push(object1);
+
+
+        var object2 = new ObjectTest();
+        object2.object = '567';
+        object2.objectArray.push(567);
+        object2.objectArray.push('890');
+        object2.objectArray.push(false);
+        objectNested.objects.push(object2);
+
+        var json = swaggerModelRuntime.model2Json(objectNested);
+        expect(json.objects).to.be.deep.equal([
+            { object: 123, objectArray: [123, '123', true]},
+            { object: '567', objectArray: [567, '890', false] }
+        ]);
+    });
+
+
+    it('should support json to Object type', function () {
+        var json = {
+            objects: [
+                { object: 123, objectArray: [123, '123', true]},
+                { object: '567', objectArray: [567, '890', false] }
+            ]
+        };
+        var object = swaggerModelRuntime.json2Model(json, 'ObjectNestedTest');
+
+        expect(object.objects[0].object).to.be.equal(123);
+        expect(object.objects[0].objectArray).to.be.deep.equal([123, '123', true]);
+        expect(object.objects[1].object).to.be.equal('567');
+        expect(object.objects[1].objectArray).to.be.deep.equal([567, '890', false]);
     });
 });

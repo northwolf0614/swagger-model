@@ -9,6 +9,7 @@ function getValue(type, from) {
         case 'integer:int32':
         case 'string':
         case 'boolean':
+        case 'Object':
             return from;
 
         case 'string:date':
@@ -172,7 +173,8 @@ Runtime.prototype.model2Json = function (object, options) {
     // Process all properties
     for (property in result) {
         if (result.hasOwnProperty(property)) {
-            if (types && types[property].endsWith('[]')) {
+            // We don't care Object arrays
+            if (types && types[property].endsWith('[]') && types[property] !== 'Object[]') {
                 // Process arrays
                 if (result[property] && result[property].length) {
                     result[property] = _.transform(result[property], function (r, item) {
@@ -183,6 +185,7 @@ Runtime.prototype.model2Json = function (object, options) {
                         }
                     });
                 } else {
+                    // Remove empty array
                     delete result[property];
                 }
             } else if (self.isModel(result[property])) {
