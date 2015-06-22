@@ -1,0 +1,1 @@
+get: function () { if (this._data['{{name}}'] === undefined) this._data['{{name}}'] = {{value}}; return this._data['{{name}}']; }

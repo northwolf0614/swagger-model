@@ -1853,6 +1853,45 @@
         "previousInsurer",
         "person"
       ]
+    },
+    "portal.pc.dto.Contact": {
+      "abstract": true,
+      "subTypes": [
+        "portal.pc.dto.ContactType1",
+        "portal.pc.dto.ContactType2"
+      ]
+    },
+    "portal.pc.dto.ContactType1": {
+      "properties": {
+        "stringField": {
+          "value": "contactType1",
+          "type": "string"
+        },
+        "numberField": {
+          "value": "123.45",
+          "type": "number"
+        },
+        "booleanField": {
+          "value": "true",
+          "type": "boolean"
+        }
+      }
+    },
+    "portal.pc.dto.ContactType2": {
+      "properties": {
+        "stringField": {
+          "value": "contactType2",
+          "type": "string"
+        },
+        "numberField": {
+          "value": "56789",
+          "type": "number"
+        },
+        "booleanField": {
+          "value": "false",
+          "type": "boolean"
+        }
+      }
     }
   },
   "info": {

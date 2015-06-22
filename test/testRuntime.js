@@ -85,12 +85,10 @@ var test = {
     ]
 };
 
-
 var path = require('path');
 var expect = require('chai').expect;
 var _ = require('lodash');
 var fs = require('fs-extra');
-
 
 var swagger = require('./swagger.json');
 var swaggerModel = require('./../generator');
@@ -101,7 +99,7 @@ var outPath = path.join(root, 'out');
 var basePath = path.join(outPath, 'base');
 
 describe('Swagger runtime', function () {
-    beforeEach(function () {
+    before(function () {
         fs.remove(outPath);
         fs.mkdirpSync(outPath);
 
@@ -173,7 +171,7 @@ describe('Swagger runtime', function () {
     });
 
     it('should get all classes', function () {
-        expect(Object.keys(swaggerModelRuntime.get())).to.be.length(20);
+        expect(Object.keys(swaggerModelRuntime.get())).to.be.length(Object.keys(swagger.definitions).length + 1);
     });
 
     it('should process date, date-time and time json to model', function () {
@@ -217,7 +215,6 @@ describe('Swagger runtime', function () {
         expect(json.time).to.be.equal(JSON.stringify(dateTimeObj).replace(/"/g, ''));
         expect(json.dateTime).to.be.equal(JSON.stringify(dateTimeObj).replace(/"/g, ''));
     });
-
 
     it('should clone', function () {
         var modelA = swaggerModelRuntime.json2Model(test, 'QPMQuoteData');
@@ -389,7 +386,6 @@ describe('Swagger runtime', function () {
         ]);
     });
 
-
     it('should support json to Object type', function () {
         var json = {
             objects: [
@@ -403,5 +399,37 @@ describe('Swagger runtime', function () {
         expect(object.objects[0].objectArray).to.be.deep.equal([123, '123', true]);
         expect(object.objects[1].object).to.be.equal('567');
         expect(object.objects[1].objectArray).to.be.deep.equal([567, '890', false]);
+    });
+
+    it('should generate field with specified default value', function () {
+        var contactType1 = new (swaggerModelRuntime.get('ContactType1'))();
+        var contactType2 = new (swaggerModelRuntime.get('ContactType2'))();
+
+        expect(contactType1.stringField).to.be.equal('contactType1');
+        expect(contactType1.numberField).to.be.equal(123.45);
+        expect(contactType1.booleanField).to.be.equal(true);
+        expect(contactType2.stringField).to.be.equal('contactType2');
+        expect(contactType2.numberField).to.be.equal(56789);
+        expect(contactType2.booleanField).to.be.equal(false);
+    });
+
+    it('should allow field with specified default value to change', function () {
+        var contactType1 = new (swaggerModelRuntime.get('ContactType1'))();
+        var contactType2 = new (swaggerModelRuntime.get('ContactType2'))();
+
+        contactType1.stringField = 1;
+        contactType1.numberField = 1;
+        contactType1.booleanField = 1;
+
+        contactType2.stringField = 1;
+        contactType2.numberField = 1;
+        contactType2.booleanField = 1;
+
+        expect(contactType1.stringField).to.be.equal('contactType1');
+        expect(contactType1.numberField).to.be.equal(123.45);
+        expect(contactType1.booleanField).to.be.equal(true);
+        expect(contactType2.stringField).to.be.equal('contactType2');
+        expect(contactType2.numberField).to.be.equal(56789);
+        expect(contactType2.booleanField).to.be.equal(false);
     });
 });

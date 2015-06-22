@@ -126,7 +126,31 @@ module.exports = {
                 }
 
                 // Build property
-                if (propertyDef.format && propertyDef.format in typeTpls) {
+                if (propertyDef.value) {
+                    var defaultValue;
+
+                    // If value is present means this is a static field
+                    switch (propertyDef.type) {
+                        case 'string':
+                            defaultValue = propertyDef.value;
+                            break;
+
+                        case 'number':
+                            defaultValue = +propertyDef.value;
+                            break;
+
+                        case 'boolean':
+                            defaultValue = propertyDef.value === 'true';
+                            break;
+
+                        default:
+                            throw new Error('Unsupported default value type "{0}" in {1}@{2}'.f(propertyDef.type, name, fullClassName));
+                    }
+
+                    property.value = JSON.stringify(defaultValue);
+                    property.definition = typeTpls['_static'](property);
+
+                } else if (propertyDef.format && propertyDef.format in typeTpls) {
                     property.definition = typeTpls[propertyDef.format](property);
 
                 } else if (propertyDef.type && propertyDef.type in typeTpls) {
