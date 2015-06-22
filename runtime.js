@@ -42,6 +42,29 @@ function json2ModelRecursive(object, className) {
     var self = this;
     var typeClass = self.get(className);
 
+    // Check if the type is abstract
+    if (typeClass._abstract) {
+        // Determine the subtype using the property in "subTypeProperty"
+        var subTypeProperty = typeClass._subTypeProperty;
+        var subTypes = typeClass._subTypes;
+
+        if (!self.subTypeCache[typeClass]) {
+            _.each(subTypes, function (subType) {
+                var subTypeClass = self.get(subType);
+                var propertyValue = subTypeClass[subTypeProperty];
+
+                self.subTypeCache[className] = self.subTypeCache[className] || {};
+                self.subTypeCache[className][propertyValue] = subTypeClass;
+            });
+        }
+
+        if (!object.hasOwnProperty(subTypeProperty)) {
+            throw new Error('Can not determine subtype for abstract class "{0}" because the property "{1}" was missing'.f(className, subTypeProperty));
+        }
+
+        typeClass = self.subTypeCache[className][object[subTypeProperty]];
+        className = typeClass.name;
+    }
 
     // Aware of object id
     var instance;
@@ -64,7 +87,7 @@ function json2ModelRecursive(object, className) {
             var type = typeClass._types[key];
 
             if (!type) {
-                throw new Error('Can not find type for property "{0}" from class "{1}"'.f(key, className));
+                throw new Error('Can not find type for property {0}@{1}'.f(key, className));
             }
 
             if (type.endsWith('[]')) {
@@ -103,6 +126,7 @@ function findMissingProperties(instance, classDefinition) {
 
 function Runtime(options) {
     this.classCache = {};
+    this.subTypeCache = {};
     this.instanceCache = {};
     this.options = options || {};
 }

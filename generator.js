@@ -78,8 +78,11 @@ module.exports = {
             var data = {}, dependencies = [];
 
             data.className = helper.getClassName(fullClassName);
-
+            data.isAbstract = classDef.abstract;
+            data.subTypeProperty = JSON.stringify(classDef.subTypeProperty);
+            data.subTypes = JSON.stringify(_.map(classDef.subTypes, helper.getClassName));
             data.properties = [];
+            data.statics = [];
 
             var types = {}, enums = {};
             _.each(classDef.properties, function (propertyDef, name) {
@@ -149,6 +152,10 @@ module.exports = {
 
                     property.value = JSON.stringify(defaultValue);
                     property.definition = typeTpls['_static'](property);
+                    data.statics.push({
+                        name: name,
+                        value: property.value
+                    });
 
                 } else if (propertyDef.format && propertyDef.format in typeTpls) {
                     property.definition = typeTpls[propertyDef.format](property);

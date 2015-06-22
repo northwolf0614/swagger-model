@@ -100,7 +100,7 @@ var basePath = path.join(outPath, 'base');
 
 describe('Swagger runtime', function () {
     before(function () {
-        fs.remove(outPath);
+        //fs.remove(outPath);
         fs.mkdirpSync(outPath);
 
         swaggerModel.generate(swagger, outPath);
@@ -431,5 +431,77 @@ describe('Swagger runtime', function () {
         expect(contactType2.stringField).to.be.equal('contactType2');
         expect(contactType2.numberField).to.be.equal(56789);
         expect(contactType2.booleanField).to.be.equal(false);
+    });
+
+    it('should allow assign to generic type field', function () {
+        var genericTest = new (swaggerModelRuntime.get('GenericTest'))();
+        var contactType1 = new (swaggerModelRuntime.get('ContactType1'))();
+        var contactType2 = new (swaggerModelRuntime.get('ContactType2'))();
+
+        expect(genericTest.contact.constructor.name).to.be.equal('Contact');
+
+        genericTest.contact = contactType1;
+        expect(genericTest.contact.constructor.name).to.be.equal('ContactType1');
+
+        genericTest.contact = contactType2;
+        expect(genericTest.contact.constructor.name).to.be.equal('ContactType2');
+    });
+
+    it('should be able to convert to json for generic type', function () {
+        var genericTest1 = new (swaggerModelRuntime.get('GenericTest'))();
+        var genericTest2 = new (swaggerModelRuntime.get('GenericTest'))();
+        var contactType1 = new (swaggerModelRuntime.get('ContactType1'))();
+        var contactType2 = new (swaggerModelRuntime.get('ContactType2'))();
+
+        genericTest1.contact = contactType1;
+        genericTest1.contact.contactType1Field = '1';
+
+        genericTest2.contact = contactType2;
+        genericTest2.contact.contactType2Field = '2';
+
+        var genericTest1Json = swaggerModelRuntime.model2Json(genericTest1);
+        var genericTest2Json = swaggerModelRuntime.model2Json(genericTest2);
+
+        expect(genericTest1Json.contact.contactType1Field).to.be.equal('1');
+        expect(genericTest2Json.contact.contactType2Field).to.be.equal('2');
+    });
+
+    it('should be able to convert from json for generic type', function () {
+        var genericTest1Json = {
+            contact: {
+                stringField: 'contactType1',
+                numberField: 123,
+                booleanField: true,
+                contactType1Field: 'test1'
+            }
+        };
+
+        var genericTest2Json = {
+            contact: {
+                stringField: 'contactType2',
+                numberField: 123,
+                booleanField: true,
+                contactType2Field: 'test2'
+            }
+        };
+
+        var genericTest1 = swaggerModelRuntime.json2Model(genericTest1Json, 'GenericTest');
+        var genericTest2 = swaggerModelRuntime.json2Model(genericTest2Json, 'GenericTest');
+
+        expect(genericTest1.contact.constructor.name).to.be.equal('ContactType1');
+        expect(genericTest1.contact.contactType1Field).to.be.equal('test1');
+        expect(genericTest1.contact.contactType2Field).to.be.equal(undefined);
+
+        expect(genericTest2.contact.constructor.name).to.be.equal('ContactType2');
+        expect(genericTest2.contact.contactType1Field).to.be.equal(undefined);
+        expect(genericTest2.contact.contactType2Field).to.be.equal('test2');
+    });
+
+    it('should report error if subTypeProperty is missing', function () {
+        var func = function () {
+            swaggerModelRuntime.json2Model({ contact: {} }, 'GenericTest');
+        };
+
+        expect(func).to.throw(/Can not determine subtype/);
     });
 });

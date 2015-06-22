@@ -1854,8 +1854,16 @@
         "person"
       ]
     },
+    "portal.pc.dto.GenericTest": {
+      "properties": {
+        "contact": {
+          "$ref": "portal.pc.dto.Contact"
+        }
+      }
+    },
     "portal.pc.dto.Contact": {
       "abstract": true,
+      "subTypeProperty": "stringField",
       "subTypes": [
         "portal.pc.dto.ContactType1",
         "portal.pc.dto.ContactType2"
@@ -1865,6 +1873,10 @@
       "properties": {
         "stringField": {
           "value": "contactType1",
+          "enum": [
+            "contactType1",
+            "contactType2"
+          ],
           "type": "string"
         },
         "numberField": {
@@ -1874,6 +1886,9 @@
         "booleanField": {
           "value": "true",
           "type": "boolean"
+        },
+        "contactType1Field": {
+          "type": "string"
         }
       }
     },
@@ -1881,6 +1896,10 @@
       "properties": {
         "stringField": {
           "value": "contactType2",
+          "enum": [
+            "contactType1",
+            "contactType2"
+          ],
           "type": "string"
         },
         "numberField": {
@@ -1890,6 +1909,9 @@
         "booleanField": {
           "value": "false",
           "type": "boolean"
+        },
+        "contactType2Field": {
+          "type": "string"
         }
       }
     }

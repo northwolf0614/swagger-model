@@ -11,6 +11,14 @@ extend({{className}}Base, ModelBase);
 
 {{className}}Base._types = {{typeList}};
 {{className}}Base._required = {{requiredList}};
+{{#isAbstract}}
+{{className}}Base._abstract = true;
+{{className}}Base._subTypeProperty = {{subTypeProperty}};
+{{className}}Base._subTypes = {{subTypes}};
+{{/isAbstract}}
+{{#statics}}
+{{../className}}Base.{{name}} = {{value}};
+{{/statics}}
 {{#enums}}
 {{../className}}Base.{{name}} = {{enumList}};
 {{#hasLabel}}
