@@ -6,7 +6,12 @@ var extend = require('../helper/extend');
 var ModelBase = require('./ModelBase');
 {{requires}}
 
-function {{className}}Base() { this._data = {}; }
+function {{className}}Base() {
+this._data = {};
+{{#statics}}
+this._data['{{name}}'] = {{value}};
+{{/statics}}
+}
 extend({{className}}Base, ModelBase);
 
 {{className}}Base._types = {{typeList}};
