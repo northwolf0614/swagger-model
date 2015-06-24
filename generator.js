@@ -18,7 +18,7 @@ module.exports = {
             filters = [];
         } else {
             outPath = option.outPath;
-            filters = option.filters;
+            filters = option.filters || [];
         }
 
         var templatePath = path.resolve(__dirname, 'template');
@@ -94,7 +94,7 @@ module.exports = {
                 if (readonly) {
                     readonlyFields.push(name);
                     // Do not generate setter only if enforced
-                    property.readonly = !option.enforceReadOnly;
+                    property.readonly = option.enforceReadOnly;
                 }
 
                 // Add enum

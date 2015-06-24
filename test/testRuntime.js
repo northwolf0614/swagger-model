@@ -95,13 +95,19 @@ var swaggerModel = require('./../generator');
 var swaggerModelRuntime = require('./../runtime');
 
 var root = path.resolve(__dirname);
-var outPath = path.join(root, 'out');
-var basePath = path.join(outPath, 'base');
+var outBasePath = path.join(root, 'out');
 
 describe('Swagger runtime', function () {
+    afterEach(function () {
+        fs.removeSync(outBasePath);
+    });
+
     describe('normal mode', function () {
+        var outPath = path.join(outBasePath, '' + Math.random());
+        var basePath = path.join(outPath, 'base');
+
         before(function () {
-            fs.remove(outPath);
+            fs.removeSync(outPath);
             fs.mkdirpSync(outPath);
 
             swaggerModel.generate(swagger, outPath);
@@ -516,15 +522,27 @@ describe('Swagger runtime', function () {
         it('should generate read meta', function () {
             var ReadOnly = swaggerModelRuntime.get('ReadOnly');
             expect(ReadOnly._readonly).to.be.deep.equal(['readonlyField']);
+
+            var json = {
+                'readonlyField': 'test'
+            };
+            var readOnlyInstance = swaggerModelRuntime.json2Model(json, 'ReadOnly');
+            expect(readOnlyInstance.readonlyField).to.be.equal('test');
+
+            readOnlyInstance.readonlyField = 'test2';
+            expect(readOnlyInstance.readonlyField).to.be.equal('test2');
         });
     });
 
     describe('enforceReadOnly mode', function () {
+        var outPath = path.join(outBasePath, '' + Math.random());
+        var basePath = path.join(outPath, 'base');
+
         before(function () {
-            fs.remove(outPath);
+            fs.removeSync(outPath);
             fs.mkdirpSync(outPath);
 
-            swaggerModel.generate(swagger, outPath, { enforceReadOnly: true });
+            swaggerModel.generate(swagger, {outPath: outPath, enforceReadOnly: true});
 
             // Add Classes
             _.each(fs.readdirSync(outPath), function (fileName) {
