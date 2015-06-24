@@ -1,2 +1,1 @@
-get: function () { return this._data['{{name}}']; },
-set: function (value) { value = +value; this._data['{{name}}'] = isNaN(value) ? undefined : value; }
+get:function(){return this._data['{{name}}'];}{{^readonly}},set:function(v){v=+v;this._data['{{name}}']=isNaN(v)?undefined:v;}{{/readonly}}

@@ -1,2 +1,1 @@
-get: function () { return this._data['{{name}}']; },
-set: function (value) { value = parseInt(value, 10); this._data['{{name}}'] = isNaN(value) ? undefined : value; }
+get:function(){return this._data['{{name}}'];}{{^readonly}},set:function(v){v=parseInt(v,10);this._data['{{name}}']=isNaN(v)?undefined:v;}{{/readonly}}

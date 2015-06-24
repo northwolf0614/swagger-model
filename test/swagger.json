@@ -1914,6 +1914,14 @@
           "type": "string"
         }
       }
+    },
+    "portal.pc.dto.ReadOnly": {
+      "properties": {
+        "readonlyField": {
+          "readOnly": true,
+          "type": "string"
+        }
+      }
     }
   },
   "info": {

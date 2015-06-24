@@ -504,4 +504,15 @@ describe('Swagger runtime', function () {
 
         expect(func).to.throw(/Can not determine subtype/);
     });
+
+    it('should support read only field', function () {
+        var json = {
+            'readonlyField': 'test'
+        };
+        var readOnlyInstance = swaggerModelRuntime.json2Model(json, 'ReadOnly');
+        expect(readOnlyInstance.readonlyField).to.be.equal('test');
+
+        readOnlyInstance.readonlyField = 'test2';
+        expect(readOnlyInstance.readonlyField).to.be.equal('test');
+    });
 });

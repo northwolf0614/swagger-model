@@ -1,1 +1,0 @@
-get: function () { return this._data['{{name}}']; }

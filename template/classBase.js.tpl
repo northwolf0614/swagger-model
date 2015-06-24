@@ -7,15 +7,13 @@ var ModelBase = require('./ModelBase');
 {{requires}}
 
 function {{className}}Base() {
-this._data = {};
-{{#statics}}
-this._data['{{name}}'] = {{value}};
-{{/statics}}
+this._data = {{staticsList}};
 }
 extend({{className}}Base, ModelBase);
 
 {{className}}Base._types = {{typeList}};
 {{className}}Base._required = {{requiredList}};
+{{className}}Base._readonly = {{requiredList}};
 {{#isAbstract}}
 {{className}}Base._abstract = true;
 {{className}}Base._subTypeProperty = {{subTypeProperty}};

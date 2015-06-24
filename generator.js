@@ -75,7 +75,7 @@ module.exports = {
                 return;
             }
 
-            var data = {}, dependencies = [];
+            var data = {}, dependencies = [], statics = {};
 
             data.className = helper.getClassName(fullClassName);
             data.isAbstract = classDef.abstract;
@@ -89,6 +89,7 @@ module.exports = {
                 var property = {};
 
                 property.name = helper.getPropertyName(name);
+                property.readonly = !!(propertyDef.readOnly || propertyDef.readonly);
 
                 // Add enum
                 if (propertyDef.enum) {
@@ -150,12 +151,9 @@ module.exports = {
                             throw new Error('Unsupported default value type "{0}" in {1}@{2}'.f(propertyDef.type, name, fullClassName));
                     }
 
-                    property.value = JSON.stringify(defaultValue);
-                    property.definition = typeTpls['_static'](property);
-                    data.statics.push({
-                        name: name,
-                        value: property.value
-                    });
+                    property.readonly = true;
+                    property.definition = typeTpls['string'](property);
+                    statics[name] = defaultValue;
 
                 } else if (propertyDef.format && propertyDef.format in typeTpls) {
                     property.definition = typeTpls[propertyDef.format](property);
@@ -172,6 +170,16 @@ module.exports = {
                 }
 
                 data.properties.push(property);
+            });
+
+
+            // Build statics
+            data.staticsList = JSON.stringify(statics) || '{}';
+            _.each(statics, function (staticValue, staticName) {
+                 data.statics.push({
+                     name: staticName,
+                     value: JSON.stringify(staticValue)
+                 });
             });
 
             // Build type list

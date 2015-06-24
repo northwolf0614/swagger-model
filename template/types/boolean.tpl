@@ -1,2 +1,1 @@
-get: function () { return this._data['{{name}}']; },
-set: function (value) {  this._data['{{name}}'] = (value === undefined) ? undefined : !!value; }
+get:function(){return this._data['{{name}}'];}{{^readonly}},set:function(v){this._data['{{name}}']=(v===undefined)?undefined:!!v;}{{/readonly}}

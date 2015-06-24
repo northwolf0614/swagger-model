@@ -93,10 +93,11 @@ function json2ModelRecursive(object, className) {
             if (type.endsWith('[]')) {
                 // Process array
                 _.each(object[key], function (value) {
-                    instance[key].push(getValue.call(self, type.replace('[]', ''), value));
+                    instance._data[key] = instance._data[key] || [];
+                    instance._data[key].push(getValue.call(self, type.replace('[]', ''), value));
                 });
             } else {
-                instance[key] = getValue.call(self, type, object[key]);
+                instance._data[key] = getValue.call(self, type, object[key]);
             }
         }
     }
