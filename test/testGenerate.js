@@ -11,7 +11,7 @@ var outPath = path.join(root, 'out');
 
 describe('Swagger generator', function () {
     beforeEach(function () {
-        //fs.remove(outPath);
+        fs.remove(outPath);
         fs.mkdirpSync(outPath);
     });
 

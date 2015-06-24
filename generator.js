@@ -87,11 +87,14 @@ module.exports = {
             var types = {}, enums = {};
             _.each(classDef.properties, function (propertyDef, name) {
                 var property = {};
+                var readonly = !!(propertyDef.readOnly || propertyDef.readonly);
 
                 property.name = helper.getPropertyName(name);
-                property.readonly = !!(propertyDef.readOnly || propertyDef.readonly);
-                if (property.readonly) {
+
+                if (readonly) {
                     readonlyFields.push(name);
+                    // Do not generate setter only if enforced
+                    property.readonly = !option.enforceReadOnly;
                 }
 
                 // Add enum
