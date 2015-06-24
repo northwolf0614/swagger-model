@@ -75,7 +75,7 @@ module.exports = {
                 return;
             }
 
-            var data = {}, dependencies = [], statics = {};
+            var data = {}, dependencies = [], statics = {}, readonlyFields = [];
 
             data.className = helper.getClassName(fullClassName);
             data.isAbstract = classDef.abstract;
@@ -90,6 +90,9 @@ module.exports = {
 
                 property.name = helper.getPropertyName(name);
                 property.readonly = !!(propertyDef.readOnly || propertyDef.readonly);
+                if (property.readonly) {
+                    readonlyFields.push(name);
+                }
 
                 // Add enum
                 if (propertyDef.enum) {
@@ -172,7 +175,6 @@ module.exports = {
                 data.properties.push(property);
             });
 
-
             // Build statics
             data.staticsList = JSON.stringify(statics) || '{}';
             _.each(statics, function (staticValue, staticName) {
@@ -181,6 +183,9 @@ module.exports = {
                      value: JSON.stringify(staticValue)
                  });
             });
+
+            // Build type list
+            data.readonlyList = JSON.stringify(readonlyFields) || '[]';
 
             // Build type list
             data.typeList = JSON.stringify(types) || '{}';

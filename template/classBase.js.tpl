@@ -13,7 +13,7 @@ extend({{className}}Base, ModelBase);
 
 {{className}}Base._types = {{typeList}};
 {{className}}Base._required = {{requiredList}};
-{{className}}Base._readonly = {{requiredList}};
+{{className}}Base._readonly = {{readonlyList}};
 {{#isAbstract}}
 {{className}}Base._abstract = true;
 {{className}}Base._subTypeProperty = {{subTypeProperty}};
