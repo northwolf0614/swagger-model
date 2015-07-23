@@ -99,7 +99,7 @@ var outBasePath = path.join(root, 'out');
 
 describe('Swagger runtime', function () {
     afterEach(function () {
-        fs.removeSync(outBasePath);
+        //fs.removeSync(outBasePath);
     });
 
     describe('normal mode', function () {
@@ -531,6 +531,81 @@ describe('Swagger runtime', function () {
 
             readOnlyInstance.readonlyField = 'test2';
             expect(readOnlyInstance.readonlyField).to.be.equal('test2');
+        });
+
+        it ('should be able to access parent field', function () {
+            var contactType1 = new (swaggerModelRuntime.get('ContactType1'))();
+            var contactType2 = new (swaggerModelRuntime.get('ContactType2'))();
+
+            expect(contactType1.fieldInAbstract).to.be.equal(true);
+            expect(contactType2.fieldInAbstract).to.be.equal(true);
+        });
+
+        it ('should be able to convert parent field to json', function () {
+            var contactType1 = new (swaggerModelRuntime.get('ContactType1'))();
+            var contactType2 = new (swaggerModelRuntime.get('ContactType2'))();
+
+            var contactType1Json = swaggerModelRuntime.model2Json(contactType1);
+            var contactType2Json = swaggerModelRuntime.model2Json(contactType2);
+
+            expect(contactType1Json.fieldInAbstract).to.be.equal(true);
+            expect(contactType2Json.fieldInAbstract).to.be.equal(true);
+        });
+
+        it('should be able to convert parent field to model', function () {
+            var contactType1Json = {
+                fieldInAbstract: true,
+                stringField: 'contactType1',
+                numberField: 123.45,
+                booleanField: true
+            };
+
+            var contactType2Json = {
+                fieldInAbstract: false,
+                stringField: 'contactType2',
+                numberField: 567.89,
+                booleanField: false
+            };
+
+            var contactType1 = swaggerModelRuntime.json2Model(contactType1Json, 'Contact');
+            var contactType2 = swaggerModelRuntime.json2Model(contactType2Json, 'Contact');
+
+            expect(contactType1.constructor.name).to.be.equal('ContactType1');
+            expect(contactType1.fieldInAbstract).to.be.equal(true);
+            expect(contactType1.stringField).to.be.equal('contactType1');
+            expect(contactType1.numberField).to.be.equal(123.45);
+            expect(contactType1.booleanField).to.be.equal(true);
+
+            expect(contactType2.constructor.name).to.be.equal('ContactType2');
+            expect(contactType2.fieldInAbstract).to.be.equal(false);
+            expect(contactType2.stringField).to.be.equal('contactType2');
+            expect(contactType2.numberField).to.be.equal(567.89);
+            expect(contactType2.booleanField).to.be.equal(false);
+        });
+
+        it('should keep parent\'s value', function () {
+            var json = {
+                stringFieldInAbstract: '123',
+                stringField: 'contactType2'
+            };
+
+            var jsonModel = swaggerModelRuntime.json2Model(json, 'Contact');
+            var jsonClone = swaggerModelRuntime.clone(jsonModel);
+            expect(jsonClone.constructor.name).to.be.equal('ContactType2');
+            expect(jsonClone.stringFieldInAbstract).to.be.equal('123');
+            expect(jsonClone.stringField).to.be.equal('contactType2');
+
+            jsonModel.stringFieldInAbstract = '456';
+            expect(jsonModel.stringFieldInAbstract).to.be.equal('456');
+
+            json = swaggerModelRuntime.model2Json(jsonModel);
+            expect(json.stringFieldInAbstract).to.be.equal('456');
+
+            jsonModel.stringFieldInAbstract = '789';
+            expect(jsonModel.stringFieldInAbstract).to.be.equal('789');
+
+            json = swaggerModelRuntime.model2Json(jsonModel);
+            expect(json.stringFieldInAbstract).to.be.equal('789');
         });
     });
 

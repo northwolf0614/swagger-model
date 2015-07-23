@@ -84,6 +84,9 @@ module.exports = {
             data.properties = [];
             data.statics = [];
 
+            data.hasSuperClass = !!classDef.superType;
+            data.superClassName = data.hasSuperClass ? helper.getClassName(classDef.superType) : 'ModelBase';
+
             var types = {}, enums = {};
             _.each(classDef.properties, function (propertyDef, name) {
                 var property = {};
@@ -179,13 +182,12 @@ module.exports = {
             });
 
             // Build statics
-            data.staticsList = JSON.stringify(statics) || '{}';
+            data.staticsList = [];
             _.each(statics, function (staticValue, staticName) {
-                 data.statics.push({
-                     name: staticName,
-                     value: JSON.stringify(staticValue)
-                 });
+                data.staticsList.push('this._data["{0}"] = {1};'.f(staticName, JSON.stringify(staticValue)));
+                data.statics.push({ name: staticName, value: JSON.stringify(staticValue) });
             });
+            data.staticsList = data.staticsList.join('\n');
 
             // Build type list
             data.readonlyList = JSON.stringify(readonlyFields) || '[]';

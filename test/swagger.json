@@ -1867,9 +1867,19 @@
       "subTypes": [
         "portal.pc.dto.ContactType1",
         "portal.pc.dto.ContactType2"
-      ]
+      ],
+      "properties": {
+        "fieldInAbstract": {
+          "value": "true",
+          "type": "boolean"
+        },
+        "stringFieldInAbstract": {
+          "type": "string"
+        }
+      }
     },
     "portal.pc.dto.ContactType1": {
+      "superType": "portal.pc.dto.Contact",
       "properties": {
         "stringField": {
           "value": "contactType1",
@@ -1893,6 +1903,7 @@
       }
     },
     "portal.pc.dto.ContactType2": {
+      "superType": "portal.pc.dto.Contact",
       "properties": {
         "stringField": {
           "value": "contactType2",

@@ -3,14 +3,14 @@ DO NOT MODIFY this file as it will be overridden
 ADD PROPERTIES in inherited class only
 */
 var extend = require('../helper/extend');
-var ModelBase = require('./ModelBase');
+{{#hasSuperClass}}var {{superClassName}} = require('../{{superClassName}}');{{/hasSuperClass}}
+{{^hasSuperClass}}var ModelBase = require('./ModelBase');{{/hasSuperClass}}
 {{requires}}
-
 function {{className}}Base() {
-this._data = {{staticsList}};
+{{superClassName}}.call(this);
+{{staticsList}}
 }
-extend({{className}}Base, ModelBase);
-
+{{className}}Base._superType = "{{superClassName}}";
 {{className}}Base._types = {{typeList}};
 {{className}}Base._required = {{requiredList}};
 {{className}}Base._readonly = {{readonlyList}};
@@ -31,6 +31,7 @@ extend({{className}}Base, ModelBase);
 {{../../className}}Base.{{name}}_PRIORITY = {{enumPriorityList}};
 {{/hasPriority}}
 {{/enums}}
+extend({{className}}Base, {{superClassName}});
 
 {{#properties}}
 Object.defineProperty({{../className}}Base.prototype, '{{name}}', {
