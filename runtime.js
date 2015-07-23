@@ -50,16 +50,21 @@ function json2ModelRecursive(object, className) {
 
         if (!self.subTypeCache[typeClass]) {
             _.each(subTypes, function (subType) {
-                var subTypeClass = self.get(subType);
-                var propertyValue = subTypeClass[subTypeProperty];
+                // Not all sub type are loaded
+                if (self.isRegistered(subType)) {
+                    var subTypeClass = self.get(subType);
+                    var propertyValue = subTypeClass[subTypeProperty];
 
-                self.subTypeCache[className] = self.subTypeCache[className] || {};
-                self.subTypeCache[className][propertyValue] = subTypeClass;
+                    self.subTypeCache[className] = self.subTypeCache[className] || {};
+                    self.subTypeCache[className][propertyValue] = subTypeClass;
+                }
             });
         }
 
         if (!object.hasOwnProperty(subTypeProperty)) {
             throw new Error('Can not determine subtype for abstract class "{0}" because the property "{1}" was missing'.f(className, subTypeProperty));
+        } else if (!self.subTypeCache[className].hasOwnProperty(object[subTypeProperty])) {
+            throw new Error('Can not determine subtype for abstract class "{0}" by value "{1}" in property "{2}"'.f(className, object[subTypeProperty], subTypeProperty));
         }
 
         typeClass = self.subTypeCache[className][object[subTypeProperty]];
