@@ -620,6 +620,14 @@ describe('Swagger runtime', function () {
 
             expect(contactWithoutSubTypeProperty.fieldInAbstract).to.be.equal(true);
         });
+
+        it('Support force root class when convert from model to json', function () {
+            var address = new (swaggerModelRuntime.get('Address'))();
+            address.state = 'Test';
+
+            var json = swaggerModelRuntime.model2Json(address, { rootClass: 'ContactType1' });
+            console.log(json);
+        });
     });
 
     describe('enforceReadOnly mode', function () {

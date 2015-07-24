@@ -116,6 +116,87 @@ function json2ModelRecursive(object, className) {
     return instance;
 }
 
+function model2JsonRecursive(object, options, className) {
+    var self = this;
+    var result, property, types;
+
+    if (self.isModel(object)) {
+        className = className || object.constructor.name;
+
+        // Check required fields
+        var missingProperties = findMissingProperties.call(self, object, self.classCache[className]);
+        if (missingProperties !== false) {
+            throw new Error('Properties "{0}" missing in {1}@{2}'.f(missingProperties.join(','), className, JSON.stringify(object)));
+        }
+
+        // Read type list
+        types = self.get(className)._types;
+        result = _.clone(object._data);
+    } else {
+        result = object;
+    }
+
+    // Process all properties
+    for (property in result) {
+        if (result.hasOwnProperty(property)) {
+            // If field is not defined in type
+            // Remove the data
+            if (!types.hasOwnProperty(property)) {
+                delete result[property];
+                continue;
+            }
+
+            // We don't care Object arrays
+            if (types[property].endsWith('[]')) {
+                // Process arrays
+                if (result[property] && result[property].length) {
+                    if (types[property] !== 'Object[]') {
+                        result[property] = _.transform(result[property], function (r, item) {
+                            var json = model2JsonRecursive.call(self, item, options);
+
+                            if (!_.isEmpty(json)) {
+                                r.push(json);
+                            }
+                        });
+                    }
+                } else {
+                    // Remove empty array
+                    delete result[property];
+                }
+            } else if (self.isModel(result[property])) {
+                // Process model
+                var json = model2JsonRecursive.call(self, result[property], options);
+
+                if (_.isEmpty(json)) {
+                    delete result[property];
+                } else {
+                    result[property] = json;
+                }
+
+            } else {
+                // Process simple objects
+                switch (types[property]) {
+                    case 'string:date':
+                        if (typeof result[property] !== 'string') {
+                            result[property] = helper.date2Ymd(result[property], options.jsonTimezone, options.modelTimezone);
+                        }
+
+                        break;
+
+                    case 'string:time':
+                    case 'string:date-time':
+                    case 'string:datetime':
+                        if (typeof result[property] !== 'string') {
+                            result[property] = JSON.stringify(result[property]).replace(/"/g, '');
+                        }
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
 function findMissingProperties(instance, classDefinition) {
     var missingProperties = [];
 
@@ -182,78 +263,10 @@ Runtime.prototype.json2Model = function (object, className, options) {
 
 Runtime.prototype.model2Json = function (object, options) {
     var self = this;
-    var result, property, types;
 
     options = options || self.options;
 
-    if (self.isModel(object)) {
-        // Check required fields
-        var missingProperties = findMissingProperties.call(self, object, self.classCache[object.constructor.name]);
-        if (missingProperties !== false) {
-            throw new Error('Properties "{0}" missing in {1}@{2}'.f(missingProperties.join(','), object.constructor.name, JSON.stringify(object)));
-        }
-
-        // Read type list
-        types = self.get(object.constructor.name)._types;
-        result = _.clone(object._data);
-    } else {
-        result = object;
-    }
-
-    // Process all properties
-    for (property in result) {
-        if (result.hasOwnProperty(property)) {
-            // We don't care Object arrays
-            if (types && types[property].endsWith('[]')) {
-                // Process arrays
-                if (result[property] && result[property].length) {
-                    if (types[property] !== 'Object[]') {
-                        result[property] = _.transform(result[property], function (r, item) {
-                            var json = self.model2Json(item);
-
-                            if (!_.isEmpty(json)) {
-                                r.push(json);
-                            }
-                        });
-                    }
-                } else {
-                    // Remove empty array
-                    delete result[property];
-                }
-            } else if (self.isModel(result[property])) {
-                // Process model
-                var json = self.model2Json(result[property]);
-
-                if (_.isEmpty(json)) {
-                    delete result[property];
-                } else {
-                    result[property] = json;
-                }
-
-            } else if (types) {
-                // Process simple objects
-                switch (types[property]) {
-                    case 'string:date':
-                        if (typeof result[property] !== 'string') {
-                            result[property] = helper.date2Ymd(result[property], options.jsonTimezone, options.modelTimezone);
-                        }
-
-                        break;
-
-                    case 'string:time':
-                    case 'string:date-time':
-                    case 'string:datetime':
-                        if (typeof result[property] !== 'string') {
-                            result[property] = JSON.stringify(result[property]).replace(/"/g, '');
-                        }
-
-                        break;
-                }
-            }
-        }
-    }
-
-    return result;
+    return model2JsonRecursive.call(self, object, options, options.rootClass);
 };
 
 Runtime.prototype.clone = function (model) {
