@@ -123,6 +123,12 @@ function model2JsonRecursive(object, options, className) {
     if (self.isModel(object)) {
         className = className || object.constructor.name;
 
+        if (className !== object.constructor.name) {
+            if (object instanceof self.classCache[className]) {
+                className = object.constructor.name;
+            }
+        }
+
         // Check required fields
         var missingProperties = findMissingProperties.call(self, object, self.classCache[className]);
         if (missingProperties !== false) {
@@ -146,13 +152,15 @@ function model2JsonRecursive(object, options, className) {
                 continue;
             }
 
+            var propertyType = types[property];
+
             // We don't care Object arrays
-            if (types[property].endsWith('[]')) {
+            if (propertyType.endsWith('[]')) {
                 // Process arrays
                 if (result[property] && result[property].length) {
                     if (types[property] !== 'Object[]') {
                         result[property] = _.transform(result[property], function (r, item) {
-                            var json = model2JsonRecursive.call(self, item, options);
+                            var json = model2JsonRecursive.call(self, item, options, propertyType.replace('[]', ''));
 
                             if (!_.isEmpty(json)) {
                                 r.push(json);
@@ -165,7 +173,7 @@ function model2JsonRecursive(object, options, className) {
                 }
             } else if (self.isModel(result[property])) {
                 // Process model
-                var json = model2JsonRecursive.call(self, result[property], options);
+                var json = model2JsonRecursive.call(self, result[property], options, propertyType);
 
                 if (_.isEmpty(json)) {
                     delete result[property];
@@ -175,7 +183,7 @@ function model2JsonRecursive(object, options, className) {
 
             } else {
                 // Process simple objects
-                switch (types[property]) {
+                switch (propertyType) {
                     case 'string:date':
                         if (typeof result[property] !== 'string') {
                             result[property] = helper.date2Ymd(result[property], options.jsonTimezone, options.modelTimezone);

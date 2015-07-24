@@ -10,10 +10,11 @@ function {{className}}Base() {
 {{superClassName}}.call(this);
 {{staticsList}}
 }
-{{className}}Base._superType = "{{superClassName}}";
 {{className}}Base._types = {{typeList}};
 {{className}}Base._required = {{requiredList}};
 {{className}}Base._readonly = {{readonlyList}};
+extend({{className}}Base, {{superClassName}});
+{{className}}Base._superType = "{{superClassName}}";
 {{#isAbstract}}
 {{className}}Base._abstract = true;
 {{#subTypeProperty}}{{../className}}Base._subTypeProperty = {{../subTypeProperty}};{{/subTypeProperty}}
@@ -31,7 +32,6 @@ function {{className}}Base() {
 {{../../className}}Base.{{name}}_PRIORITY = {{enumPriorityList}};
 {{/hasPriority}}
 {{/enums}}
-extend({{className}}Base, {{superClassName}});
 
 {{#properties}}
 Object.defineProperty({{../className}}Base.prototype, '{{name}}', {

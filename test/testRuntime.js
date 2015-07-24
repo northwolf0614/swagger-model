@@ -626,7 +626,6 @@ describe('Swagger runtime', function () {
             address.state = 'Test';
 
             var json = swaggerModelRuntime.model2Json(address, { rootClass: 'ContactType1' });
-            console.log(json);
         });
     });
 
