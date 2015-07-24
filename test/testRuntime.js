@@ -607,6 +607,19 @@ describe('Swagger runtime', function () {
             json = swaggerModelRuntime.model2Json(jsonModel);
             expect(json.stringFieldInAbstract).to.be.equal('789');
         });
+
+        it('Do not convert abstract type class if typeClass._subTypeProperty is missing', function () {
+            var contactWithoutSubTypeProperty = new (swaggerModelRuntime.get('ContactWithoutSubTypeProperty'))();
+            var json = swaggerModelRuntime.model2Json(contactWithoutSubTypeProperty);
+
+            expect(contactWithoutSubTypeProperty.fieldInAbstract).to.be.equal(true);
+            expect(json.fieldInAbstract).to.be.equal(true);
+
+            json = {};
+            contactWithoutSubTypeProperty =  swaggerModelRuntime.json2Model(json, 'ContactWithoutSubTypeProperty');
+
+            expect(contactWithoutSubTypeProperty.fieldInAbstract).to.be.equal(true);
+        });
     });
 
     describe('enforceReadOnly mode', function () {

@@ -79,7 +79,7 @@ module.exports = {
 
             data.className = helper.getClassName(fullClassName);
             data.isAbstract = classDef.abstract;
-            data.subTypeProperty = JSON.stringify(classDef.subTypeProperty);
+            data.subTypeProperty = classDef.subTypeProperty ? JSON.stringify(classDef.subTypeProperty) : undefined;
             data.subTypes = JSON.stringify(_.map(classDef.subTypes, helper.getClassName));
             data.properties = [];
             data.statics = [];

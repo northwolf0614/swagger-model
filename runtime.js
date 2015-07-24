@@ -43,7 +43,7 @@ function json2ModelRecursive(object, className) {
     var typeClass = self.get(className);
 
     // Check if the type is abstract
-    if (typeClass._abstract) {
+    if (typeClass._abstract && typeClass._subTypeProperty) {
         // Determine the subtype using the property in "subTypeProperty"
         var subTypeProperty = typeClass._subTypeProperty;
         var subTypes = typeClass._subTypes;

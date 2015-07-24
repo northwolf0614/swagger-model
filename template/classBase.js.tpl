@@ -16,7 +16,7 @@ function {{className}}Base() {
 {{className}}Base._readonly = {{readonlyList}};
 {{#isAbstract}}
 {{className}}Base._abstract = true;
-{{className}}Base._subTypeProperty = {{subTypeProperty}};
+{{#subTypeProperty}}{{../className}}Base._subTypeProperty = {{../subTypeProperty}};{{/subTypeProperty}}
 {{className}}Base._subTypes = {{subTypes}};
 {{/isAbstract}}
 {{#statics}}
