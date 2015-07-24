@@ -142,6 +142,11 @@ function model2JsonRecursive(object, options, className) {
         result = object;
     }
 
+    // If the object doesn't have property
+    if (!_.isObject(result) && !_.isArray(result)) {
+        return result;
+    }
+
     // Process all properties
     for (property in result) {
         if (result.hasOwnProperty(property)) {
@@ -158,7 +163,7 @@ function model2JsonRecursive(object, options, className) {
             if (propertyType.endsWith('[]')) {
                 // Process arrays
                 if (result[property] && result[property].length) {
-                    if (types[property] !== 'Object[]') {
+                    if (propertyType !== 'Object[]') {
                         result[property] = _.transform(result[property], function (r, item) {
                             var json = model2JsonRecursive.call(self, item, options, propertyType.replace('[]', ''));
 
