@@ -35,7 +35,7 @@ function getValue(type, from) {
 }
 
 function json2ModelRecursive(object, className) {
-    if (object === undefined || typeof object.hasOwnProperty !== 'function') {
+    if (object === undefined || object === null || typeof object.hasOwnProperty !== 'function') {
         return object;
     }
 
@@ -43,7 +43,7 @@ function json2ModelRecursive(object, className) {
     var typeClass = self.get(className);
 
     // Check if the type is abstract
-    if (typeClass._abstract && typeClass._subTypeProperty) {
+    if (typeClass._abstract && typeClass._subTypeProperty && !_.isEmpty(object)) {
         // Determine the subtype using the property in "subTypeProperty"
         var subTypeProperty = typeClass._subTypeProperty;
         var subTypes = typeClass._subTypes;

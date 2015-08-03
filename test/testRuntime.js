@@ -513,10 +513,17 @@ describe('Swagger runtime', function () {
 
         it('should report error if subTypeProperty is missing', function () {
             var func = function () {
-                swaggerModelRuntime.json2Model({contact: {}}, 'GenericTest');
+                swaggerModelRuntime.json2Model({contact: { test: 1 }}, 'GenericTest');
             };
 
             expect(func).to.throw(/Can not determine subtype/);
+        });
+
+
+        it('should not report error if subTypeProperty is missing but object is empty', function () {
+            var model = swaggerModelRuntime.json2Model({ test: 'test', contact: {} }, 'GenericTest');
+
+            expect(model.test).to.be.deep.equal('test');
         });
 
         it('should generate read meta', function () {
@@ -616,7 +623,7 @@ describe('Swagger runtime', function () {
             expect(json.fieldInAbstract).to.be.equal(true);
 
             json = {};
-            contactWithoutSubTypeProperty =  swaggerModelRuntime.json2Model(json, 'ContactWithoutSubTypeProperty');
+            contactWithoutSubTypeProperty = swaggerModelRuntime.json2Model(json, 'ContactWithoutSubTypeProperty');
 
             expect(contactWithoutSubTypeProperty.fieldInAbstract).to.be.equal(true);
         });
@@ -626,6 +633,8 @@ describe('Swagger runtime', function () {
             address.state = 'Test';
 
             var json = swaggerModelRuntime.model2Json(address, { rootClass: 'ContactType1' });
+
+            expect(json.state).to.be.equal(undefined);
         });
     });
 

@@ -1856,6 +1856,9 @@
     },
     "portal.pc.dto.GenericTest": {
       "properties": {
+        "test": {
+          "type": "string"
+        },
         "contact": {
           "$ref": "portal.pc.dto.Contact"
         }
