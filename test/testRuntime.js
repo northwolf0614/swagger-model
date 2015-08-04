@@ -672,5 +672,27 @@ describe('Swagger runtime', function () {
             readOnlyInstance.readonlyField = 'test2';
             expect(readOnlyInstance.readonlyField).to.be.equal('test');
         });
+
+        it('should support year month type', function () {
+            var YearMonthType = swaggerModelRuntime.get('YearMonthType');
+            var yearMonthType = new YearMonthType();
+            yearMonthType.yearMonth = new Date(1999, 10);
+
+            var yearMonthTypeData = swaggerModelRuntime.model2Json(yearMonthType);
+            expect(yearMonthTypeData.yearMonth).to.be.equal('1999-11');
+
+            yearMonthType.yearMonth = '2003-06';
+
+            yearMonthTypeData = swaggerModelRuntime.model2Json(yearMonthType);
+            expect(yearMonthTypeData.yearMonth).to.be.equal('2003-06');
+
+            var data = {
+                yearMonth: '2013-05'
+            };
+
+            var yearMonthTypeInstance = swaggerModelRuntime.json2Model(data, 'YearMonthType');
+            expect(yearMonthTypeInstance.yearMonth.getFullYear()).to.be.equal(2013);
+            expect(yearMonthTypeInstance.yearMonth.getMonth()).to.be.equal(4);
+        });
     });
 });

@@ -19,6 +19,13 @@ function getValue(type, from) {
 
             return from;
 
+        case 'string:yearmonth':
+            if (typeof from === 'string') {
+                return helper.ym2Date(from);
+            }
+
+            return from;
+
         case 'string:time':
         case 'string:date-time':
         case 'string:datetime':
@@ -27,7 +34,6 @@ function getValue(type, from) {
             }
 
             return from;
-
 
         default:
             return json2ModelRecursive.call(this, from, type);
@@ -193,7 +199,12 @@ function model2JsonRecursive(object, options, className) {
                         if (typeof result[property] !== 'string') {
                             result[property] = helper.date2Ymd(result[property], options.jsonTimezone, options.modelTimezone);
                         }
+                        break;
 
+                    case 'string:yearmonth':
+                        if (typeof result[property] !== 'string') {
+                            result[property] = helper.date2Ym(result[property], options.jsonTimezone, options.modelTimezone);
+                        }
                         break;
 
                     case 'string:time':
@@ -202,6 +213,7 @@ function model2JsonRecursive(object, options, className) {
                         if (typeof result[property] !== 'string') {
                             result[property] = JSON.stringify(result[property]).replace(/"/g, '');
                         }
+                        break;
                 }
             }
         }

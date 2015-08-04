@@ -1952,6 +1952,14 @@
           "type": "string"
         }
       }
+    },
+    "portal.pc.dto.YearMonthType": {
+      "properties": {
+        "yearMonth": {
+          "format": "yearmonth",
+          "type": "string"
+        }
+      }
     }
   },
   "info": {
