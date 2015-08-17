@@ -145,6 +145,7 @@ function model2JsonRecursive(object, options, className) {
         types = self.get(className)._types;
         result = _.clone(object._data);
     } else {
+        types = self.get(className)._types;
         result = object;
     }
 
