@@ -141,11 +141,8 @@ function model2JsonRecursive(object, options, className) {
             throw new Error('Properties "{0}" missing in {1}@{2}'.f(missingProperties.join(','), className, JSON.stringify(object)));
         }
 
-        // Read type list
-        types = self.get(className)._types;
         result = _.clone(object._data);
     } else {
-        types = self.get(className)._types;
         result = object;
     }
 
@@ -153,6 +150,9 @@ function model2JsonRecursive(object, options, className) {
     if (!_.isObject(result) && !_.isArray(result)) {
         return result;
     }
+
+    // Load type list
+    types = self.get(className)._types;
 
     // Process all properties
     for (property in result) {

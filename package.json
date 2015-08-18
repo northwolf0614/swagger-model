@@ -1,6 +1,6 @@
 {
   "name": "swagger-model",
-  "version": "2.0.85",
+  "version": "2.0.86",
   "description": "",
   "main": "generator.js",
   "repository": {
