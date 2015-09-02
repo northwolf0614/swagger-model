@@ -19,6 +19,6 @@
     "generator.js"
   ],
   "dependencies": {
-    "lodash": "~3.1.0"
+    "lodash": "~2.4.1"
   }
 }
