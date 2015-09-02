@@ -1,3 +1,4 @@
+var base64 = require('Base64');
 var _ = require('lodash');
 
 var helper = require('./lib/helper');
@@ -81,13 +82,26 @@ function json2ModelRecursive(object, className) {
     var instance;
 
     if (object.hasOwnProperty(self.objectIDName)) {
-        var instanceObjectID = object[self.objectIDName] + '@' + className;
+        var instanceObjectID = object[self.objectIDName];
 
-        if (!(instanceObjectID in self.instanceCache)) {
-            self.instanceCache[instanceObjectID] = new (typeClass)();
+        // If object id is JWT based
+        if (self.jwtBasedObjectID) {
+            // Split JWT
+            var objectIDSegments = instanceObjectID.split('.');
+
+            if (objectIDSegments.length === 3) {
+                // Parse JWT to get subject Id
+                instanceObjectID = JSON.parse(base64.atob(objectIDSegments[1])).sub;
+            }
         }
 
-        instance = self.instanceCache[instanceObjectID];
+        var instanceObjectIDCacheKey = instanceObjectID + '@' + className;
+
+        if (!(instanceObjectIDCacheKey in self.instanceCache)) {
+            self.instanceCache[instanceObjectIDCacheKey] = new (typeClass)();
+        }
+
+        instance = self.instanceCache[instanceObjectIDCacheKey];
     } else {
         instance = new (typeClass)();
     }
@@ -282,7 +296,8 @@ Runtime.prototype.json2Model = function (object, className, options) {
 
     options = options || {};
     self.instanceCache = {};
-    self.objectIDName = options.objectID || self.options.objectID || 'publicID';
+    self.objectIDName = self.objectIDName || options.objectID || 'publicID';
+    self.jwtBasedObjectID = self.jwtBasedObjectID || !!options.jwtBasedObjectID;
 
     return json2ModelRecursive.call(self, object, className);
 };
@@ -310,6 +325,7 @@ Runtime.prototype.isModel = function (object) {
 Runtime.prototype.setOptions = function (options) {
     this.options = options;
     this.objectIDName = options.objectID || 'publicID';
+    this.jwtBasedObjectID = !!options.jwtBasedObjectID;
 };
 
 module.exports = new Runtime();

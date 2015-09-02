@@ -170,8 +170,9 @@ describe('Swagger runtime', function () {
         });
 
         it('should reuse instance if IDs are same', function () {
-            var options = {objectID: 'ID'};
-            var model = swaggerModelRuntime.json2Model(test, 'QPMQuoteData', options);
+            swaggerModelRuntime.setOptions({ objectID: 'ID', jwtBasedObjectID: false });
+
+            var model = swaggerModelRuntime.json2Model(test, 'QPMQuoteData');
 
             expect(model.account.accountHolder.primaryAddress).to.equal(model.vehicles[0].drivers[0].driver.person.primaryAddress);
             expect(model.account.accountHolder.primaryAddress).to.not.equal(model.vehicles[0].garageAddress);
@@ -694,5 +695,19 @@ describe('Swagger runtime', function () {
             expect(yearMonthTypeInstance.yearMonth.getFullYear()).to.be.equal(2013);
             expect(yearMonthTypeInstance.yearMonth.getMonth()).to.be.equal(4);
         });
+
+        it('should handle JWT public ID', function () {
+            swaggerModelRuntime.setOptions({ jwtBasedObjectID: true });
+
+            var jwtTest = swaggerModelRuntime.json2Model({
+                tests: [{
+                    publicID: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwY3BvcnRhbDo4MDYiLCJjbGFzcyI6InBvcnRhbC5wYy5kdG8uQ29udGFjdERUTyIsImlhdCI6MTQ0MTE1OTg3NSwiZXhwIjoxNDQxMTc3ODc1fQ.W2xud3RIWdpg8TjcGuoV6sgubnNzk8eTxtG-NDYl2gI'
+                }, {
+                    publicID: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwY3BvcnRhbDo4MDYiLCJjbGFzcyI6InBvcnRhbC5wYy5kdG8uQ29udGFjdERUTyIsImlhdCI6MTQ0MTE1OTg3NiwiZXhwIjoxNDQxMTc3ODc2fQ.uhkbIN2toclO36F2jemcKcaug8fEb4NZuFXegEAWo_A'
+                }]
+            }, 'JWTTests');
+
+            expect(jwtTest.tests[0]).to.be.equal(jwtTest.tests[1]);
+        })
     });
 });

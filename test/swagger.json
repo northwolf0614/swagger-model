@@ -1960,6 +1960,23 @@
           "type": "string"
         }
       }
+    },
+    "portal.pc.dto.JWTTest": {
+      "properties": {
+        "publicID": {
+          "type": "string"
+        }
+      }
+    },
+    "portal.pc.dto.JWTTests": {
+      "properties": {
+        "tests": {
+          "items": {
+            "$ref": "portal.pc.dto.JWTTest"
+          },
+          "type": "array"
+        }
+      }
     }
   },
   "info": {
