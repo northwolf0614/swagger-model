@@ -1,6 +1,6 @@
 {
   "name": "swagger-model",
-  "version": "2.0.88",
+  "version": "2.0.89",
   "description": "",
   "main": "generator.js",
   "repository": {
@@ -13,7 +13,7 @@
   "author": "Ran Ding",
   "license": "MIT",
   "dependencies": {
-    "Base64": "^0.3.0",
+    "base64": "https://github.com/randing89/Base64.js.git",
     "fs-extra": "^0.16.3",
     "handlebars": "^2.0.0",
     "lodash": "~2.4.1",

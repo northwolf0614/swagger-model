@@ -1,4 +1,4 @@
-var base64 = require('Base64');
+var base64 = require('base64');
 var _ = require('lodash');
 
 var helper = require('./lib/helper');
