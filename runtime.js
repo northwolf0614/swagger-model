@@ -311,7 +311,9 @@ Runtime.prototype.model2Json = function (object, options) {
 };
 
 Runtime.prototype.clone = function (model) {
-    if (!this.isModel(model)) return model;
+    if (!this.isModel(model)) {
+        return _.cloneDeep(model);
+    }
 
     var type = model.constructor.name;
 
