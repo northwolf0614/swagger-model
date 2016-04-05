@@ -27,8 +27,14 @@ function getValue(type, from) {
 
             return from;
 
-        case 'string:time':
         case 'string:date-time':
+            if (typeof from === 'string') {
+                return helper.ymdhms2Date(from);
+            }
+
+            return from;
+
+        case 'string:time':
         case 'string:datetime':
             if (typeof from === 'string') {
                 return new Date(from);
@@ -221,9 +227,13 @@ function model2JsonRecursive(object, options, className) {
                             result[property] = helper.date2Ym(result[property], options.jsonTimezone, options.modelTimezone);
                         }
                         break;
+                    case 'string:date-time':
+                        if (typeof result[property] !== 'string') {
+                            result[property] = helper.date2Ymdhm(result[property], options.jsonTimezone, options.modelTimezone);
+                        }
+                        break;
 
                     case 'string:time':
-                    case 'string:date-time':
                     case 'string:datetime':
                         if (typeof result[property] !== 'string') {
                             result[property] = JSON.stringify(result[property]).replace(/"/g, '');
