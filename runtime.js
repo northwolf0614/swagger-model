@@ -3,7 +3,7 @@ var _ = require('lodash');
 
 var helper = require('./lib/helper');
 
-function getValue(type, from) {
+function getValue(type, from, disableCache) {
     switch (type) {
         case 'number':
         case 'number:double':
@@ -37,11 +37,11 @@ function getValue(type, from) {
             return from;
 
         default:
-            return json2ModelRecursive.call(this, from, type);
+            return json2ModelRecursive.call(this, from, type, disableCache);
     }
 }
 
-function json2ModelRecursive(object, className) {
+function json2ModelRecursive(object, className,disableCache) {
     if (object === undefined || object === null || typeof object.hasOwnProperty !== 'function') {
         return object;
     }
@@ -81,7 +81,7 @@ function json2ModelRecursive(object, className) {
     // Aware of object id
     var instance;
 
-    if (object.hasOwnProperty(self.objectIDName)) {
+    if (object.hasOwnProperty(self.objectIDName) && !disableCache) {
         var instanceObjectID = object[self.objectIDName];
 
         // If object id is JWT based
@@ -119,10 +119,10 @@ function json2ModelRecursive(object, className) {
                 // Process array
                 _.each(object[key], function (value) {
                     instance._data[key] = instance._data[key] || [];
-                    instance._data[key].push(getValue.call(self, type.replace('[]', ''), value));
+                    instance._data[key].push(getValue.call(self, type.replace('[]', ''), value, disableCache));
                 });
             } else {
-                instance._data[key] = getValue.call(self, type, object[key]);
+                instance._data[key] = getValue.call(self, type, object[key],disableCache);
             }
         }
     }
@@ -298,8 +298,9 @@ Runtime.prototype.json2Model = function (object, className, options) {
     self.instanceCache = {};
     self.objectIDName = self.objectIDName || options.objectID || 'publicID';
     self.jwtBasedObjectID = self.jwtBasedObjectID || !!options.jwtBasedObjectID;
+    var disableCache = options.disableCache;
 
-    return json2ModelRecursive.call(self, object, className);
+    return json2ModelRecursive.call(self, object, className,disableCache);
 };
 
 Runtime.prototype.model2Json = function (object, options) {
