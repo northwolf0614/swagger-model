@@ -8,6 +8,7 @@ function getValue(type, from, disableCache) {
         case 'number':
         case 'number:double':
         case 'integer:int32':
+        case 'integer:int64':
         case 'string':
         case 'boolean':
         case 'Object':
